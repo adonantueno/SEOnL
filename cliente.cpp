@@ -11,6 +11,8 @@
 
 #define P_SIZE sizeof(struct pregunta)		//en un futuro tendría que tomar como referencia el size de un examen
 
+#define algoque no existe
+
 struct pregunta {
 	int id;
 	char enunciado;
