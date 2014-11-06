@@ -13,8 +13,8 @@
 
 struct pregunta {
 	int id;
-	char enunciado;
-	char opciones[3];
+	char enunciado[100];
+	char opciones[3][20];
 };
 
 struct evaluacion {
@@ -23,6 +23,7 @@ struct evaluacion {
 	struct pregunta preguntas[5];
 };
 
+using namespace std;
 
 int leer_mensaje ( int sd, char * buffer, int total ) {
     int bytes;
@@ -44,7 +45,7 @@ int leer_mensaje ( int sd, char * buffer, int total ) {
 }
 
 
-using namespace std;
+
 
 int main () {
 	
@@ -59,7 +60,6 @@ int main () {
 	
 	struct pregunta *preg;			//Será un puntero a una estructura de tipo pregunta utilizado para la presentación
 	
-	//char teclado[512];
 	char buffer[P_SIZE];			//Tamaño del Buffer
 	
 	cout << "usuario: " ; cin >> user;
@@ -105,11 +105,13 @@ int main () {
 					
 					n = leer_mensaje (sd, buffer, P_SIZE );
 					
-					printf("La pregunta es: %c \n Y las opciones: %c, %c, %c \n", ntohs(preg->enunciado), ntohs(preg->opciones[0]), ntohs(preg->opciones[1]), ntohs(preg->opciones[2]));
+					preg= (struct pregunta*) buffer;
+					
+					printf("La pregunta es: %s \n Y las opciones: %s, %s, %s \n", preg->enunciado, preg->opciones[0], preg->opciones[1], preg->opciones[2]);
 					
 					cout << "escoja una opción " ; cin >> r;
 					
-					//printf("eligió: %c \n" , r);
+					printf("eligió: %c \n" , r);
 					sleep (10);
 					break;
 					

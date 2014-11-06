@@ -37,7 +37,7 @@ int hacer_examen ( struct pregunta *p ) {
 		strcpy(ppregunta->enunciado, txt);
 		
 		
-		printf("A CONTUNUACION COMIENZA EL INGRESO DE  OPCIONES ");
+		printf("A CONTiNUACION COMIENZA EL INGRESO DE  OPCIONES ");
 
 		for(int j = 0; j < 3; j++){
 			printf ("ingrese opción %d: ", j+1);
@@ -101,13 +101,13 @@ int main () {
 	if (valido) {
 		
 		socklen_t lon = sizeof(cliente);
-		//sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
+		sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
 		
 		int control = 1;
 		// itero mientras el usuario quiera continuar;
 		while (control){
 			system("clear");
-			cout << "¿Qué desea Hacer? " << endl;
+			cout << "¿Qué desea Hacer? "<< endl;
 			cout << "1) Cargar Exámen "<< endl;
 			cout << "2) Ver Resultados de alumnos"<< endl;
 			cout << "3) Poner en linea"<< endl;;
@@ -117,23 +117,27 @@ int main () {
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
 					preg = (struct pregunta *) buffer;
+					
 					n= hacer_examen(preg); //podria hacerla void
 					
+					
+					printf ("Enunciado: %s ",preg->enunciado); //
 					//send ( sdc , buffer, P_SIZE, 0 );
 					
 					//cout << "Cargando exámen" << endl;
 					//ACA LLAMARÍAMOS A LAS FUNCIONES DE LA LIBRERIA
 					// QUE VAMOS A CREAR
-					sleep(5);
+
 					break;
 				case '2':
 					cout << "Cargando exámenes" << endl;
 					
-					sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
+					//sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
 					
-					send ( sdc , buffer, P_SIZE, 0 );
+					n = send ( sdc , buffer, P_SIZE, 0 );
 					//For exámenes tattata...
-					sleep(5);
+					cout << "enviado" << endl;
+					sleep (10);
 					break;
 				case '3':
 					//A LA ESCUCHA DE LO QUE MANDEN LOS CLIENTES
