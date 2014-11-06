@@ -24,6 +24,8 @@ struct evaluacion {
 	struct pregunta preguntas[5];
 };
 
+using namespace std;
+
 int hacer_examen ( struct pregunta *p ) {
 		char txt[100];
 		char opc[20];
@@ -63,7 +65,7 @@ int leer_mensaje ( int sd, char * buffer, int total ) {
 	return ( leido );
 }
 
-using namespace std;
+
 
 int main () {
 	char user,pass;
