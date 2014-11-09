@@ -1,0 +1,19 @@
+------ ------ ------ --- USO DE LA LIBRERIA --- ------  ------ ------
+
+* Importar en un codigo
+#include "librerias/estructurasSEOnL.hpp"
+
+Siendo "librerias/" la carpeta contenedora
+
+* Compilar
+
+g++ librerias/estructurasSEOnL.o codigo.cpp -o codigo -std=c++11
+
+Utiliazar g++ ya que utiliza codigo C++ al funcionar con std::string por
+ese motivo se debe incluir la directiva -std=c++11
+
+*Si se realizan cambios
+
+hay que volver a crear el archivo.o (objeto) de el código fuente
+
+g++ -c estructurasSEOnL.cpp -std=c++11
