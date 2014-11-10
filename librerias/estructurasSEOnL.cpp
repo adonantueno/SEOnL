@@ -1,4 +1,6 @@
 #include "estructurasSEOnL.hpp"
+
+
 /*
 struct pregunta {
 		int id;
