@@ -1,5 +1,13 @@
 #include "estructurasSEOnL.hpp"
+
 /*
+struct mensaje {
+		uint8_t codigo;
+		uint8_t subcodigo;
+		uint16_t longitud;
+		string datos;
+};
+
 struct pregunta {
 		int id;
 		string enunciado;
@@ -10,7 +18,8 @@ struct evaluacion {
 		int id;
 		string titulo;
 		struct pregunta preguntas[20];
-};*/
+};
+*/
 
 struct pregunta cargarPregunta (int id, string enunciado){
 	struct pregunta p;
@@ -45,4 +54,9 @@ void imprimirExamen (struct evaluacion e){
 	cout << e.id << ") "<< e.titulo << endl; 
 };
 
-
+void cargarMensaje (struct mensaje* msj, uint8_t codigo,uint8_t subcodigo, string dat){
+	msj->codigo = codigo;
+	msj->subcodigo = subcodigo;
+	msj->longitud = 8 + 8 + dat.size();
+	msj->datos = dat;
+};

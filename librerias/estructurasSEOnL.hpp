@@ -2,6 +2,7 @@
 #define  ESTRUCTURAS_H
 #include <iostream>
 #include <string>
+#include <stdint.h>
 using namespace std;
 
 /*
@@ -103,5 +104,13 @@ void cargarPreguntaEvaluacion (struct evaluacion& e, int pos, struct pregunta pr
  */
 void imprimirExamen (struct evaluacion e);
 
+/*
+ * FUNCION : CARGAR MENSAJE
+ * ENTRADA : codigo, subcodigo y campo de datos del mensaje
+ * SALIDA  : puntero tipo mensaje
+ * DESCRIPCIÓN : crea un mensaje segun caracteristicas del protocolo a
+ * partir de los datos pasados por parametro.
+ */
+void cargarMensaje (struct mensaje* msj, uint8_t codigo,uint8_t subcodigo, string dat);
 
 #endif
