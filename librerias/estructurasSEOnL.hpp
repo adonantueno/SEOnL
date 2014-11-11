@@ -13,9 +13,9 @@ using namespace std;
  * datos: contenido del mensaje
  */
 struct mensaje {
-		uint8_t codigo;
-		uint8_t subcodigo;
-		uint16_t longitud;
+		uint16_t codigo;
+		uint16_t subcodigo;
+		uint32_t longitud;
 		string datos;
 };
 /*
@@ -106,11 +106,11 @@ void imprimirExamen (struct evaluacion e);
 
 /*
  * FUNCION : CARGAR MENSAJE
- * ENTRADA : codigo, subcodigo y campo de datos del mensaje
+ * ENTRADA : codigo, subcodigo, longitud y campo de datos del mensaje
  * SALIDA  : puntero tipo mensaje
  * DESCRIPCIÓN : crea un mensaje segun caracteristicas del protocolo a
  * partir de los datos pasados por parametro.
  */
-void cargarMensaje (struct mensaje* msj, uint8_t codigo,uint8_t subcodigo, string dat);
+void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud ,string dat);
 
 #endif

@@ -1,6 +1,4 @@
 #include <stdlib.h>
-#include <iostream>
-#include <string.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -9,23 +7,15 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+#include "librerias/estructurasSEOnL.hpp"
 
-#define P_SIZE sizeof(struct pregunta)
-
-struct pregunta {
-	int id;
-	char enunciado[100];
-	char opciones[3][20];
-};
-
-struct evaluacion {
-	int id;
-	char nombre[20];
-	struct pregunta preguntas[5];
-};
-
+#include <iostream>
+#include <string>
 using namespace std;
 
+#define P_SIZE 200 //sizeof(struct mensaje)
+
+/*
 int hacer_examen ( struct pregunta *p ) {
 		char txt[100];
 		char opc[20];
@@ -48,7 +38,7 @@ int hacer_examen ( struct pregunta *p ) {
 		
 		}
 		return 0;
-}
+};*/
 
 int leer_mensaje ( int sd, char * buffer, int total ) {
 	int bytes;
@@ -63,48 +53,41 @@ int leer_mensaje ( int sd, char * buffer, int total ) {
 
 	}
 	return ( leido );
-}
+};
 
+bool userValido (string user, string pass){
+	bool validacion = 0;
+	if (user == "admin" && pass == "1234"){
+		validacion = 1;
+	}
+	return validacion;
+};
 
 
 int main () {
-	char user,pass;
+	string user,pass;
 	char res;
-	
 	int n;
+	int i=0;
 	int sd;
 	int sdc;
-	
-	char buffer[P_SIZE]; //[P_SIZE]
-	
-	struct pregunta *preg;
+	char buffer[P_SIZE];
+	struct mensaje* msj = new mensaje;
+
 	struct sockaddr_in cliente;
 	struct sockaddr_in servidor;
+	struct pregunta preg;
+	struct evaluacion examen;
+	int cant;
+	string enunciado;
+	int id;
+	string nombre;
+	socklen_t lon = sizeof(cliente);
 	
-	cout << "usuario: " 	; cin >> user;
+	cout << "usuario: " ; cin >> user;
 	cout << "contraseña: " ; cin >> pass;
-	
-	//int valido = FunciónLoggeo(user,pass);
-	int valido = 1;
-	
-	servidor.sin_family = AF_INET;
-	servidor.sin_port = htons(4444);
-	servidor.sin_addr.s_addr = INADDR_ANY;
-	
-	sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-	
-	if (bind(sd, (struct sockaddr *) &servidor, sizeof(servidor)) < 0) {
-		perror("Error en bind");
-		exit(-1);
-	}
-	
-	listen ( sd , 5 );
-	
-	if (valido) {
-		
-		socklen_t lon = sizeof(cliente);
-		sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
-		
+
+	if (userValido(user,pass)) {
 		int control = 1;
 		// itero mientras el usuario quiera continuar;
 		while (control){
@@ -112,26 +95,38 @@ int main () {
 			cout << "¿Qué desea Hacer? "<< endl;
 			cout << "1) Cargar Exámen "<< endl;
 			cout << "2) Ver Resultados de alumnos"<< endl;
-			cout << "3) Poner en linea"<< endl;;
+			cout << "3) Poner en linea"<< endl;
 			cout << "4) Salir"<< endl;
 			cin >> res;
 			switch (res){
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
-					preg = (struct pregunta *) buffer;
-					
-					n= hacer_examen(preg); //podria hacerla void
-					
-					
-					printf ("Enunciado: %s ",preg->enunciado); //
-					//send ( sdc , buffer, P_SIZE, 0 );
-					
-					//cout << "Cargando exámen" << endl;
-					//ACA LLAMARÍAMOS A LAS FUNCIONES DE LA LIBRERIA
-					// QUE VAMOS A CREAR
-
+					cout << "Iniciando Examen" << endl;
+					cout << "Indique nombre del Examen: "; cin >> nombre;
+					examen = cargarEvaluacion(id, nombre);
+					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
+					cout << "Iniciando carga de preguntas" << endl;
+					for (cant; cant > 0 ; cant--)
+					{
+						cout << "ingrese enunciado: "; cin >> enunciado;
+						preg = cargarPregunta(cant,enunciado);
+						cout << "Iniciando carga de opciones" << endl;
+						for (int j = 0; j < 3 ; j++)
+						{
+								cout << "ingrese opcion: " << j; 
+								//cin >> enunciado;
+								getline(cin,enunciado);
+								cargarOpcionPregunta(preg ,j,enunciado);
+						}
+						cargarPreguntaEvaluacion(examen,cant,preg);
+					}
+					imprimirExamen(examen);
+					for (int j= 0; j < 5; j++){
+						imprimirPregunta(examen.preguntas[j]);
+						}
 					break;
 				case '2':
+					/*
 					cout << "Cargando exámenes" << endl;
 					
 					//sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
@@ -140,10 +135,44 @@ int main () {
 					//For exámenes tattata...
 					cout << "enviado" << endl;
 					sleep (10);
+					*/
 					break;
 				case '3':
-					//A LA ESCUCHA DE LO QUE MANDEN LOS CLIENTES
-					//SERIA EL "listen"
+						cout << "--- --- EN LINEA --- ---"<< endl;
+						servidor.sin_family = AF_INET;
+						servidor.sin_port = htons(4444);
+						servidor.sin_addr.s_addr = INADDR_ANY;
+						
+						sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+						
+						if (bind(sd, (struct sockaddr *) &servidor, sizeof(servidor)) < 0) {
+							perror("Error en bind");
+							exit(-1);
+						}
+						
+						listen ( sd , 5 );
+						sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
+						
+						msj = (struct mensaje*) buffer;
+						
+						n = leer_mensaje ( sdc , buffer , P_SIZE );
+						cout << "codigo recibido: " << ntohs(msj->codigo) << endl;
+						cout << "subcodigo recibido: " << ntohs(msj->subcodigo) << endl;
+						cout << "leng recibido: " << ntohl(msj->longitud) << endl;
+						//cout << "datos recibido: " << msj->datos << endl;
+						switch (ntohs(msj->codigo)){
+								/*case '0':
+									// MENSAJE DE REGISTRO
+								break;*/
+								case 1:
+									//MENSAJE DE LOGUEO
+									cout << "entro logueo" << endl;
+								break;
+								default:
+									//ACK ERROR 203
+									cout << "error de codigo" << endl;
+						}
+						close (sdc);
 					break;
 				case '4':
 					control = 0;
@@ -155,7 +184,9 @@ int main () {
 		close(sdc);
 		cout << "Gracias por usar S.E.On.L. "<<endl;
 	}else {
-		cout << "Error de loggeo, comuniquese con su administrador";
+		cout << "Error de loggeo, comuniquese con su administrador"<< endl;
 	}
 	close (sd);
+	delete msj;
+	return 0;
 }

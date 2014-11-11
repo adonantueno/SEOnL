@@ -1,6 +1,4 @@
 #include <stdlib.h>
-#include <iostream>
-#include <string>
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
@@ -9,22 +7,15 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#define P_SIZE sizeof(struct pregunta)		//en un futuro tendría que tomar como referencia el size de un examen
+#include "librerias/estructurasSEOnL.hpp"
 
-struct pregunta {
-	int id;
-	char enunciado[100];
-	char opciones[3][20];
-};
-
-struct evaluacion {
-	int id;
-	char nombre;
-	struct pregunta preguntas[5];
-};
-
+#include <iostream>
+#include <string>
 using namespace std;
 
+#define P_SIZE 200 //sizeof(struct mensaje)	//en un futuro tendría que tomar como referencia el size de un examen
+
+/*
 int leer_mensaje ( int sd, char * buffer, int total ) {
     int bytes;
     int leido;
@@ -42,57 +33,69 @@ int leer_mensaje ( int sd, char * buffer, int total ) {
 
     return ( leido );
 
-}
-
-
+};*/
 
 
 int main () {
-	
+
 	int sd;						//Socket descriptor, identifica a la comunicación establecida
 	int lon;					//Dimension del archivo que describe al servidor
 	int n;
-	
 	string user,pass;			//Encargados de validar al usuario (para un futuro)
 	char res, r;
-	
+	uint16_t c, sc;
+	uint32_t ln;
 	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
 	
-	struct pregunta *preg;			//Será un puntero a una estructura de tipo pregunta utilizado para la presentación
-	
-	char buffer[P_SIZE];			//Tamaño del Buffer
-	
+	char buffer[P_SIZE]; //[P_SIZE]		//Tamaño del Buffer
+	string datos;
+	struct mensaje* msj = new mensaje;
+
 	cout << "usuario: " ; cin >> user;
 	cout << "contraseña: " ; cin >> pass;
+	
+	/*
+	 * -------------------- COMIENZO CON LA CONEXION --------------------
+	 */
+	msj = (struct mensaje*) buffer;
+	datos = user + "&&" + pass;
+	c = htons(atoi("1"));
+	sc = htons(atoi("0"));
+	ln = htonl(16 + 16 + 32 + datos.size());
+	cargarMensaje(msj,c,sc,ln,datos);
 
-	
+	/*
+	 * -------------------- SETTEO EL SOCKET --------------------------- 
+	 */
 	sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-	
 	servidor.sin_family = AF_INET;
 	servidor.sin_port = htons(4444);
 	servidor.sin_addr.s_addr = inet_addr("127.0.0.1");
-	
-	//RESPUESTA = mensajeLoggeo(user,pass);
-	//ACA DEBERÍAMOS CAPTURAR SI EL MENSAJE DE RESPUESTA ES LA LISTA
-	//DE EXÁMENES O EL MENSAJE DE ERRO
-	
-	int valido = 1;
-
 	lon = sizeof(servidor);
 	
 	//Se hace un casteo a sockaddr de la estructura servidor que es sockadrr_in &puntero y se establece la conexión
-	
+	/*
+	 *  -------------------- CONECTO ---------------------------
+	 */
 	if ( connect ( sd , (struct sockaddr *) &servidor, lon ) < 0 ) {
 		perror ("Error en connect");
 		exit(-1);
+	}else{
+		cout << "ya me conecte"<< endl;
 	}
-
-	if (valido) {
+	/*
+	 * -------------------- ENVIO ---------------------------
+	 */ 
+	cout << "codigo enviado: " << htons(msj->codigo) << endl;
+	cout << "subcodigo enviado: " << htons(msj->subcodigo) << endl;
+	cout << "leng enviado: " << htonl(msj->longitud) << endl;
+	cout << "datos enviado: " << msj->datos << endl; 
+	send ( sd, buffer, P_SIZE, 0 );
+	cout << "envie" << endl;
+	if (1) {
 		int control = 1;
 		// itero mientras el usuario quiera continuar;
-		
-		preg = (struct pregunta *) buffer;
-		
+
 		while (control){
 			system("clear");
 			cout << "¿Qué desea Hacer? " << endl;
@@ -102,7 +105,7 @@ int main () {
 			switch (res){
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
-					
+					/*
 					n = leer_mensaje (sd, buffer, P_SIZE );
 					
 					preg= (struct pregunta*) buffer;
@@ -113,6 +116,7 @@ int main () {
 					
 					printf("eligió: %c \n" , r);
 					sleep (10);
+					*/
 					break;
 					
 				case '2':
@@ -120,7 +124,7 @@ int main () {
 					control = 0;
 					break;
 				default:
-				cout << "Opcion INCORRECTA"<< endl;
+					cout << "Opcion INCORRECTA"<< endl;
 			}
 		}
 		
@@ -129,5 +133,6 @@ int main () {
 	}else {
 		//int valido = mensajeRegistro(legajo, nombre ,user);
 	}
+	delete msj;
 	return 0;
 }

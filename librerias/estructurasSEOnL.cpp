@@ -54,9 +54,9 @@ void imprimirExamen (struct evaluacion e){
 	cout << e.id << ") "<< e.titulo << endl; 
 };
 
-void cargarMensaje (struct mensaje* msj, uint8_t codigo,uint8_t subcodigo, string dat){
+void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud , string dat){
 	msj->codigo = codigo;
 	msj->subcodigo = subcodigo;
-	msj->longitud = 8 + 8 + dat.size();
+	msj->longitud = longitud;
 	msj->datos = dat;
 };
