@@ -1,7 +1,7 @@
 #ifndef  ESTRUCTURAS_H
 #define  ESTRUCTURAS_H
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <stdint.h>
 using namespace std;
 
@@ -16,7 +16,7 @@ struct mensaje {
 		uint16_t codigo;
 		uint16_t subcodigo;
 		uint32_t longitud;
-		string datos;
+		char datos [300]; //numero maximo de datos a enviar
 };
 /*
  * ESTRUCTURA: pregunta
@@ -26,8 +26,8 @@ struct mensaje {
  * */
 struct pregunta {
 		int id;
-		string enunciado;
-		string opciones[3];
+		char enunciado[250]; //los números de caracteres los saque de un texto
+		char opciones[3][50];
 };
 
 /*
@@ -38,7 +38,7 @@ struct pregunta {
  *  * */
 struct evaluacion {
 		int id;
-		string titulo;
+		char titulo [20];
 		struct pregunta preguntas[20];
 };
 
@@ -51,7 +51,7 @@ struct evaluacion {
  * DESCRIPCION : devuelve una estructura del tipo pregunta con los campos
  * modificados segun los parametros ingresados
 */
-struct pregunta cargarPregunta (int id, string enunciado);
+struct pregunta cargarPregunta (int id, char enunciado[250]);
 
 /* FUNCION : CARGAR OPCION PREGUNTA
  * ENTRADA : estructura del tipo pregunta (referencia) int numero de 
@@ -60,7 +60,7 @@ struct pregunta cargarPregunta (int id, string enunciado);
  * DESCRIPCION : le agregar una opcion a la estructura pasada por referencia
  *  en la posicion indicada
 */
-void cargarOpcionPregunta (struct pregunta& p, int pos, string opcion);
+void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]);
 
 /*
  * FUNCION : IMPRIMIR PREGUNTA
@@ -81,7 +81,7 @@ void imprimirPregunta (struct pregunta p);
  * DESCRIPCION : devuelve una estructura del tipo evaluacion con los
  *  campos modificados segun los parametros ingresados
 */
-struct evaluacion cargarEvaluacion (int id, string titulo);
+struct evaluacion cargarEvaluacion (int id, char titulo[20]);
 
 /* 
  * FUNCION : CARGAR  PREGUNTA  EVALUACION
@@ -111,6 +111,6 @@ void imprimirExamen (struct evaluacion e);
  * DESCRIPCIÓN : crea un mensaje segun caracteristicas del protocolo a
  * partir de los datos pasados por parametro.
  */
-void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud ,string dat);
+void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud ,char datos [300]);
 
 #endif

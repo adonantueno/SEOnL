@@ -10,10 +10,10 @@
 #include "librerias/estructurasSEOnL.hpp"
 
 #include <iostream>
-#include <string>
+#include <string.h>
 using namespace std;
 
-#define P_SIZE 200 //sizeof(struct mensaje)	//en un futuro tendría que tomar como referencia el size de un examen
+#define P_SIZE sizeof(struct mensaje)	//en un futuro tendría que tomar como referencia el size de un examen
 
 /*
 int leer_mensaje ( int sd, char * buffer, int total ) {
@@ -41,15 +41,16 @@ int main () {
 	int sd;						//Socket descriptor, identifica a la comunicación establecida
 	int lon;					//Dimension del archivo que describe al servidor
 	int n;
-	string user,pass;			//Encargados de validar al usuario (para un futuro)
+	char user[10],pass[10];			//Encargados de validar al usuario (para un futuro)
 	char res, r;
 	uint16_t c, sc;
 	uint32_t ln;
 	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
 	
-	char buffer[P_SIZE]; //[P_SIZE]		//Tamaño del Buffer
-	string datos;
-	struct mensaje* msj = new mensaje;
+	char buffer[P_SIZE];		//Tamaño del Buffer
+
+	char datos [300];
+	struct mensaje* msj;
 
 	cout << "usuario: " ; cin >> user;
 	cout << "contraseña: " ; cin >> pass;
@@ -57,12 +58,21 @@ int main () {
 	/*
 	 * -------------------- COMIENZO CON LA CONEXION --------------------
 	 */
-	msj = (struct mensaje*) buffer;
-	datos = user + "&&" + pass;
+	strncat(datos,user,sizeof(datos));
+	strncat(datos,"&&",sizeof(datos));
+	strncat(datos,pass,sizeof(datos)); 
+
 	c = htons(atoi("1"));
 	sc = htons(atoi("0"));
-	ln = htonl(16 + 16 + 32 + datos.size());
+	ln = htonl(16 + 16 + 32 + sizeof(datos));
+
+	msj = (struct mensaje*) buffer;
 	cargarMensaje(msj,c,sc,ln,datos);
+
+	msj->codigo = c;
+	msj->subcodigo = sc;
+	msj->longitud = ln;
+	//msj->datos = datos;
 
 	/*
 	 * -------------------- SETTEO EL SOCKET --------------------------- 
@@ -133,6 +143,5 @@ int main () {
 	}else {
 		//int valido = mensajeRegistro(legajo, nombre ,user);
 	}
-	delete msj;
 	return 0;
 }

@@ -10,10 +10,10 @@
 #include "librerias/estructurasSEOnL.hpp"
 
 #include <iostream>
-#include <string>
+#include <string.h>
 using namespace std;
 
-#define P_SIZE 200 //sizeof(struct mensaje)
+#define P_SIZE sizeof(struct mensaje)
 
 /*
 int hacer_examen ( struct pregunta *p ) {
@@ -72,16 +72,17 @@ int main () {
 	int sd;
 	int sdc;
 	char buffer[P_SIZE];
-	struct mensaje* msj = new mensaje;
+	struct mensaje* msj;
 
 	struct sockaddr_in cliente;
 	struct sockaddr_in servidor;
 	struct pregunta preg;
 	struct evaluacion examen;
 	int cant;
-	string enunciado;
+	char enunciado[250];
+	char opcion[50];
 	int id;
-	string nombre;
+	char nombre[20];
 	socklen_t lon = sizeof(cliente);
 	
 	cout << "usuario: " ; cin >> user;
@@ -113,10 +114,8 @@ int main () {
 						cout << "Iniciando carga de opciones" << endl;
 						for (int j = 0; j < 3 ; j++)
 						{
-								cout << "ingrese opcion: " << j; 
-								//cin >> enunciado;
-								getline(cin,enunciado);
-								cargarOpcionPregunta(preg ,j,enunciado);
+								cout << "ingrese opcion: " << j; cin >>opcion;
+								cargarOpcionPregunta(preg ,j,opcion);
 						}
 						cargarPreguntaEvaluacion(examen,cant,preg);
 					}
@@ -159,7 +158,7 @@ int main () {
 						cout << "codigo recibido: " << ntohs(msj->codigo) << endl;
 						cout << "subcodigo recibido: " << ntohs(msj->subcodigo) << endl;
 						cout << "leng recibido: " << ntohl(msj->longitud) << endl;
-						//cout << "datos recibido: " << msj->datos << endl;
+						cout << "datos recibido: " << msj->datos << endl;
 						switch (ntohs(msj->codigo)){
 								/*case '0':
 									// MENSAJE DE REGISTRO
@@ -187,6 +186,5 @@ int main () {
 		cout << "Error de loggeo, comuniquese con su administrador"<< endl;
 	}
 	close (sd);
-	delete msj;
 	return 0;
 }
