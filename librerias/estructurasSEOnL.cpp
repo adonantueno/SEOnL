@@ -24,12 +24,12 @@ struct pregunta cargarPregunta (int id, char enunciado[250]){
 
 	struct pregunta p;
 	p.id = id;
-	strncpy ( p.enunciado , enunciado , sizeof(enunciado));
+	strcpy ( p.enunciado , enunciado );
 	return p;
 };
 
 void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]){
-	strncpy (p.opciones[pos], opcion , sizeof(opcion));
+	strcpy (p.opciones[pos], opcion);
 };
  
 void imprimirPregunta (struct pregunta p){
@@ -44,7 +44,7 @@ struct evaluacion cargarEvaluacion (int id, char titulo[20]){
 
 	struct evaluacion e;
 	e.id = id;
-	strncpy ( e.titulo, titulo , sizeof(titulo));
+	strcpy ( e.titulo, titulo );
 	return e;
 };
 
@@ -60,5 +60,5 @@ void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint
 	msj->codigo = codigo;
 	msj->subcodigo = subcodigo;
 	msj->longitud = longitud;
-	strncpy ( msj->datos, datos , sizeof(datos));
+	strcpy ( msj->datos, datos );//, sizeof(datos));
 };

@@ -180,7 +180,6 @@ int main () {
 				cout << "Opcion INCORRECTA"<< endl;
 			}
 		}
-		close(sdc);
 		cout << "Gracias por usar S.E.On.L. "<<endl;
 	}else {
 		cout << "Error de loggeo, comuniquese con su administrador"<< endl;

@@ -49,7 +49,7 @@ int main () {
 	
 	char buffer[P_SIZE];		//Tamaño del Buffer
 
-	char datos [300];
+	char datos [300] = "";
 	struct mensaje* msj;
 
 	cout << "usuario: " ; cin >> user;
@@ -59,21 +59,14 @@ int main () {
 	 * -------------------- COMIENZO CON LA CONEXION --------------------
 	 */
 	strncat(datos,user,sizeof(datos));
-	strncat(datos,"&&",sizeof(datos));
-	strncat(datos,pass,sizeof(datos)); 
-
+	strncat(datos,"&",sizeof(datos));
+	strncat(datos,pass,sizeof(datos));
 	c = htons(atoi("1"));
 	sc = htons(atoi("0"));
 	ln = htonl(16 + 16 + 32 + sizeof(datos));
 
 	msj = (struct mensaje*) buffer;
 	cargarMensaje(msj,c,sc,ln,datos);
-
-	msj->codigo = c;
-	msj->subcodigo = sc;
-	msj->longitud = ln;
-	//msj->datos = datos;
-
 	/*
 	 * -------------------- SETTEO EL SOCKET --------------------------- 
 	 */
