@@ -2,7 +2,7 @@
 
 ##  Trabajo Prático Integrador Internetworking - UTN FRLP
  
-### desarrolladores: 
+### Desarrolladores: 
 
 * Donantueno, Augusto.
 * Flores Palomo, Juan.
