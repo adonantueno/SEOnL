@@ -9,7 +9,7 @@
 * Pastorino, Jorge.
 * Quintana, Mariano.
 
-** Objetivo: Crear una Aplicación Cliente / Servidor en red.
+` Objetivo: `  Crear una Aplicación Cliente / Servidor en red.
 
 Módulos:
 
