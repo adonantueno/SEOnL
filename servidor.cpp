@@ -55,6 +55,29 @@ int leer_mensaje ( int sd, char * buffer, int total ) {
 	return ( leido );
 };
 
+void interpretarMensajeUno (char* user, char* pass, char* datos){
+	int control = 1;
+	int i = 0;
+	int j = 0;
+	char ampersand = '&';
+	while ( i < strlen(datos)){
+		
+		if (datos[i] == ampersand){
+			control = 0;
+			j=-1;
+		}else{		
+			if(control){
+				user[j] = datos [i];
+			}else{
+				pass[j] = datos [i];
+			}
+		}
+		i++;
+		j++;
+	}
+};
+
+
 bool userValido (string user, string pass){
 	bool validacion = 0;
 	if (user == "admin" && pass == "1234"){
@@ -66,6 +89,7 @@ bool userValido (string user, string pass){
 
 int main () {
 	string user,pass;
+	char u[10], p[10];
 	char res;
 	int n;
 	int i=0;
@@ -166,6 +190,9 @@ int main () {
 								case 1:
 									//MENSAJE DE LOGUEO
 									cout << "entro logueo" << endl;
+									interpretarMensajeUno(u, p,msj->datos );
+									cout<< "user: "<< u << " pass: " << p << endl;
+									
 								break;
 								default:
 									//ACK ERROR 203

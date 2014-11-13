@@ -88,13 +88,15 @@ int main () {
 	}
 	/*
 	 * -------------------- ENVIO ---------------------------
-	 */ 
+	 */  
 	cout << "codigo enviado: " << htons(msj->codigo) << endl;
 	cout << "subcodigo enviado: " << htons(msj->subcodigo) << endl;
 	cout << "leng enviado: " << htonl(msj->longitud) << endl;
 	cout << "datos enviado: " << msj->datos << endl; 
 	send ( sd, buffer, P_SIZE, 0 );
 	cout << "envie" << endl;
+	
+	
 	if (1) {
 		int control = 1;
 		// itero mientras el usuario quiera continuar;
