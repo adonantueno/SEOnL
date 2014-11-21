@@ -1,13 +1,14 @@
------- ------ ------ --- USO DE LA LIBRERIA --- ------  ------ ------
+------ ------ ------ --- USO DE LIBRERIAS --- ------  ------ ------
+------ ------ INFORMACIÓN GENERAL 
 
 * Importar en un codigo
-#include "librerias/estructurasSEOnL.hpp"
+#include "librerias/libreria.hpp"
 
 Siendo "librerias/" la carpeta contenedora
 
 * Compilar
 
-g++ librerias/estructurasSEOnL.o codigo.cpp -o codigo -std=c++11
+g++ librerias/libreria.o codigo.cpp -o codigo -std=c++11
 
 Utiliazar g++ ya que utiliza codigo C++ al funcionar con std::string por
 ese motivo se debe incluir la directiva -std=c++11
@@ -16,4 +17,18 @@ ese motivo se debe incluir la directiva -std=c++11
 
 hay que volver a crear el archivo.o (objeto) de el código fuente
 
-g++ -c estructurasSEOnL.cpp -std=c++11
+g++ -c libreria.cpp -std=c++11
+
+
+------ ------ LIBRERIA ESTRUCTURAS SEOnL
+
+  Contiene las estructuras utilizadas por el sistema y las funciones
+necesarias para trabajar con ellas.
+
+------ ------ LIBRERIA DATOS MENSAJES SEOnL
+
+  Contiene una función genérica para leer un mensaje del protocolo. Luego
+contiene las funciones para poder crear los campos de datos de cada uno
+de los mensajes, con el siguiente estandar:
+  void crearDatosMensajeX ();
+  void interpretarDatosMensajeX ();

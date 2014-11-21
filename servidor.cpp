@@ -2,16 +2,17 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/socket.h>
+// #include <sys/socket.h> --> ya está en datosMensajesSEOnL
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 
 #include "librerias/estructurasSEOnL.hpp"
+#include "librerias/datosMensajesSEOnL.hpp"
 
-#include <iostream>
-#include <string.h>
-using namespace std;
+//#include <iostream> --> ya está en estructurasSEOnL
+//#include <string.h> --> ya está en estructurasSEOnL
+//using namespace std;
 
 #define P_SIZE sizeof(struct mensaje)
 
@@ -39,43 +40,6 @@ int hacer_examen ( struct pregunta *p ) {
 		}
 		return 0;
 };*/
-
-int leer_mensaje ( int sd, char * buffer, int total ) {
-	int bytes;
-	int leido;
-
-	leido = 0;
-	bytes = 1;
-	while ( (leido < total) && (bytes > 0) ) {
-
-		bytes = recv ( sd , buffer + leido , total - leido , 0);
-		leido = leido + bytes;
-
-	}
-	return ( leido );
-};
-
-void interpretarMensajeUno (char* user, char* pass, char* datos){
-	int control = 1;
-	int i = 0;
-	int j = 0;
-	char ampersand = '&';
-	while ( i < strlen(datos)){
-		
-		if (datos[i] == ampersand){
-			control = 0;
-			j=-1;
-		}else{		
-			if(control){
-				user[j] = datos [i];
-			}else{
-				pass[j] = datos [i];
-			}
-		}
-		i++;
-		j++;
-	}
-};
 
 
 bool userValido (string user, string pass){
@@ -178,7 +142,7 @@ int main () {
 						
 						msj = (struct mensaje*) buffer;
 						
-						n = leer_mensaje ( sdc , buffer , P_SIZE );
+						n = leerMensaje ( sdc , buffer , P_SIZE );
 						cout << "codigo recibido: " << ntohs(msj->codigo) << endl;
 						cout << "subcodigo recibido: " << ntohs(msj->subcodigo) << endl;
 						cout << "leng recibido: " << ntohl(msj->longitud) << endl;
@@ -190,7 +154,7 @@ int main () {
 								case 1:
 									//MENSAJE DE LOGUEO
 									cout << "entro logueo" << endl;
-									interpretarMensajeUno(u, p,msj->datos );
+									interpretarDatosMensaje1(u, p,msj->datos );
 									cout<< "user: "<< u << " pass: " << p << endl;
 									
 								break;

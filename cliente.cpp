@@ -8,32 +8,13 @@
 #include <netdb.h>
 
 #include "librerias/estructurasSEOnL.hpp"
+#include "librerias/datosMensajesSEOnL.hpp"
 
-#include <iostream>
-#include <string.h>
-using namespace std;
+//#include <iostream>
+//#include <string.h>
+//using namespace std;
 
 #define P_SIZE sizeof(struct mensaje)	//en un futuro tendría que tomar como referencia el size de un examen
-
-/*
-int leer_mensaje ( int sd, char * buffer, int total ) {
-    int bytes;
-    int leido;
-
-    leido = 0;
-    bytes = 1;
-
-    while ( (leido < total) && (bytes > 0) ) {
-
-        bytes = recv ( sd , buffer + leido , total - leido , 0);
-
-        leido = leido + bytes;
-
-    }
-
-    return ( leido );
-
-};*/
 
 
 int main () {
@@ -58,9 +39,7 @@ int main () {
 	/*
 	 * -------------------- COMIENZO CON LA CONEXION --------------------
 	 */
-	strncat(datos,user,sizeof(datos));
-	strncat(datos,"&",sizeof(datos));
-	strncat(datos,pass,sizeof(datos));
+	crearDatosMensaje1(user,pass,datos);
 	c = htons(atoi("1"));
 	sc = htons(atoi("0"));
 	ln = htonl(16 + 16 + 32 + sizeof(datos));

@@ -60,5 +60,5 @@ void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint
 	msj->codigo = codigo;
 	msj->subcodigo = subcodigo;
 	msj->longitud = longitud;
-	strcpy ( msj->datos, datos );//, sizeof(datos));
+	strcpy ( msj->datos, datos );
 };
