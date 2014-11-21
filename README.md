@@ -10,7 +10,7 @@
 * Pastorino, Jorge.
 * Quintana, Mariano.
 
-`Objetivo:`  Crear una Aplicación Cliente / Servidor en red. Utilizando sockets c
+`Objetivo:`  __Crear una Aplicación Cliente / Servidor en red. Utilizando sockets c__
 
 `Módulos:`
 
