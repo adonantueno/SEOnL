@@ -56,7 +56,7 @@ struct pregunta cargarPregunta (int id, char enunciado[250]);
 /* FUNCION : CARGAR OPCION PREGUNTA
  * ENTRADA : estructura del tipo pregunta (referencia) int numero de 
  * opcion,string enunciado de la pregunta
- * SALIDA  : void - campos modificados en la estructura referenciada
+  * SALIDA  : void - campos modificados en la estructura referenciada
  * DESCRIPCION : le agregar una opcion a la estructura pasada por referencia
  *  en la posicion indicada
 */
