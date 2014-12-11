@@ -22,21 +22,21 @@ int hacer_examen ( struct pregunta *p ) {
 		char opc[20];
 		struct pregunta *ppregunta;
 		ppregunta = p;
-	
+
 		ppregunta->id = 1;
-		
+
 		printf ("Ingrese enunciado: ");
 		scanf("%s[^\n]",txt);
 		strcpy(ppregunta->enunciado, txt);
-		
-		
-		printf("A CONTiNUACION COMIENZA EL INGRESO DE  OPCIONES ");
+
+
+		printf("A CONTiNUACION COMIENZA EL INGRESO DE	OPCIONES ");
 
 		for(int j = 0; j < 3; j++){
 			printf ("ingrese opción %d: ", j+1);
 			scanf("%s[^\n]",opc);
 			strcpy(ppregunta->opciones[j],opc);
-		
+
 		}
 		return 0;
 };*/
@@ -72,7 +72,7 @@ int main () {
 	int id;
 	char nombre[20];
 	socklen_t lon = sizeof(cliente);
-	
+
 	cout << "usuario: " ; cin >> user;
 	cout << "contraseña: " ; cin >> pass;
 
@@ -115,9 +115,9 @@ int main () {
 				case '2':
 					/*
 					cout << "Cargando exámenes" << endl;
-					
+
 					//sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
-					
+
 					n = send ( sdc , buffer, P_SIZE, 0 );
 					//For exámenes tattata...
 					cout << "enviado" << endl;
@@ -129,19 +129,19 @@ int main () {
 						servidor.sin_family = AF_INET;
 						servidor.sin_port = htons(4444);
 						servidor.sin_addr.s_addr = INADDR_ANY;
-						
+
 						sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-						
+
 						if (bind(sd, (struct sockaddr *) &servidor, sizeof(servidor)) < 0) {
 							perror("Error en bind");
 							exit(-1);
 						}
-						
+
 						listen ( sd , 5 );
 						sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
-						
+
 						msj = (struct mensaje*) buffer;
-						
+
 						n = leerMensaje ( sdc , buffer , P_SIZE );
 						cout << "codigo recibido: " << ntohs(msj->codigo) << endl;
 						cout << "subcodigo recibido: " << ntohs(msj->subcodigo) << endl;
@@ -156,7 +156,7 @@ int main () {
 									cout << "entro logueo" << endl;
 									interpretarDatosMensaje1(u, p,msj->datos );
 									cout<< "user: "<< u << " pass: " << p << endl;
-									
+
 								break;
 								default:
 									//ACK ERROR 203
