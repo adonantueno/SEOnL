@@ -13,6 +13,7 @@
 //#include <iostream> --> ya está en estructurasSEOnL
 //#include <string.h> --> ya está en estructurasSEOnL
 //using namespace std;
+//
 
 #define P_SIZE sizeof(struct mensaje)
 
@@ -97,7 +98,7 @@ int main () {
 					cout << "Iniciando carga de preguntas" << endl;
 					for (cant; cant > 0 ; cant--)
 					{
-						cout << "ingrese enunciado: "; cin >> enunciado;
+						cout << "ingrese enunciado : "; cin >> enunciado;
 						preg = cargarPregunta(cant,enunciado);
 						cout << "Iniciando carga de opciones" << endl;
 						for (int j = 0; j < 3 ; j++)
@@ -176,5 +177,6 @@ int main () {
 		cout << "Error de loggeo, comuniquese con su administrador"<< endl;
 	}
 	close (sd);
+
 	return 0;
 }

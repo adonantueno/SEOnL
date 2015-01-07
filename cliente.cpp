@@ -116,6 +116,7 @@ int main () {
 	}else {
 		//int valido = mensajeRegistro(legajo, nombre ,user);
 	}
+
 	return 0;
 
 }
