@@ -13,21 +13,21 @@ SERVER = servidor.cpp
 CLIENT = cliente.cpp
 
 #Ejecuta mas alla de que crea que esta actualizado
-.PHONY:cliente servidor libs all
+.PHONY: cliente servidor libs all
 
 
 #Reglas
+libs:
+	$(MAKE) -C $(DIRECTORIO) crear
+
 servidor:
 	$(CXX) $(LIBS) $(SERVER) -o servidor $(CXXFLAGS)
 
 cliente:
 	$(CXX) $(LIBS) $(CLIENT) -o cliente  $(CXXFLAGS)
 
-libs:
-	$(CXX) $(DIRECTORIO)/$(LIB_1).cpp -c $(DIRECTORIO)/$(LIB_1).o
-	$(CXX) $(DIRECTORIO)/$(LIB_2).cpp -c $(DIRECTORIO)/$(LIB_2).o
-
 all:
+	$(MAKE) -C $(DIRECTORIO) crear
 	$(CXX) $(LIBS) $(SERVER) -o servidor $(CXXFLAGS)
 	$(CXX) $(LIBS) $(CLIENT) -o cliente  $(CXXFLAGS)
 
