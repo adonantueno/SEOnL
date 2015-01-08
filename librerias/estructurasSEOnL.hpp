@@ -44,7 +44,7 @@ struct evaluacion {
 
 /* METODOS */
 
-/* 
+/*
  * FUNCION : CARGAR PREGUNTA
  * ENTRADA : int id de la pregunta, string enunciado de la pregunta
  * SALIDA  : estructura del tipo pregunta
@@ -54,7 +54,7 @@ struct evaluacion {
 struct pregunta cargarPregunta (int id, char enunciado[250]);
 
 /* FUNCION : CARGAR OPCION PREGUNTA
- * ENTRADA : estructura del tipo pregunta (referencia) int numero de 
+ * ENTRADA : estructura del tipo pregunta (referencia) int numero de
  * opcion,string enunciado de la pregunta
   * SALIDA  : void - campos modificados en la estructura referenciada
  * DESCRIPCION : le agregar una opcion a la estructura pasada por referencia
@@ -66,7 +66,7 @@ void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]);
  * FUNCION : IMPRIMIR PREGUNTA
  * ENTRADA : estructura del tipo pregunta
  * SALIDA  : impresion por pantalla
- * DESCRIPCIÓN : imprime por un formato determinado (1) la pregunta 
+ * DESCRIPCIÓN : imprime por un formato determinado (1) la pregunta
  *  recibida como parámetro
  * (1) formato
  * pregunta.id ) pregunta.enuncido
@@ -74,7 +74,7 @@ void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]);
  */
 void imprimirPregunta (struct pregunta p);
 
-/* 
+/*
  * FUNCION : CARGAR EVALUACION
  * ENTRADA : int id de la evaluacion, string titulo de la evaluacion
  * SALIDA  : estructura del tipo evaluacion
@@ -83,15 +83,15 @@ void imprimirPregunta (struct pregunta p);
 */
 struct evaluacion cargarEvaluacion (int id, char titulo[20]);
 
-/* 
+/*
  * FUNCION : CARGAR  PREGUNTA  EVALUACION
- * ENTRADA : estructura del tipo evaluacion (referencia), int numero de 
+ * ENTRADA : estructura del tipo evaluacion (referencia), int numero de
  * pregunta, estructura del tipo pregunta
  * SALIDA  : void - campos modificados en la estructura referenciada
  * DESCRIPCION : le agregar una pregunta a la estructura pasada por referencia
  *  en la posicion indicada
 */
-void cargarPreguntaEvaluacion (struct evaluacion& e, int pos, struct pregunta preg); 
+void cargarPreguntaEvaluacion (struct evaluacion& e, int pos, struct pregunta preg);
 
 /*
  * FUNCION : IMPRIMIR EXAMEN

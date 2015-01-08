@@ -17,11 +17,11 @@ int leerMensaje ( int sd, char * buffer, int total );
 /* FUNCION : CREAR DATOS MENSAJE 1
  * ENTRADA : user, pass, datos
  * SALIDA  : void - modificación del parámetro datos
- * DESCRIPCION : crea un solo char* a partir del usuario y contraseña, con el 
+ * DESCRIPCION : crea un solo char* a partir del usuario y contraseña, con el
  * siguiente formato
  * 					user&pass
 */
-void crearDatosMensaje1(char* user, char* pass, char* datos);
+void crearDatos_M1(char* user, char* pass, char* datos);
 
 /* FUNCION : INTERPRETAR  MENSAJE 1
  * ENTRADA : user, pass, datos
@@ -30,6 +30,6 @@ void crearDatosMensaje1(char* user, char* pass, char* datos);
  * interpreta de la forma  ""user&pass"" y coloca los respectivos valores
  * en los parámetros de entrada
 */
-void interpretarDatosMensaje1 (char* user, char* pass, char* datos);
+void interpretarDatos_M1 (char* user, char* pass, char* datos);
 
 #endif

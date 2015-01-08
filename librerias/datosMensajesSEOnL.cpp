@@ -16,7 +16,7 @@ int leerMensaje ( int sd, char * buffer, int total ) {
 	return ( leido );
 };
 
-void crearDatosMensaje1(char* user, char* pass, char* datos){
+void crearDatos_M1(char* user, char* pass, char* datos){
 
 	strncat(datos,user,sizeof(datos));
 	strncat(datos,"&",sizeof(datos));
@@ -24,17 +24,17 @@ void crearDatosMensaje1(char* user, char* pass, char* datos){
 
 };
 
-void interpretarDatosMensaje1 (char* user, char* pass, char* datos){
+void interpretarDatos_M1 (char* user, char* pass, char* datos){
 	int control = 1;
 	int i = 0;
 	int j = 0;
 	char ampersand = '&';
 	while ( i < strlen(datos)){
-		
+
 		if (datos[i] == ampersand){
 			control = 0;
 			j= -1;
-		}else{		
+		}else{
 			if(control){
 				user[j] = datos [i];
 			}else{

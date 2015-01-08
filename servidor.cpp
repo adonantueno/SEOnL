@@ -155,7 +155,7 @@ int main () {
 								case 1:
 									//MENSAJE DE LOGUEO
 									cout << "entro logueo" << endl;
-									interpretarDatosMensaje1(u, p,msj->datos );
+									interpretarDatos_M1(u, p,msj->datos );
 									cout<< "user: "<< u << " pass: " << p << endl;
 
 								break;

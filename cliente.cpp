@@ -39,7 +39,7 @@ int main () {
 	/*
 	 * -------------------- COMIENZO CON LA CONEXION --------------------
 	 */
-	crearDatosMensaje1(user,pass,datos);
+	crearDatos_M1(user,pass,datos);
 	c = htons(atoi("1"));
 	sc = htons(atoi("0"));
 	ln = htonl(16 + 16 + 32 + sizeof(datos));

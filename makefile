@@ -26,10 +26,8 @@ servidor:
 cliente:
 	$(CXX) $(LIBS) $(CLIENT) -o cliente  $(CXXFLAGS)
 
-all:
-	$(MAKE) -C $(DIRECTORIO) crear
-	$(CXX) $(LIBS) $(SERVER) -o servidor $(CXXFLAGS)
-	$(CXX) $(LIBS) $(CLIENT) -o cliente  $(CXXFLAGS)
+all: libs servidor cliente
+
 
 clean:
 	rm *.o *.~ *~
