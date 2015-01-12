@@ -46,14 +46,12 @@ int main () {
 	/*
  	*  -------------------- CONECTO ---------------------------
 	*/
-	if ( connect ( sd , (struct sockaddr *) &servidor, lon ) < 0 ) {
+	if (connect ( sd , (struct sockaddr *) &servidor, lon ) < 0){
 		perror ("Error en connect");
-		conect = 0;
+		cout << "Se produjo un error al intentar la conexión, esto se puede deber";
+		cout << " a que el servidor este fuera de linea" << endl;;
+		cout << "Intente mas tarde" << endl;
 	}else{
-		cout << "ya me conecte"<< endl;
-	}
-
-	if (conect){
 		int control = 1;
 		// itero mientras el usuario quiera continuar;
 
@@ -100,12 +98,7 @@ int main () {
 		}
 		close(sd);
 
-	}else{
-		cout << "Se produjo un error al intentar la conexión, esto se puede deber";
-		cout << "a que el servidor este fuera de linea";
-		cout << "Intente mas tarde" << endl;
 	}
-
 	cout << "Gracias por usar S.E.On.L. "<<endl;
 	return 0;
 }
