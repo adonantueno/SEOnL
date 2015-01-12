@@ -14,7 +14,7 @@
 */
 int leerMensaje ( int sd, char * buffer, int total );
 
-/*MENSAJE 1*/
+/*MENSAJE 0*/
 
 /* FUNCION : CREAR DATOS MENSAJE 0
  * ENTRADA : legajo, nombre, user, datos
