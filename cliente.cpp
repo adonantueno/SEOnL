@@ -10,11 +10,11 @@
 #include "librerias/estructurasSEOnL.hpp"
 #include "librerias/datosMensajesSEOnL.hpp"
 
-//#include <iostream>
-//#include <string.h>
-//using namespace std;
+//#include <iostream> --> Traen las librerias con
+//#include <string.h> --> Traen las librerias con
+//using namespace std; --> Traen las librerias con
 
-#define P_SIZE sizeof(struct mensaje)	//en un futuro tendría que tomar como referencia el size de un examen
+#define P_SIZE sizeof(struct mensaje)
 
 
 int main () {
@@ -22,8 +22,9 @@ int main () {
 	int sd;						//Socket descriptor, identifica a la comunicación establecida
 	int lon;					//Dimension del archivo que describe al servidor
 	int n;
+	int conect = 1; // Control de la conexion
 	char user[10],pass[10];			//Encargados de validar al usuario (para un futuro)
-	char res, r;
+	char res_registro, res, r;
 	uint16_t c, sc;
 	uint32_t ln;
 	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
@@ -33,90 +34,78 @@ int main () {
 	char datos [300] = "";
 	struct mensaje* msj;
 
-	cout << "usuario: " ; cin >> user;
-	cout << "contraseña: " ; cin >> pass;
-
 	/*
-	 * -------------------- COMIENZO CON LA CONEXION --------------------
-	 */
-	crearDatos_M1(user,pass,datos);
-	c = htons(atoi("1"));
-	sc = htons(atoi("0"));
-	ln = htonl(16 + 16 + 32 + sizeof(datos));
-
-	msj = (struct mensaje*) buffer;
-	cargarMensaje(msj,c,sc,ln,datos);
-	/*
-	 * -------------------- SETTEO EL SOCKET ---------------------------
-	 */
+	* -------------------- SETTEO EL SOCKET -------------------
+	*/
 	sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	servidor.sin_family = AF_INET;
 	servidor.sin_port = htons(4444);
 	servidor.sin_addr.s_addr = inet_addr("127.0.0.1");
 	lon = sizeof(servidor);
-
 	//Se hace un casteo a sockaddr de la estructura servidor que es sockadrr_in &puntero y se establece la conexión
 	/*
-	 *  -------------------- CONECTO ---------------------------
-	 */
+ 	*  -------------------- CONECTO ---------------------------
+	*/
 	if ( connect ( sd , (struct sockaddr *) &servidor, lon ) < 0 ) {
 		perror ("Error en connect");
-		exit(-1);
+		conect = 0;
 	}else{
 		cout << "ya me conecte"<< endl;
 	}
-	/*
-	 * -------------------- ENVIO ---------------------------
-	 */
-	cout << "codigo enviado: " << htons(msj->codigo) << endl;
-	cout << "subcodigo enviado: " << htons(msj->subcodigo) << endl;
-	cout << "leng enviado: " << htonl(msj->longitud) << endl;
-	cout << "datos enviado: " << msj->datos << endl;
-	send ( sd, buffer, P_SIZE, 0 );
-	cout << "envie" << endl;
 
-	if (1) {
+	if (conect){
 		int control = 1;
 		// itero mientras el usuario quiera continuar;
 
 		while (control){
 			system("clear");
 			cout << "¿Qué desea Hacer? " << endl;
-			cout << "1) Consultar Exámenes "<< endl;
-			cout << "2) Salir"<< endl;
+			cout << "1) Registrarse "<< endl;
+			cout << "2) Ingresar "<< endl;
+			cout << "3) Salir"<< endl;
 			cin >> res;
+
 			switch (res){
-			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
-					/*
-					n = leer_mensaje (sd, buffer, P_SIZE );
+						break;
+						case '2':
+						cout << "Ingrse sus datos para ingresar" << endl;
+						cout << "usuario: " ; cin >> user;
+						cout << "contraseña: " ; cin >> pass;
+						/*
+					 	* -------------------- CREO EL MENSAJE----------
+					 	*/
+						crearDatos_M1(user,pass,datos);
+						c = htons(atoi("1"));
+						sc = htons(atoi("0"));
+						ln = htonl(16 + 16 + 32 + sizeof(datos));
+						msj = (struct mensaje*) buffer;
+						cargarMensaje(msj,c,sc,ln,datos);
+						/*
+					 	* -------------------- ENVIO ------------------------------
+					 	*/
+						send ( sd, buffer, P_SIZE, 0 );
+						system("clear");
+						cout << "Entrasta al SEOnL" << endl;
+						cout << "Desear realizar evaluacion (s/n)"<< endl;
+						break;
 
-					preg= (struct pregunta*) buffer;
+				case '3':
+						control = 0;
+						break;
 
-					printf("La pregunta es: %s \n Y las opciones: %s, %s, %s \n", preg->enunciado, preg->opciones[0], preg->opciones[1], preg->opciones[2]);
-
-					cout << "escoja una opción " ; cin >> r;
-
-					printf("eligió: %c \n" , r);
-					sleep (10);
-					*/
-					break;
-
-				case '2':
-					//mensajeCerrarSesion();
-					control = 0;
-					break;
 				default:
 					cout << "Opcion INCORRECTA"<< endl;
 			}
 		}
-
 		close(sd);
-		cout << "Gracias por usar S.E.On.L. "<<endl;
-	}else {
-		//int valido = mensajeRegistro(legajo, nombre ,user);
+
+	}else{
+		cout << "Se produjo un error al intentar la conexión, esto se puede deber";
+		cout << "a que el servidor este fuera de linea";
+		cout << "Intente mas tarde" << endl;
 	}
 
+	cout << "Gracias por usar S.E.On.L. "<<endl;
 	return 0;
-
 }

@@ -31,14 +31,14 @@ struct pregunta cargarPregunta (int id, char enunciado[250]){
 void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]){
 	strcpy (p.opciones[pos], opcion);
 };
- 
+
 void imprimirPregunta (struct pregunta p){
 	cout << p.id << ") " << p.enunciado << endl;
 
-	for (int i=0; !sizeof(p.opciones[i]); i++ ){
+	for (int i=0; i < sizeof(p.opciones[i]); i++ ){
 		cout << " "<< (i+1) << ".- " << p.opciones[i] << endl;
 	}
-}; 
+};
 
 struct evaluacion cargarEvaluacion (int id, char titulo[20]){
 
@@ -53,7 +53,7 @@ void cargarPreguntaEvaluacion (struct evaluacion& e, int pos, struct pregunta pr
 };
 
 void imprimirExamen (struct evaluacion e){
-	cout << e.id << ") "<< e.titulo << endl; 
+	cout << e.id << ") "<< e.titulo << endl;
 };
 
 void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud ,char datos [300]){

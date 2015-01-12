@@ -144,10 +144,6 @@ int main () {
 						msj = (struct mensaje*) buffer;
 
 						n = leerMensaje ( sdc , buffer , P_SIZE );
-						cout << "codigo recibido: " << ntohs(msj->codigo) << endl;
-						cout << "subcodigo recibido: " << ntohs(msj->subcodigo) << endl;
-						cout << "leng recibido: " << ntohl(msj->longitud) << endl;
-						cout << "datos recibido: " << msj->datos << endl;
 						switch (ntohs(msj->codigo)){
 								/*case '0':
 									// MENSAJE DE REGISTRO
@@ -156,8 +152,6 @@ int main () {
 									//MENSAJE DE LOGUEO
 									cout << "entro logueo" << endl;
 									interpretarDatos_M1(u, p,msj->datos );
-									cout<< "user: "<< u << " pass: " << p << endl;
-
 								break;
 								default:
 									//ACK ERROR 203
