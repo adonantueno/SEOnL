@@ -1,6 +1,5 @@
 #include "datosMensajesSEOnL.hpp"
 
-
 int leerMensaje ( int sd, char * buffer, int total ) {
 	int bytes;
 	int leido;
@@ -16,36 +15,39 @@ int leerMensaje ( int sd, char * buffer, int total ) {
 
 /*MENSAJE 0*/
 
-void crearDatos_M0(char* user, char* pass, char* datos){
+void crearDatos_M0(char* legajo, char* nombre,char* user, char* datos){
 
-	strncat(datos,legajo,sizeof(datos));
+
+	strncat(datos,legajo,sizeof(datos)+sizeof(legajo));
 	strncat(datos,"&",sizeof(datos));
-	strncat(datos,nombre,sizeof(datos));
+	strncat(datos,nombre,sizeof(datos)+sizeof(nombre));
     strncat(datos,"&",sizeof(datos));
     strncat(datos,user,sizeof(datos));
+
 };
 
-void interpretarDatos_M0 (char* user, char* pass, char* datos){
+void interpretarDatos_M0 (char* legajo, char* nombre,char* user, char* datos){
 
 	 int control = 0;
  	int i = 0;
  	int j = 0;
  	char ampersand = '&';
 
-    while ( i < strlen(datos1)){
-        if (datos1[i] == ampersand){
+    while ( i < strlen(datos)){
+        if (datos[i] == ampersand){
             control++;
         	j= -1;
         }
 		if(control == 0){
-				legajo1[j] = datos1 [i];
+				legajo[j] = datos [i];
+
 			}
         if (control == 1){
-				nombre1[j] = datos1 [i];
+				nombre[j] = datos [i];
 		}
 
         if (control == 2){
-				user1[j] = datos1 [i];
+				user[j] = datos [i];
 		}
 		i++;
 		j++;
@@ -69,7 +71,7 @@ void interpretarDatos_M1 (char* user, char* pass, char* datos){
 	int i = 0;
 	int j = 0;
 	char ampersand = '&';
-	
+
 	while ( i < strlen(datos)){
 		if (datos[i] == ampersand){
 			control = 0;

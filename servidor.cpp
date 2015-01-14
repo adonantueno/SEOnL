@@ -9,6 +9,7 @@
 
 #include "librerias/estructurasSEOnL.hpp"
 #include "librerias/datosMensajesSEOnL.hpp"
+#include "librerias/archivosSEOnL.hpp"
 
 //#include <iostream> --> ya está en estructurasSEOnL
 //#include <string.h> --> ya está en estructurasSEOnL
@@ -54,7 +55,14 @@ bool userValido (string user, string pass){
 
 int main () {
 	string user,pass;
-	char u[10], p[10];
+	char user_cliente[10], pass_cliente[10];
+	char legajo [10], nombre [30];	 //Variables para recibir datos de registro
+
+	//VARIABLES QUE FORMAN EL MENSAJE
+	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
+	uint32_t ln;					  //Variable de logitud del mensaje
+	char datos [300] = "";
+
 	char res;
 	int n;
 	int i=0;
@@ -71,7 +79,7 @@ int main () {
 	char enunciado[250];
 	char opcion[50];
 	int id;
-	char nombre[20];
+	char titulo[20];
 	socklen_t lon = sizeof(cliente);
 
 	cout << "usuario: " ; cin >> user;
@@ -92,8 +100,8 @@ int main () {
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
 					cout << "Iniciando Examen" << endl;
-					cout << "Indique nombre del Examen: "; cin >> nombre;
-					examen = cargarEvaluacion(id, nombre);
+					cout << "Indique titulo del Examen: "; cin >> titulo;
+					examen = cargarEvaluacion(id, titulo);
 					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
 					cout << "Iniciando carga de preguntas" << endl;
 					for (cant; cant > 0 ; cant--)
@@ -113,6 +121,7 @@ int main () {
 						imprimirPregunta(examen.preguntas[j]);
 						}
 					break;
+
 				case '2':
 					/*
 					cout << "Cargando exámenes" << endl;
@@ -125,52 +134,69 @@ int main () {
 					sleep (10);
 					*/
 					break;
+
 				case '3':
+					//Está en linea hasta que el usuario quiera terminar!.
+					//while(msj->codigo <> '8' )
+					servidor.sin_family = AF_INET;
+					servidor.sin_port = htons(4444);
+					servidor.sin_addr.s_addr = INADDR_ANY;
+
+					sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+					if (bind(sd, (struct sockaddr *) &servidor, sizeof(servidor)) < 0) {
+						perror("Error en bind");
+						cout << "Se produjo un error al realizar el enlace, esto se puede deber";
+						cout << " a que hay procesos anteriores todabia trabajando." << endl;;
+						cout << "Verifique su lista de procesos e intente mas tarde" << endl;
+						control = 0;
+					}else {
 						cout << "--- --- EN LINEA --- ---"<< endl;
-						servidor.sin_family = AF_INET;
-						servidor.sin_port = htons(4444);
-						servidor.sin_addr.s_addr = INADDR_ANY;
-
-						sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
-
-						if (bind(sd, (struct sockaddr *) &servidor, sizeof(servidor)) < 0) {
-							perror("Error en bind");
-							exit(-1);
-						}
-
 						listen ( sd , 5 );
 						sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
-
 						msj = (struct mensaje*) buffer;
-
 						n = leerMensaje ( sdc , buffer , P_SIZE );
 						switch (ntohs(msj->codigo)){
-								/*case '0':
-									// MENSAJE DE REGISTRO
-								break;*/
-								case 1:
-									//MENSAJE DE LOGUEO
-									cout << "entro logueo" << endl;
-									interpretarDatos_M1(u, p,msj->datos );
+							case 0:
+								cout << "entro Registro" << endl;
+								interpretarDatos_M0 (legajo,nombre,user_cliente, msj->datos);
+								strcpy(pass_cliente, "123abc");
+								cargarAlumno_A(user_cliente,pass_cliente,legajo,nombre);
+
+								c = htons(atoi("9"));
+								sc = htons(atoi("100"));
+								strcpy(datos, "123abc");
+								ln = htonl(16 + 16 + 32 + sizeof(datos));
+								msj = (struct mensaje*) buffer;
+								cargarMensaje(msj,c,sc,ln,datos);
+								send ( sdc , buffer, P_SIZE, 0 );
 								break;
-								default:
-									//ACK ERROR 203
-									cout << "error de codigo" << endl;
+							case 1:
+								//MENSAJE DE LOGUEO
+								cout << "entro logueo" << endl;
+								interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
+								break;
+							default:
+								//ACK EROR 203
+								cout << "error de codigo" << endl;
+							}
 						}
-						close (sdc);
+					close (sdc);
 					break;
+
 				case '4':
 					control = 0;
 					break;
+
 				default:
 				cout << "Opcion INCORRECTA"<< endl;
 			}
 		}
-		cout << "Gracias por usar S.E.On.L. "<<endl;
+
 	}else {
 		cout << "Error de loggeo, comuniquese con su administrador"<< endl;
 	}
 	close (sd);
-
+	cout << "Gracias por usar S.E.On.L. "<<endl;
 	return 0;
 }

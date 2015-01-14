@@ -2,6 +2,7 @@
 #define  DATOS_MENSAJES_H
 #include <string.h>
 #include <sys/socket.h>
+    
 
 
 /* FUNCION : LEER MENSAJE
@@ -23,7 +24,7 @@ int leerMensaje ( int sd, char * buffer, int total );
  * siguiente formato
  * 					legajo&nombre&yuser
 */
-void crearDatos_M0(char* user, char* pass, char* datos);
+void crearDatos_M0(char* legajo, char* nombre,char* user, char* datos);
 
 /* FUNCION : INTERPRETAR  MENSAJE 0
  * ENTRADA :  legajo, nombre, user, datos
@@ -32,7 +33,7 @@ void crearDatos_M0(char* user, char* pass, char* datos);
  * interpreta de la forma  "legajo&nombre&yuser" y coloca los respectivos valores
  * en los parámetros de entrada
 */
-void interpretarDatos_M0 (char* user, char* pass, char* datos);
+void interpretarDatos_M0 (char* legajo, char* nombre,char* user, char* datos);
 
 
 /*MENSAJE 1*/

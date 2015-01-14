@@ -6,8 +6,9 @@ CXXFLAGS = -std=c++11
 DIRECTORIO = librerias
 LIB_1= estructurasSEOnL
 LIB_2 = datosMensajesSEOnL
+LIB_3 = archivosSEOnL
 
-LIBS = $(DIRECTORIO)/$(LIB_1).o $(DIRECTORIO)/$(LIB_2).o
+LIBS = $(DIRECTORIO)/$(LIB_1).o $(DIRECTORIO)/$(LIB_2).o $(DIRECTORIO)/$(LIB_3).o
 
 SERVER = servidor.cpp
 CLIENT = cliente.cpp

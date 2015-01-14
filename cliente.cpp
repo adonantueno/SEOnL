@@ -19,20 +19,25 @@
 
 int main () {
 
-	int sd;						//Socket descriptor, identifica a la comunicación establecida
-	int lon;					//Dimension del archivo que describe al servidor
+	int sd;							 //Socket descriptor, identifica a la comunicación establecida
+	int lon;							//Dimension del archivo que describe al servidor
 	int n;
-	int conect = 1; // Control de la conexion
 	char user[10],pass[10];			//Encargados de validar al usuario (para un futuro)
+
+	char legajo [10], nombre [30];	 //Variables para recibir datos de registro
+
 	char res_registro, res, r;
-	uint16_t c, sc;
-	uint32_t ln;
-	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
 
-	char buffer[P_SIZE];		//Tamaño del Buffer
-
+	//VARIABLES QUE FORMAN EL MENSAJE
+	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
+	uint32_t ln;					  //Variable de logitud del mensaje
 	char datos [300] = "";
+
+	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
+	char buffer[P_SIZE];		//Tamaño del Buffer
 	struct mensaje* msj;
+
+	char null;					//Variable de descarte usada para "presione una tecla para continuar"
 
 	/*
 	* -------------------- SETTEO EL SOCKET -------------------
@@ -65,32 +70,59 @@ int main () {
 
 			switch (res){
 				case '1':
-						break;
-						case '2':
-						cout << "Ingrse sus datos para ingresar" << endl;
-						cout << "usuario: " ; cin >> user;
-						cout << "contraseña: " ; cin >> pass;
-						/*
-					 	* -------------------- CREO EL MENSAJE----------
-					 	*/
-						crearDatos_M1(user,pass,datos);
-						c = htons(atoi("1"));
-						sc = htons(atoi("0"));
-						ln = htonl(16 + 16 + 32 + sizeof(datos));
-						msj = (struct mensaje*) buffer;
-						cargarMensaje(msj,c,sc,ln,datos);
-						/*
-					 	* -------------------- ENVIO ------------------------------
-					 	*/
-						send ( sd, buffer, P_SIZE, 0 );
-						system("clear");
-						cout << "Entrasta al SEOnL" << endl;
-						cout << "Desear realizar evaluacion (s/n)"<< endl;
-						break;
+					cout << "Ingrese sus datos de alumno" << endl;
+					cout << "Legajo (en la forma 99-99999-9): " ; cin >> legajo;
+					cout << "Apellido: "; cin >> nombre;
+					cout << "usuario: "; cin >> user;
+					cout << "El sistema generará su contraseña automaticamente" << endl;
+					/*
+				 	* -------------------- CREO EL MENSAJE----------
+				 	*/
+					crearDatos_M0 ( legajo, nombre, user, datos);
+					c = htons(atoi("0"));
+					sc = htons(atoi("0"));
+					ln = htonl(16 + 16 + 32 + sizeof(datos));
+					msj = (struct mensaje*) buffer;
+					/*
+				 	* -------------------- ENVIO ------------------------------
+				 	*/
+
+					cargarMensaje(msj,c,sc,ln,datos);
+					send ( sd, buffer, P_SIZE, 0 );
+					/*
+				 	* -------------------- Espero respuesta --------------------
+				 	*/
+					leerMensaje ( sd , buffer , P_SIZE );
+					cout << "su contraseña es: " << msj->datos << endl;
+					cout << "Vuelva al menu y elija la opción ingresar" << endl;
+					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+					break;
+
+				case '2':
+					cout << "Ingrse sus datos para ingresar" << endl;
+					cout << "usuario: " ; cin >> user;
+					cout << "contraseña: " ; cin >> pass;
+					/*
+				 	* -------------------- CREO EL MENSAJE----------
+				 	*/
+					crearDatos_M1(user,pass,datos);
+					c = htons(atoi("1"));
+					sc = htons(atoi("0"));
+					ln = htonl(16 + 16 + 32 + sizeof(datos));
+					msj = (struct mensaje*) buffer;
+					cargarMensaje(msj,c,sc,ln,datos);
+					/*
+				 	* -------------------- ENVIO ------------------------------
+				 	*/
+					send ( sd, buffer, P_SIZE, 0 );
+					system("clear");
+					cout << "Entrasta al SEOnL" << endl;
+					cout << "Desear realizar evaluacion (s/n)"<< endl;
+					break;
 
 				case '3':
-						control = 0;
-						break;
+					control = 0;
+					break;
 
 				default:
 					cout << "Opcion INCORRECTA"<< endl;
