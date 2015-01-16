@@ -17,6 +17,9 @@
 * servidor : da servicio a travez de la red y permite administrar las evalucaciones.
 * cliente : da servicio de conexión y poder realizar las evaluaciones.
 * Librerias
-> archivosSEOnL : manejo de los archivos de almacenamiento.
-> estructurasSEOnL : manejo de las estructuras de datos.
-> datosMensajesSEOnL : crearcion e interpretación de los mensajes del protocolo.
+
+    > archivosSEOnL : manejo de los archivos de almacenamiento.
+
+    > estructurasSEOnL : manejo de las estructuras de datos.
+
+    > datosMensajesSEOnL : crearcion e interpretación de los mensajes del protocolo.
