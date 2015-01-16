@@ -20,6 +20,11 @@ int cargarAlumno_A(char* user, char* pass, char* legajo, char* nombre){
     return 0;
 }
 
+int cargarAlumno_A (struct alumno a){
+
+
+}
+
 int LeerAlumnos_A (char* datosAlumno){
 
 

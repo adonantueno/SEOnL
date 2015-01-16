@@ -69,7 +69,9 @@ int main () {
 	int sd;
 	int sdc;
 	char buffer[P_SIZE];
+
 	struct mensaje* msj;
+	struct alumno* alu;
 
 	struct sockaddr_in cliente;
 	struct sockaddr_in servidor;
@@ -159,13 +161,14 @@ int main () {
 						switch (ntohs(msj->codigo)){
 							case 0:
 								cout << "entro Registro" << endl;
-								interpretarDatos_M0 (legajo,nombre,user_cliente, msj->datos);
-								strcpy(pass_cliente, "123abc");
+								alu = (struct alumno*) msj->datos;
+								cout << alu->legajo << " " << alu->apellido << " " << alu->user << endl;
+								strcpy(alu->password, "123abc");
 								cargarAlumno_A(user_cliente,pass_cliente,legajo,nombre);
 
 								c = htons(atoi("9"));
 								sc = htons(atoi("100"));
-								strcpy(datos, "123abc");
+								strcpy(datos, alu->password);
 								ln = htonl(16 + 16 + 32 + sizeof(datos));
 								msj = (struct mensaje*) buffer;
 								cargarMensaje(msj,c,sc,ln,datos);

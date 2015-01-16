@@ -42,6 +42,22 @@ struct evaluacion {
 		struct pregunta preguntas[20];
 };
 
+/*
+* ESTRUCTURA: alumno
+* legajo: identificador del alumno universitario
+* apellido: apellido del alumno
+* user: nombre del usuario en el sistma utilizado para el login
+* password: contraseña del alumno.
+*/
+
+struct alumno {
+	char legajo [11];
+	char apellido [30];
+	char user [10];
+	char password [10];
+};
+
+
 /* METODOS */
 
 /*

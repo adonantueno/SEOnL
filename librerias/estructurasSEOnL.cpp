@@ -18,6 +18,12 @@ struct evaluacion {
 		char titulo [20];
 		struct pregunta preguntas[20];
 };
+struct alumno {
+	char legajo [11];
+	char apellido [30];
+	char user [10];
+	char password [10];
+};
 */
 
 struct pregunta cargarPregunta (int id, char enunciado[250]){

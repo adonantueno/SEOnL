@@ -1,4 +1,5 @@
 #include "datosMensajesSEOnL.hpp"
+#include "estructurasSEOnL.hpp"
 
 int leerMensaje ( int sd, char * buffer, int total ) {
 	int bytes;
@@ -14,6 +15,12 @@ int leerMensaje ( int sd, char * buffer, int total ) {
 };
 
 /*MENSAJE 0*/
+
+/* ----- LEER -------------
+
+NO SON NECESARIOS CREAR E INTERPRETAR LOS DATOS DEL MENSAJE 0 YA QUE MANDAMOS DIRECTAMENTE
+LA ESTRUCTURA DE DATOS ALUMNO POR TANTO SOLO CON APUNTAR AL ATRIBUTO DATOS DEL MENSAJE
+ALCANZA PARA QUE PUEDA INTERPRETARSE Y CREARSE DIRECTAMENTE.
 
 void crearDatos_M0(char* legajo, char* nombre,char* user, char* datos){
 
@@ -53,7 +60,7 @@ void interpretarDatos_M0 (char* legajo, char* nombre,char* user, char* datos){
 		j++;
 	}
 };
-
+*/
 
 /*MENSAJE 1*/
 

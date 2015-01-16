@@ -2,7 +2,7 @@
 #define  DATOS_MENSAJES_H
 #include <string.h>
 #include <sys/socket.h>
-    
+
 
 
 /* FUNCION : LEER MENSAJE

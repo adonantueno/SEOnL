@@ -26,12 +26,13 @@ int main () {
 
 	char legajo [10], nombre [30];	 //Variables para recibir datos de registro
 
+	struct alumno* alu;
 	char res_registro, res, r;
 
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
-	char datos [300] = "";
+	char datos [300];
 
 	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
 	char buffer[P_SIZE];		//Tamaño del Buffer
@@ -70,24 +71,23 @@ int main () {
 
 			switch (res){
 				case '1':
+					msj = (struct mensaje*) buffer;
+					alu = (struct alumno*) msj ->datos;
 					cout << "Ingrese sus datos de alumno" << endl;
-					cout << "Legajo (en la forma 99-99999-9): " ; cin >> legajo;
-					cout << "Apellido: "; cin >> nombre;
-					cout << "usuario: "; cin >> user;
+					cout << "Legajo (en la forma 99-99999-9): " ; cin >> alu->legajo;
+					cout << "Apellido: "; cin >> alu->apellido;
+					cout << "usuario: ";  cin >> alu->user;
 					cout << "El sistema generará su contraseña automaticamente" << endl;
 					/*
 				 	* -------------------- CREO EL MENSAJE----------
 				 	*/
-					crearDatos_M0 ( legajo, nombre, user, datos);
 					c = htons(atoi("0"));
 					sc = htons(atoi("0"));
 					ln = htonl(16 + 16 + 32 + sizeof(datos));
-					msj = (struct mensaje*) buffer;
 					/*
 				 	* -------------------- ENVIO ------------------------------
 				 	*/
-
-					cargarMensaje(msj,c,sc,ln,datos);
+					cargarMensaje(msj,c,sc,ln,msj ->datos);
 					send ( sd, buffer, P_SIZE, 0 );
 					/*
 				 	* -------------------- Espero respuesta --------------------
