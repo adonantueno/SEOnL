@@ -25,7 +25,6 @@ struct alumno {
 	char password [10];
 };
 */
-
 struct pregunta cargarPregunta (int id, char enunciado[250]){
 
 	struct pregunta p;

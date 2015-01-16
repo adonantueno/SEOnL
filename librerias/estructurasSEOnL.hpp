@@ -18,6 +18,7 @@ struct mensaje {
 		uint32_t longitud;
 		char datos [300]; //numero maximo de datos a enviar
 };
+
 /*
  * ESTRUCTURA: pregunta
  * id: identificador único de la pregunta

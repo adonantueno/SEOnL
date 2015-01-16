@@ -164,6 +164,7 @@ int main () {
 								alu = (struct alumno*) msj->datos;
 								cout << alu->legajo << " " << alu->apellido << " " << alu->user << endl;
 								strcpy(alu->password, "123abc");
+								//comentario
 								cargarAlumno_A(user_cliente,pass_cliente,legajo,nombre);
 
 								c = htons(atoi("9"));

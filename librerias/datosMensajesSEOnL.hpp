@@ -26,6 +26,7 @@ int leerMensaje ( int sd, char * buffer, int total );
 */
 void crearDatos_M0(char* legajo, char* nombre,char* user, char* datos);
 
+
 /* FUNCION : INTERPRETAR  MENSAJE 0
  * ENTRADA :  legajo, nombre, user, datos
  * SALIDA  : void - modificación de los parámetros legajo, nombre y user

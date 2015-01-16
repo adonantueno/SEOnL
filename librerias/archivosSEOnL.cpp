@@ -22,7 +22,7 @@ int cargarAlumno_A(char* user, char* pass, char* legajo, char* nombre){
 
 int cargarAlumno_A (struct alumno a){
 
-
+//comentario
 }
 
 int LeerAlumnos_A (char* datosAlumno){

@@ -14,6 +14,7 @@ using namespace std;
  los almacena en el archivo de la forma user&pass&legajo&nombre
  */
 int cargarAlumno_A (struct alumno a);
+//
 
 int cargarAlumno_A(char* user, char* pass, char* legajo, char* nombre);
 
