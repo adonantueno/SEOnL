@@ -71,7 +71,9 @@ int main () {
 	char buffer[P_SIZE];
 
 	struct mensaje* msj;
+
 	struct alumno* alu;
+	struct alumno* aluA;
 
 	struct sockaddr_in cliente;
 	struct sockaddr_in servidor;
@@ -164,8 +166,10 @@ int main () {
 								alu = (struct alumno*) msj->datos;
 								cout << alu->legajo << " " << alu->apellido << " " << alu->user << endl;
 								strcpy(alu->password, "123abc");
-								//comentario
-								cargarAlumno_A(user_cliente,pass_cliente,legajo,nombre);
+								cargarAlumno_A(alu);
+
+								//leerAlumno_A(aluA,0);
+								//cout << aluA->legajo << " " << aluA->password <<" " << aluA->apellido << " " << aluA->user << endl;
 
 								c = htons(atoi("9"));
 								sc = htons(atoi("100"));

@@ -81,7 +81,6 @@ int main () {
 					/*
 				 	* -------------------- CREO EL MENSAJE----------
 				 	*/
-					//comentario
 					c = htons(atoi("0"));
 					sc = htons(atoi("0"));
 					ln = htonl(16 + 16 + 32 + sizeof(datos));

@@ -1,32 +1,29 @@
 #include "archivosSEOnL.hpp"
+#include "estructurasSEOnL.hpp"
 
 
-int cargarAlumno_A(char* user, char* pass, char* legajo, char* nombre){
-    char datos [60] = "";
+int cargarAlumno_A (struct alumno* a){
 
-    strncat(datos,user,sizeof(datos));
-	strncat(datos,"&",sizeof(datos));
-	strncat(datos,pass,sizeof(datos));
-    strncat(datos,"&",sizeof(datos));
-    strncat(datos,legajo,sizeof(datos));
-    strncat(datos,"&",sizeof(datos));
-    strncat(datos,nombre,sizeof(datos));
+    FILE *archivoAlumnos;
+    archivoAlumnos = fopen("archivos/alumnos.dat", "a");
 
-     ofstream archivo;
-     archivo.open("archivos/alumnos.dat", ios::out );
-     archivo << datos;
-     archivo.close();
+    //fseek(archivoAlumnos, sizeof(alumno), SEEK_SET);
+    fwrite(a, sizeof(alumno), 1, archivoAlumnos);
+
+    fclose(archivoAlumnos);
 
     return 0;
 }
 
-int cargarAlumno_A (struct alumno a){
+int leerAlumno_A (struct alumno* a, int i){
 
-//comentario
-}
+    FILE *archivoAlumnos;
+    archivoAlumnos = fopen("archivos/alumnos.dat", "r");
 
-int LeerAlumnos_A (char* datosAlumno){
+    fseek(archivoAlumnos, i * sizeof(alumno), SEEK_SET);
+    fread(a, sizeof(alumno), 1, archivoAlumnos);
 
+    fclose(archivoAlumnos);
 
     return 0;
 }
