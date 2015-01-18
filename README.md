@@ -19,6 +19,7 @@
 * Librerias
 
    > archivosSEOnL : manejo de los archivos de almacenamiento.
+   
    > estructurasSEOnL : manejo de las estructuras de datos.
-
+   
    > datosMensajesSEOnL : crearcion e interpretación de los mensajes del protocolo.
