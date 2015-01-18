@@ -52,7 +52,6 @@ bool userValido (string user, string pass){
 	return validacion;
 };
 
-
 int main () {
 	string user,pass;
 	char user_cliente[10], pass_cliente[10];
@@ -73,7 +72,6 @@ int main () {
 	struct mensaje* msj;
 
 	struct alumno* alu;
-	struct alumno* aluA;
 
 	struct sockaddr_in cliente;
 	struct sockaddr_in servidor;
@@ -85,6 +83,8 @@ int main () {
 	int id;
 	char titulo[20];
 	socklen_t lon = sizeof(cliente);
+
+	int valido;				// usada para validar usuario cliente
 
 	cout << "usuario: " ; cin >> user;
 	cout << "contraseña: " ; cin >> pass;
@@ -168,9 +168,6 @@ int main () {
 								strcpy(alu->password, "123abc");
 								cargarAlumno_A(alu);
 
-								//leerAlumno_A(aluA,0);
-								//cout << aluA->legajo << " " << aluA->password <<" " << aluA->apellido << " " << aluA->user << endl;
-
 								c = htons(atoi("9"));
 								sc = htons(atoi("100"));
 								strcpy(datos, alu->password);
@@ -183,7 +180,30 @@ int main () {
 								//MENSAJE DE LOGUEO
 								cout << "entro logueo" << endl;
 								interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
+
+								if( validarAlumno_A (user_cliente,pass_cliente )) {
+
+										c = htons(atoi("9"));
+										sc = htons(atoi("101"));
+										strcpy(datos, "Loggeo correcto.");
+										ln = htonl(16 + 16 + 32 + sizeof(datos));
+										msj = (struct mensaje*) buffer;
+										cargarMensaje(msj,c,sc,ln,datos);
+										send ( sdc , buffer, P_SIZE, 0 );
+
+								}else{
+
+									c = htons(atoi("9"));
+									sc = htons(atoi("201"));
+									strcpy(datos, "Error de loggeo Usuario o contraseña incorrecto.");
+									ln = htonl(16 + 16 + 32 + sizeof(datos));
+									msj = (struct mensaje*) buffer;
+									cargarMensaje(msj,c,sc,ln,datos);
+									send ( sdc , buffer, P_SIZE, 0 );
+
+								}
 								break;
+
 							default:
 								//ACK EROR 203
 								cout << "error de codigo" << endl;

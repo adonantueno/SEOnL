@@ -110,12 +110,17 @@ int main () {
 					sc = htons(atoi("0"));
 					ln = htonl(16 + 16 + 32 + sizeof(datos));
 					msj = (struct mensaje*) buffer;
-					cargarMensaje(msj,c,sc,ln,datos);
 					/*
 				 	* -------------------- ENVIO ------------------------------
 				 	*/
+					cargarMensaje(msj,c,sc,ln,datos);
 					send ( sd, buffer, P_SIZE, 0 );
+					/*
+				 	* -------------------- Espero respuesta --------------------
+				 	*/
+					leerMensaje ( sd , buffer , P_SIZE );
 					system("clear");
+					cout << "loggeo: " << msj->datos << endl;
 					cout << "Entrasta al SEOnL" << endl;
 					cout << "Desear realizar evaluacion (s/n)"<< endl;
 					break;

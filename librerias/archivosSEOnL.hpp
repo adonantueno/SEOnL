@@ -18,6 +18,8 @@ int cargarAlumno_A (struct alumno* a);
 
 int leerAlumno_A (struct alumno* a, int i);
 
+int validarAlumno_A (char* user,char* pass);
+
 int cargarExamen_A (char* datosExamen);
 
 int leerExamen_A (char* datosExamen);

@@ -28,6 +28,43 @@ int leerAlumno_A (struct alumno* a, int i){
     return 0;
 }
 
+long calcularRegistros (){
+
+    long nRegistros;
+
+    FILE *archivoAlumnos;
+    archivoAlumnos = fopen("archivos/alumnos.dat", "r");
+
+    fseek(archivoAlumnos, 0, SEEK_END); // Colocar el cursor al final del fichero
+    nRegistros = ftell(archivoAlumnos)/sizeof(alumno);
+
+    return nRegistros;
+}
+
+int validarAlumno_A (char* user,char* pass){
+
+    struct alumno a;
+
+    int control = 0;
+    long i = 0;
+
+    long n = calcularRegistros();
+
+    while ( !control && i < n){
+        leerAlumno_A(&a, i);
+
+        if (!  strcmp(user,a.user)){
+            if (!  strcmp(pass,a.password)){
+                        control = 1;
+            }
+        }
+        i++;
+    }
+    return control;
+}
+
+
+
 int cargarExamen_A (char* datosExamen){
 
     return 0;

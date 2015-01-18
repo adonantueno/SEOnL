@@ -57,7 +57,6 @@ struct alumno {
 	char password [10];
 };
 
-
 /* METODOS */
 
 /*
