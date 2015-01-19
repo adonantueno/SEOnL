@@ -82,15 +82,18 @@ int main () {
 	char opcion[50];
 	int id;
 	char titulo[20];
-	socklen_t lon = sizeof(cliente);
+	socklen_t lon;
 
-	int valido;				// usada para validar usuario cliente
+	int valido;			   	// usada para validar usuario cliente
+	int conexion = 1; 		   //  usada para mantener la conexion.
+	int control = 1;			// usada para estar activo mientras el usuario lo desee.
+
 
 	cout << "usuario: " ; cin >> user;
 	cout << "contraseña: " ; cin >> pass;
 
 	if (userValido(user,pass)) {
-		int control = 1;
+
 		// itero mientras el usuario quiera continuar;
 		while (control){
 			system("clear");
@@ -141,11 +144,10 @@ int main () {
 
 				case '3':
 					//Está en linea hasta que el usuario quiera terminar!.
-					//while(msj->codigo <> '8' )
+
 					servidor.sin_family = AF_INET;
 					servidor.sin_port = htons(4444);
 					servidor.sin_addr.s_addr = INADDR_ANY;
-
 					sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 					if (bind(sd, (struct sockaddr *) &servidor, sizeof(servidor)) < 0) {
@@ -155,60 +157,86 @@ int main () {
 						cout << "Verifique su lista de procesos e intente mas tarde" << endl;
 						control = 0;
 					}else {
-						cout << "--- --- EN LINEA --- ---"<< endl;
 						listen ( sd , 5 );
-						sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
-						msj = (struct mensaje*) buffer;
-						n = leerMensaje ( sdc , buffer , P_SIZE );
-						switch (ntohs(msj->codigo)){
-							case 0:
-								cout << "entro Registro" << endl;
-								alu = (struct alumno*) msj->datos;
-								cout << alu->legajo << " " << alu->apellido << " " << alu->user << endl;
-								strcpy(alu->password, "123abc");
-								cargarAlumno_A(alu);
+						cout << "--- --- EN LINEA --- ---"<< endl;
+						//while(conexion){
+							lon = sizeof(cliente);
+							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
 
-								c = htons(atoi("9"));
-								sc = htons(atoi("100"));
-								strcpy(datos, alu->password);
-								ln = htonl(16 + 16 + 32 + sizeof(datos));
-								msj = (struct mensaje*) buffer;
-								cargarMensaje(msj,c,sc,ln,datos);
-								send ( sdc , buffer, P_SIZE, 0 );
-								break;
-							case 1:
-								//MENSAJE DE LOGUEO
-								cout << "entro logueo" << endl;
-								interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
+							msj = (struct mensaje*) buffer;
+							n = leerMensaje ( sdc , buffer , P_SIZE );
+							reordenarBytes (msj);
 
-								if( validarAlumno_A (user_cliente,pass_cliente )) {
-
-										c = htons(atoi("9"));
-										sc = htons(atoi("101"));
-										strcpy(datos, "Loggeo correcto.");
-										ln = htonl(16 + 16 + 32 + sizeof(datos));
-										msj = (struct mensaje*) buffer;
-										cargarMensaje(msj,c,sc,ln,datos);
-										send ( sdc , buffer, P_SIZE, 0 );
-
-								}else{
-
-									c = htons(atoi("9"));
-									sc = htons(atoi("201"));
-									strcpy(datos, "Error de loggeo Usuario o contraseña incorrecto.");
-									ln = htonl(16 + 16 + 32 + sizeof(datos));
+							switch (msj->codigo){
+								case 0:
+									cout << "entro Registro" << endl;
+									alu = (struct alumno*) msj->datos;
+									cout << alu->legajo << " " << alu->apellido << " " << alu->user << endl;
+									strcpy(alu->password, "123abc");
+									cargarAlumno_A(alu);
+									/*
+									* -------------- CREO EL MENSAJE----------------
+									*/
+									strcpy(datos, alu->password);
+									c = 9;
+									sc = 100;
+									ln = 16 + 16 + 32 + sizeof(datos);
 									msj = (struct mensaje*) buffer;
+									/*
+						 			* ----------------- ENVIO --------------------
+						 			*/
 									cargarMensaje(msj,c,sc,ln,datos);
+									ordenarBytes (msj);
 									send ( sdc , buffer, P_SIZE, 0 );
 
-								}
-								break;
+									break;
+								case 1:
+									cout << "entro logueo" << endl;
+									interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
 
-							default:
-								//ACK EROR 203
-								cout << "error de codigo" << endl;
-							}
-						}
+									if( validarAlumno_A (user_cliente,pass_cliente )) {
+										/*
+										* -------------- CREO EL MENSAJE----------------
+										*/
+										c = 9;
+										sc = 101;
+										ln = 16 + 16 + 32 + sizeof(datos);
+										strcpy(datos, "Loggeo correcto."); // ACA IRIA LA LISTA DE EXAMENES
+										msj = (struct mensaje*) buffer;
+										/*
+						 				*----------------- ENVIO --------------------
+						 				*/
+										cargarMensaje(msj,c,sc,ln,datos);
+										ordenarBytes (msj);
+										send ( sdc , buffer, P_SIZE, 0 );
+									}else{
+										/*
+										* -------------- CREO EL MENSAJE----------------
+										*/
+										strcpy(datos, "Error de loggeo Usuario o contraseña incorrecto.");
+										c = 9;
+										sc = 201;
+										ln = 16 + 16 + 32 + sizeof(datos);
+										msj = (struct mensaje*) buffer;
+										/*
+										* ----------------- ENVIO --------------------
+										*/
+										cargarMensaje(msj,c,sc,ln,datos);
+										ordenarBytes (msj);
+										send ( sdc , buffer, P_SIZE, 0 );
+									}
+									break;
+								case 8:
+									cout << "entro cierre sesión " << endl;
+									conexion = 0;
+									break;
+
+								default:
+									//ACK EROR 203
+									cout << "error de codigo" << endl;
+							} // swicht codigo
+						//} //while conexion
+					} //else conectado
 					close (sdc);
 					break;
 

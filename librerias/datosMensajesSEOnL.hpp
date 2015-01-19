@@ -2,6 +2,7 @@
 #define  DATOS_MENSAJES_H
 #include <string.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 
 
 
@@ -14,6 +15,24 @@
  * en el buffer
 */
 int leerMensaje ( int sd, char * buffer, int total );
+
+/* FUNCION : ORDENAR BYTES
+ * ENTRADA : struct mensaje m --> mensaje a transformar
+ * SALIDA  : struct mensaje m --> mensaje a transformado
+ * DESCRIPCION : trabaja sobre los campos codigo, subcodigo y longitud del mensaje y
+ * los ordena a travez de las funciones htons y htonl según corresponda. Para poder ser
+ * enviados a travez de la red.
+*/
+void ordenarBytes (struct mensaje* m);
+
+/* FUNCION : REORDENAR BYTES
+ * ENTRADA : struct mensaje m --> mensaje a transformar
+ * SALIDA  : struct mensaje m --> mensaje a transformado
+ * DESCRIPCION : trabaja sobre los campos codigo, subcodigo y longitud del mensaje y
+ * los reordena a travez de las funciones ntohs y ntohl según corresponda. Es utilizada
+ * luego de recibir datos a travez de la red.
+*/
+void reordenarBytes (struct mensaje* m);
 
 /*MENSAJE 0*/
 

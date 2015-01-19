@@ -14,6 +14,21 @@ int leerMensaje ( int sd, char * buffer, int total ) {
 	return ( leido );
 };
 
+void ordenarBytes (struct mensaje* m){
+
+	m->codigo = htons(m->codigo);
+	m->subcodigo = htons(m->subcodigo);
+	m->longitud = htonl (m->longitud);
+};
+
+void reordenarBytes (struct mensaje* m){
+
+	m->codigo = ntohs(m->codigo);
+	m->subcodigo = ntohs(m->subcodigo);
+	m->longitud = ntohl (m->longitud);
+};
+
+
 /*MENSAJE 0*/
 
 /* ----- LEER -------------

@@ -81,18 +81,20 @@ int main () {
 					/*
 				 	* -------------------- CREO EL MENSAJE----------
 				 	*/
-					c = htons(atoi("0"));
-					sc = htons(atoi("0"));
-					ln = htonl(16 + 16 + 32 + sizeof(datos));
+					c  = 0;
+					sc = 0;
+					ln = 16 + 16 + 32 + sizeof(datos);
 					/*
 				 	* -------------------- ENVIO ------------------------------
 				 	*/
 					cargarMensaje(msj,c,sc,ln,msj ->datos);
+					ordenarBytes (msj);
 					send ( sd, buffer, P_SIZE, 0 );
 					/*
 				 	* -------------------- Espero respuesta --------------------
 				 	*/
 					leerMensaje ( sd , buffer , P_SIZE );
+					reordenarBytes (msj);
 					cout << "su contraseña es: " << msj->datos << endl;
 					cout << "Vuelva al menu y elija la opción ingresar" << endl;
 					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
@@ -106,26 +108,51 @@ int main () {
 				 	* -------------------- CREO EL MENSAJE----------
 				 	*/
 					crearDatos_M1(user,pass,datos);
-					c = htons(atoi("1"));
-					sc = htons(atoi("0"));
-					ln = htonl(16 + 16 + 32 + sizeof(datos));
+					c =  1;
+					sc = 0;
+					ln = 16 + 16 + 32 + sizeof(datos);
 					msj = (struct mensaje*) buffer;
 					/*
 				 	* -------------------- ENVIO ------------------------------
 				 	*/
 					cargarMensaje(msj,c,sc,ln,datos);
+					ordenarBytes (msj);
 					send ( sd, buffer, P_SIZE, 0 );
 					/*
 				 	* -------------------- Espero respuesta --------------------
 				 	*/
 					leerMensaje ( sd , buffer , P_SIZE );
+					reordenarBytes (msj);
 					system("clear");
-					cout << "loggeo: " << msj->datos << endl;
-					cout << "Entrasta al SEOnL" << endl;
-					cout << "Desear realizar evaluacion (s/n)"<< endl;
+					if (msj->subcodigo == 101){
+						cout << "Entrasta al SEOnL" << endl;
+						cout << "Desear realizar evaluacion (s/n)"<< endl;
+						cin.ignore();cin.get();
+					}else{
+						if (msj->subcodigo == 201){
+							cout << "ocurrio un error." << endl;
+							cout << msj->datos << endl;
+							cin.ignore();cin.get();
+						}
+					}
 					break;
 
 				case '3':
+					/*
+					* -------------------- CREO EL MENSAJE----------
+					*/
+					strcpy (datos, "null");
+					c =  8;
+					sc = 0;
+					ln = 16 + 16 + 32 + sizeof(datos);
+					msj = (struct mensaje*) buffer;
+					/*
+					* -------------------- ENVIO ------------------------------
+					*/
+					cargarMensaje(msj,c,sc,ln,datos);
+					ordenarBytes (msj);
+					send ( sd, buffer, P_SIZE, 0 );
+
 					control = 0;
 					break;
 
