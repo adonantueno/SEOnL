@@ -2,17 +2,23 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
+
 #include <arpa/inet.h>
 #include <netdb.h>
 
 #include "librerias/estructurasSEOnL.hpp"
 #include "librerias/datosMensajesSEOnL.hpp"
 
-//#include <iostream> --> Traen las librerias con
-//#include <string.h> --> Traen las librerias con
-//using namespace std; --> Traen las librerias con
+/* TRAEN LAS LIBRERIAS
+
+#include <sys/socket.h>
+#include <netinet/in.h>
+
+#include <iostream>
+#include <string.h>
+
+using namespace std; 
+*/
 
 #define P_SIZE sizeof(struct mensaje)
 

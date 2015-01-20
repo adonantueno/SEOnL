@@ -1,10 +1,10 @@
 #ifndef  ARCHIVOS_H
 #define  ARCHIVOS_H
 
-#include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <string.h>
+
 using namespace std;
 
 /* FUNCION : CARGAR ALUMNO -ARCHIVO-
