@@ -1,5 +1,6 @@
 #ifndef  ESTRUCTURAS_H
 #define  ESTRUCTURAS_H
+
 #include <iostream>
 #include <string.h>
 #include <stdint.h>

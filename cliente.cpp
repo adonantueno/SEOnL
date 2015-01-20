@@ -19,15 +19,13 @@
 
 int main () {
 
+	char user[10], pass[10];
+
 	int sd;							 //Socket descriptor, identifica a la comunicación establecida
 	int lon;							//Dimension del archivo que describe al servidor
-	int n;
-	char user[10],pass[10];			//Encargados de validar al usuario (para un futuro)
-
-	char legajo [10], nombre [30];	 //Variables para recibir datos de registro
 
 	struct alumno* alu;
-	char res_registro, res, r;
+	char res;
 
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje

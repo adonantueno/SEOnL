@@ -1,5 +1,6 @@
 #ifndef  DATOS_MENSAJES_H
 #define  DATOS_MENSAJES_H
+
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>

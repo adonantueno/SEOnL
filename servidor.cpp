@@ -14,35 +14,8 @@
 //#include <iostream> --> ya está en estructurasSEOnL
 //#include <string.h> --> ya está en estructurasSEOnL
 //using namespace std;
-//
 
 #define P_SIZE sizeof(struct mensaje)
-
-/*
-int hacer_examen ( struct pregunta *p ) {
-		char txt[100];
-		char opc[20];
-		struct pregunta *ppregunta;
-		ppregunta = p;
-
-		ppregunta->id = 1;
-
-		printf ("Ingrese enunciado: ");
-		scanf("%s[^\n]",txt);
-		strcpy(ppregunta->enunciado, txt);
-
-
-		printf("A CONTiNUACION COMIENZA EL INGRESO DE	OPCIONES ");
-
-		for(int j = 0; j < 3; j++){
-			printf ("ingrese opción %d: ", j+1);
-			scanf("%s[^\n]",opc);
-			strcpy(ppregunta->opciones[j],opc);
-
-		}
-		return 0;
-};*/
-
 
 bool userValido (string user, string pass){
 	bool validacion = 0;
@@ -55,28 +28,26 @@ bool userValido (string user, string pass){
 int main () {
 	string user,pass;
 	char user_cliente[10], pass_cliente[10];
-	char legajo [10], nombre [30];	 //Variables para recibir datos de registro
 
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
 	char datos [300] = "";
+	char buffer[P_SIZE];
 
 	char res;
-	int n;
 	int i=0;
 	int sd;
 	int sdc;
-	char buffer[P_SIZE];
-
-	struct mensaje* msj;
-
-	struct alumno* alu;
 
 	struct sockaddr_in cliente;
 	struct sockaddr_in servidor;
+
 	struct pregunta preg;
 	struct evaluacion examen;
+	struct mensaje* msj;
+	struct alumno* alu;
+
 	int cant;
 	char enunciado[250];
 	char opcion[50];
