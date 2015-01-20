@@ -34,27 +34,20 @@ void ordenarBytes (struct mensaje* m);
 */
 void reordenarBytes (struct mensaje* m);
 
-/*MENSAJE 0*/
 
-/* FUNCION : CREAR DATOS MENSAJE 0
- * ENTRADA : legajo, nombre, user, datos
+/* FUNCION : CREAR DATOS
+ * ENTRADA : texto,  datos
  * SALIDA  : void - modificación del parámetro datos
- * DESCRIPCION : crea un solo char* a partir del legajo, nombre y user, con el
- * siguiente formato
- * 					legajo&nombre&yuser
+ * DESCRIPCION : crea un solo char* a partir del textp ingresado como parametro,
+ utilizado para aquellos mensajes que involucran solamente una cadena de texto
+ */
+
+void crearDatos (char* texto, char* datos);
+
+/*MENSAJE 0*/
+/*   No necesita crear e interpretar la informacion enviada en datos ya que esta
+ * se envia con el formato de una estructura alumno.
 */
-void crearDatos_M0(char* legajo, char* nombre,char* user, char* datos);
-
-
-/* FUNCION : INTERPRETAR  MENSAJE 0
- * ENTRADA :  legajo, nombre, user, datos
- * SALIDA  : void - modificación de los parámetros legajo, nombre y user
- * DESCRIPCION : a partir de la información almacenada en el parámetro datos,
- * interpreta de la forma  "legajo&nombre&yuser" y coloca los respectivos valores
- * en los parámetros de entrada
-*/
-void interpretarDatos_M0 (char* legajo, char* nombre,char* user, char* datos);
-
 
 /*MENSAJE 1*/
 

@@ -159,12 +159,12 @@ int main () {
 					}else {
 						listen ( sd , 5 );
 						cout << "--- --- EN LINEA --- ---"<< endl;
-						//while(conexion){
+						while(conexion){
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
+							while (leerMensaje ( sdc , buffer , P_SIZE ) > 0){
 
 							msj = (struct mensaje*) buffer;
-							n = leerMensaje ( sdc , buffer , P_SIZE );
 							reordenarBytes (msj);
 
 							switch (msj->codigo){
@@ -177,7 +177,7 @@ int main () {
 									/*
 									* -------------- CREO EL MENSAJE----------------
 									*/
-									strcpy(datos, alu->password);
+									crearDatos(alu->password, datos);
 									c = 9;
 									sc = 100;
 									ln = 16 + 16 + 32 + sizeof(datos);
@@ -198,10 +198,11 @@ int main () {
 										/*
 										* -------------- CREO EL MENSAJE----------------
 										*/
+										crearDatos ("Loggeo correcto.", datos);
+ 										// ACA IRIA LA LISTA DE EXAMENES
 										c = 9;
 										sc = 101;
 										ln = 16 + 16 + 32 + sizeof(datos);
-										strcpy(datos, "Loggeo correcto."); // ACA IRIA LA LISTA DE EXAMENES
 										msj = (struct mensaje*) buffer;
 										/*
 						 				*----------------- ENVIO --------------------
@@ -213,7 +214,7 @@ int main () {
 										/*
 										* -------------- CREO EL MENSAJE----------------
 										*/
-										strcpy(datos, "Error de loggeo Usuario o contraseña incorrecto.");
+										crearDatos ("Error de loggeo Usuario o contraseña incorrecto.", datos);
 										c = 9;
 										sc = 201;
 										ln = 16 + 16 + 32 + sizeof(datos);
@@ -235,9 +236,10 @@ int main () {
 									//ACK EROR 203
 									cout << "error de codigo" << endl;
 							} // swicht codigo
-						//} //while conexion
+						}
+						close (sdc);
+						} //while conexion
 					} //else conectado
-					close (sdc);
 					break;
 
 				case '4':

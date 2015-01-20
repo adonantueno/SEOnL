@@ -31,57 +31,28 @@ void reordenarBytes (struct mensaje* m){
 
 /*MENSAJE 0*/
 
-/* ----- LEER -------------
-
+/* 
 NO SON NECESARIOS CREAR E INTERPRETAR LOS DATOS DEL MENSAJE 0 YA QUE MANDAMOS DIRECTAMENTE
 LA ESTRUCTURA DE DATOS ALUMNO POR TANTO SOLO CON APUNTAR AL ATRIBUTO DATOS DEL MENSAJE
 ALCANZA PARA QUE PUEDA INTERPRETARSE Y CREARSE DIRECTAMENTE.
 
-
-void crearDatos_M0(char* legajo, char* nombre,char* user, char* datos){
-
-
-	strncat(datos,legajo,sizeof(datos)+sizeof(legajo));
-	strncat(datos,"&",sizeof(datos));
-	strncat(datos,nombre,sizeof(datos)+sizeof(nombre));
-    strncat(datos,"&",sizeof(datos));
-    strncat(datos,user,sizeof(datos));
-
-};
-
-void interpretarDatos_M0 (char* legajo, char* nombre,char* user, char* datos){
-
-	 int control = 0;
- 	int i = 0;
- 	int j = 0;
- 	char ampersand = '&';
-
-    while ( i < strlen(datos)){
-        if (datos[i] == ampersand){
-            control++;
-        	j= -1;
-        }
-		if(control == 0){
-				legajo[j] = datos [i];
-
-			}
-        if (control == 1){
-				nombre[j] = datos [i];
-		}
-
-        if (control == 2){
-				user[j] = datos [i];
-		}
-		i++;
-		j++;
-	}
-};
 */
+
+/*GENERAL PARA VARIOS MENSAJES, CUANDO EL CAMPO DE DATOS ESTA COMPUESTO POR UNA
+CADENA DE TEXTO SOLA.- Mayormente en los ACK*/
+
+void crearDatos (char* texto, char* datos){
+
+	strcpy (datos, "");
+	strcpy(datos, texto); // ACA IRIA LA LISTA DE EXAMENES
+}
+
 
 /*MENSAJE 1*/
 
 void crearDatos_M1(char* user, char* pass, char* datos){
 
+	strcpy (datos, "");
 	strncat(datos,user,sizeof(datos));
 	strncat(datos,"&",sizeof(datos));
 	strncat(datos,pass,sizeof(datos));
