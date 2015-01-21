@@ -64,6 +64,7 @@ int main () {
 	socklen_t lon;
 
 	int valido;			   	// usada para validar usuario cliente
+	int verificaAlu; 			  // usada para verificar registro.
 	int conexion = 1; 		   //  usada para mantener la conexion.
 	int control = 1;			// usada para estar activo mientras el usuario lo desee.
 
@@ -150,17 +151,34 @@ int main () {
 								case 0:
 									cout << "entro Registro" << endl;
 									alu = (struct alumno*) msj->datos;
-									cout << alu->legajo << " " << alu->apellido << " " << alu->user << endl;
-									strcpy(alu->password, "123abc");
-									cargarAlumno_A(alu);
-									/*
-									* -------------- CREO EL MENSAJE----------------
-									*/
-									crearDatos(alu->password, datos);
-									c = 9;
-									sc = 100;
-									ln = 16 + 16 + 32 + sizeof(datos);
-									msj = (struct mensaje*) buffer;
+
+									verificaAlu = verificarDatosAlumno_A (alu);
+									if (verificaAlu == 0){
+										cargarAlumno_A(alu);
+										/*
+										* -------------- CREO EL MENSAJE----------------
+										*/
+										strcpy(alu->password, "123abc");
+										crearDatos(alu->password, datos);
+										c = 9;
+										sc = 100;
+										ln = 16 + 16 + 32 + sizeof(datos);
+										msj = (struct mensaje*) buffer;
+									}else{
+										if (verificaAlu > 0 ){
+											crearDatos("Alumno ya registrado.", datos);
+											c = 9;
+											sc = 200;
+											ln = 16 + 16 + 32 + sizeof(datos);
+											msj = (struct mensaje*) buffer;
+										}else{
+											crearDatos("User ya registrado (opte por otro).", datos);
+											c = 9;
+											sc = 200;
+											ln = 16 + 16 + 32 + sizeof(datos);
+											msj = (struct mensaje*) buffer;
+										}
+									}
 									/*
 						 			* ----------------- ENVIO --------------------
 						 			*/

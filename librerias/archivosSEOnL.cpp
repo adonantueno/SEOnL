@@ -76,7 +76,29 @@ int validarAlumno_A (char* user,char* pass){
     }
     return control;
 };
+int verificarDatosAlumno_A (struct alumno* a){
 
+    struct alumno alumno;
+
+    int control = 0;
+    long i = 0;
+
+    long n = calcularRegistros(PATH_ALUMNOS, sizeof(alumno));
+
+    while ( !control && i < n){
+        leerAlumno_A(&alumno, i);
+
+        if (!  strcmp(a->user,alumno.user)){
+            control = -1;
+        }
+        if (!strcmp(a->legajo,alumno.legajo) || !strcmp(a->apellido,alumno.apellido)){
+            control = 1;
+        }
+        i++;
+    }
+    return control;
+
+};
 
 /*
  * TRABAJAMOS SOBRE evaluaciones.dat

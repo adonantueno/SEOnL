@@ -17,7 +17,7 @@
 #include <iostream>
 #include <string.h>
 
-using namespace std; 
+using namespace std;
 */
 
 #define P_SIZE sizeof(struct mensaje)
@@ -99,9 +99,22 @@ int main () {
 				 	*/
 					leerMensaje ( sd , buffer , P_SIZE );
 					reordenarBytes (msj);
-					cout << "su contraseña es: " << msj->datos << endl;
-					cout << "Vuelva al menu y elija la opción ingresar" << endl;
-					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+					if (msj->codigo = 9){
+						if (msj->subcodigo == 100){
+							cout << "su contraseña es: " << msj->datos << endl;
+							cout << "Vuelva al menu y elija la opción ingresar" << endl;
+							cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+						}
+						if (msj->subcodigo == 200){
+							cout << "Ocurrió un error en el registro" << endl;
+							cout << msj->datos << endl;
+							cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+						}
+
+					}else {
+						cout << "error en la comunicación " << endl; 
+					}
+
 					break;
 
 				case '2':
