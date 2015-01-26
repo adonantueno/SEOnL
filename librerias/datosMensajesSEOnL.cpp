@@ -31,7 +31,7 @@ void reordenarBytes (struct mensaje* m){
 
 /*MENSAJE 0*/
 
-/* 
+/*
 NO SON NECESARIOS CREAR E INTERPRETAR LOS DATOS DEL MENSAJE 0 YA QUE MANDAMOS DIRECTAMENTE
 LA ESTRUCTURA DE DATOS ALUMNO POR TANTO SOLO CON APUNTAR AL ATRIBUTO DATOS DEL MENSAJE
 ALCANZA PARA QUE PUEDA INTERPRETARSE Y CREARSE DIRECTAMENTE.
@@ -44,7 +44,7 @@ CADENA DE TEXTO SOLA.- Mayormente en los ACK*/
 void crearDatos (char* texto, char* datos){
 
 	strcpy (datos, "");
-	strcpy(datos, texto); // ACA IRIA LA LISTA DE EXAMENES
+	strcpy(datos, texto); // ACA IRIA LA LISTA DE Evaliaciones
 }
 
 

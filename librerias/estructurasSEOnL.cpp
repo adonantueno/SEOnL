@@ -12,6 +12,7 @@ struct pregunta {
 		int id;
 		char enunciado[250]; //los números de caracteres los saque de un texto
 		char opciones[3][50];
+		int correcta;
 };
 struct evaluacion {
 		int id;
@@ -57,7 +58,7 @@ void cargarPreguntaEvaluacion (struct evaluacion& e, int pos, struct pregunta pr
 	e.preguntas[pos] = preg;
 };
 
-void imprimirExamen (struct evaluacion e){
+void imprimirEvaluacion (struct evaluacion e){
 	cout << e.id << ") "<< e.titulo << endl;
 };
 

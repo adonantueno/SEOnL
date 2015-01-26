@@ -107,7 +107,7 @@ int main () {
 					*/
 					leerEvaluacion_A(&evaluacion, 0);
 
-					imprimirExamen(evaluacion);
+					imprimirEvaluacion(evaluacion);
 					for (int k= 0; k < 5; k++){
 						imprimirPregunta(evaluacion.preguntas[k]);
 					}
@@ -201,7 +201,7 @@ int main () {
 										* -------------- CREO EL MENSAJE----------------
 										*/
 										crearDatos ("Loggeo correcto.", datos);
- 										// ACA IRIA LA LISTA DE EXAMENES
+ 										// ACA IRIA LA LISTA DE EVALUACIONES
 										c = 9;
 										sc = 101;
 										ln = 16 + 16 + 32 + sizeof(datos);

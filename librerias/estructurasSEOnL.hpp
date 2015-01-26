@@ -23,13 +23,14 @@ struct mensaje {
 /*
  * ESTRUCTURA: pregunta
  * id: identificador único de la pregunta
- * enunciado: enunciado de la pregunta del examen
+ * enunciado: enunciado de la pregunta de la evaluacion
  * opciones: array de opciones con un límite de 3.
  * */
 struct pregunta {
 		int id;
 		char enunciado[250]; //los números de caracteres los saque de un texto
 		char opciones[3][50];
+		int correcta;
 };
 
 /*
@@ -111,15 +112,15 @@ struct evaluacion cargarEvaluacion (int id, char titulo[20]);
 void cargarPreguntaEvaluacion (struct evaluacion& e, int pos, struct pregunta preg);
 
 /*
- * FUNCION : IMPRIMIR EXAMEN
- * ENTRADA : estructura del tipo examen
+ * FUNCION : IMPRIMIR EVALUACION
+ * ENTRADA : estructura del tipo evaluacion
  * SALIDA  : impresion por pantalla
  * DESCRIPCIÓN : imprime por un formato determinado (2) la evaluacion
  * recibida como parámetro
  * (2) formato
  * evaluacion.id ) evaluacion.titulo
  */
-void imprimirExamen (struct evaluacion e);
+void imprimirEvaluacion (struct evaluacion e);
 
 /*
  * FUNCION : CARGAR MENSAJE
