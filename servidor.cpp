@@ -52,7 +52,7 @@ int main () {
 	struct sockaddr_in servidor;
 
 	struct pregunta preg;
-	struct evaluacion examen;
+	struct evaluacion evaluacion;
 	struct mensaje* msj;
 	struct alumno* alu;
 
@@ -86,6 +86,7 @@ int main () {
 			switch (res){
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
+				/*
 					cout << "Iniciando Examen" << endl;
 					cout << "Indique titulo del Examen: "; cin >> titulo;
 					examen = cargarEvaluacion(id, titulo);
@@ -103,10 +104,14 @@ int main () {
 						}
 						cargarPreguntaEvaluacion(examen,cant,preg);
 					}
-					imprimirExamen(examen);
-					for (int j= 0; j < 5; j++){
-						imprimirPregunta(examen.preguntas[j]);
-						}
+					*/
+					leerEvaluacion_A(&evaluacion, 0);
+
+					imprimirExamen(evaluacion);
+					for (int k= 0; k < 5; k++){
+						imprimirPregunta(evaluacion.preguntas[k]);
+					}
+					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 					break;
 
 				case '2':

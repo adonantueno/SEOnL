@@ -119,10 +119,10 @@ int cargarEvaluacion_A (struct evaluacion* e){
 int leerEvaluacion_A (struct evaluacion* e, int i){
 
     FILE *archivoEvaluaciones;
-    archivoEvaluaciones = fopen(PATH_ALUMNOS, "r");
+    archivoEvaluaciones = fopen(PATH_EVALUACIONES, "r");
 
     fseek(archivoEvaluaciones, i * sizeof(evaluacion), SEEK_SET);
-    fread(e, sizeof(alumno), 1, archivoEvaluaciones);
+    fread(e, sizeof(evaluacion), 1, archivoEvaluaciones);
 
     fclose(archivoEvaluaciones);
 

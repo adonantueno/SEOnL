@@ -40,7 +40,7 @@ void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]){
 void imprimirPregunta (struct pregunta p){
 	cout << p.id << ") " << p.enunciado << endl;
 
-	for (int i=0; i < sizeof(p.opciones[i]); i++ ){
+	for (int i=0; i < 3; i++ ){
 		cout << " "<< (i+1) << ".- " << p.opciones[i] << endl;
 	}
 };
