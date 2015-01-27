@@ -26,11 +26,13 @@ using namespace std;
 int main () {
 
 	char user[10], pass[10];
+	char apellido[30], legajo[11];
 
 	int sd;							 //Socket descriptor, identifica a la comunicación establecida
 	int lon;							//Dimension del archivo que describe al servidor
 
 	struct alumno* alu;
+	char dat[20];
 	char res;
 
 	//VARIABLES QUE FORMAN EL MENSAJE
@@ -112,7 +114,7 @@ int main () {
 						}
 
 					}else {
-						cout << "error en la comunicación " << endl; 
+						cout << "error en la comunicación " << endl;
 					}
 
 					break;
@@ -143,6 +145,9 @@ int main () {
 					system("clear");
 					if (msj->subcodigo == 101){
 						cout << "Entrasta al SEOnL" << endl;
+						interpretarDatos_M101 (apellido, legajo,dat, msj->datos);
+						cout << "Hola " << legajo << " " << apellido << endl;
+						cout << dat << endl;
 						cout << "Desear realizar evaluacion (s/n)"<< endl;
 						cin.ignore();cin.get();
 					}else{

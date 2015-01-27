@@ -70,4 +70,24 @@ void crearDatos_M1(char* user, char* pass, char* datos);
 */
 void interpretarDatos_M1 (char* user, char* pass, char* datos);
 
+/*MENSAJE 101*/
+
+/* FUNCION : CREAR DATOS  MENSAJE 101
+ * ENTRADA : apellido, legajo, listaEvaluaciones, datos
+ * SALIDA  : void - modificación del parámetro datos
+ * DESCRIPCION : crea un solo char* a partir de los datos del alumno y de la lista
+ * de evaluaciones por hacer. En la forma
+ *                  apellido&legajo%listaEvaluaciones
+*/
+void crearDatos_M101(char* apellido, char* legajo, char* listaEvaluaciones, char* datos);
+
+/* FUNCION : INTERPRETAR  MENSAJE 101
+ * ENTRADA : apellido, legajo, listaEvaluaciones, datos
+ * SALIDA  : void - modificación de los parámetros user y pass
+ * DESCRIPCION : a partir de la información almacenada en el parámetro datos,
+ * interpreta de la forma  "apellido&legajo%listaEvaluaciones" y coloca los respectivos valores
+ * en los parámetros de entrada
+*/
+void interpretarDatos_M101 (char* apellido, char* legajo, char* listaEvaluaciones, char* datos);
+
 #endif

@@ -73,9 +73,50 @@ void interpretarDatos_M1 (char* user, char* pass, char* datos){
 		}else{
 			if(control){
 				user[j] = datos [i];
+				user[j+1] = '\0';
 			}else{
 				pass[j] = datos [i];
+				pass[j+1] = '\0';
 			}
+		}
+		i++;
+		j++;
+	}
+};
+/*MENSAJE 101*/
+void crearDatos_M101(char* apellido, char* legajo, char* listaEvaluaciones, char* datos){
+
+	strcpy (datos, "");
+	strncat(datos,apellido,sizeof(datos)+sizeof(apellido));
+	strncat(datos,"&",sizeof(datos)+sizeof("&"));
+	strncat(datos,legajo,sizeof(datos)+sizeof(legajo));
+	strncat(datos,"&",sizeof(datos)+sizeof("&"));
+	strncat(datos,listaEvaluaciones,sizeof(datos)+sizeof(listaEvaluaciones));
+};
+
+void interpretarDatos_M101 (char* apellido, char* legajo, char* listaEvaluaciones, char* datos){
+	int control = 0;
+	int i = 0;
+	int j = 0;
+	char ampersand = '&';
+
+	while ( i < strlen(datos)){
+
+		if (datos[i] == ampersand){
+			control++;
+			j= -1;
+		}
+		if(control == 0){
+			apellido[j] = datos [i];
+			apellido[j+1] = '\0';
+		}
+		if (control == 1){
+			legajo[j] = datos [i];
+			legajo[j+1] = '\0';
+		}
+		if (control == 2){
+			listaEvaluaciones[j] = datos [i];
+			listaEvaluaciones[j+1] = '\0';
 		}
 		i++;
 		j++;

@@ -55,7 +55,7 @@ int leerAlumno_A (struct alumno* a, int i){
     return 0;
 };
 
-int validarAlumno_A (char* user,char* pass){
+int validarAlumno_A (char* user,char* pass, struct alumno* alu){
 
     struct alumno a;
 
@@ -70,6 +70,8 @@ int validarAlumno_A (char* user,char* pass){
         if (!  strcmp(user,a.user)){
             if (!  strcmp(pass,a.password)){
                         control = 1;
+                        strcpy (alu->apellido,a.apellido);
+                        strcpy (alu->legajo,a.legajo);
             }
         }
         i++;

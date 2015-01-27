@@ -29,9 +29,10 @@ int leerAlumno_A (struct alumno* a, int i);
              0 -> No encontro el alumno
  * DESCRIPCION : lee el archivo de alumnos y compara cada uno de los almacenados
  * con los parametros ingresados, si encuentra conincidencia retorna 1 informando
- * que los datos corresponden a algun registro.
+ * que los datos corresponden a algun registro. Si lo encuentra, ademas retorna
+ * en el parámetro "alumno" los datos correspondientes al mismo.
 */
-int validarAlumno_A (char* user,char* pass);
+int validarAlumno_A (char* user,char* pass, struct alumno* alu);
 
 /* FUNCION : VERICAR DATOS ALUMNO -ARCHIVO-
  * ENTRADA :  struct alumno

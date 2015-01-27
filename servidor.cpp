@@ -55,6 +55,7 @@ int main () {
 	struct evaluacion evaluacion;
 	struct mensaje* msj;
 	struct alumno* alu;
+	struct alumno alumno;
 
 	int cant;
 	char enunciado[250];
@@ -86,7 +87,7 @@ int main () {
 			switch (res){
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
-				/*
+					/*
 					cout << "Iniciando Examen" << endl;
 					cout << "Indique titulo del Examen: "; cin >> titulo;
 					examen = cargarEvaluacion(id, titulo);
@@ -128,8 +129,6 @@ int main () {
 					break;
 
 				case '3':
-					//Está en linea hasta que el usuario quiera terminar!.
-
 					servidor.sin_family = AF_INET;
 					servidor.sin_port = htons(4444);
 					servidor.sin_addr.s_addr = INADDR_ANY;
@@ -144,6 +143,7 @@ int main () {
 					}else {
 						listen ( sd , 5 );
 						cout << "--- --- EN LINEA --- ---"<< endl;
+						//Está en linea hasta que el usuario quiera terminar!.
 						while(conexion){
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
@@ -196,11 +196,12 @@ int main () {
 									cout << "entro logueo" << endl;
 									interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
 
-									if( validarAlumno_A (user_cliente,pass_cliente )) {
+									if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
 										/*
 										* -------------- CREO EL MENSAJE----------------
 										*/
-										crearDatos ("Loggeo correcto.", datos);
+										crearDatos_M101 (alumno.apellido,alumno.legajo ,"SinEvaluaciones",datos);
+
  										// ACA IRIA LA LISTA DE EVALUACIONES
 										c = 9;
 										sc = 101;
@@ -212,6 +213,11 @@ int main () {
 										cargarMensaje(msj,c,sc,ln,datos);
 										ordenarBytes (msj);
 										send ( sdc , buffer, P_SIZE, 0 );
+										/*
+										*Espero que envie que quiere realizar un examen
+										o bien, salir
+										*/
+
 									}else{
 										/*
 										* -------------- CREO EL MENSAJE----------------
@@ -229,6 +235,7 @@ int main () {
 										send ( sdc , buffer, P_SIZE, 0 );
 									}
 									break;
+
 								case 8:
 									cout << "entro cierre sesión " << endl;
 									conexion = 0;
