@@ -41,6 +41,8 @@ int main () {
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
 	char datos [300] = "";
+	char listaEvaluaciones [100] = "";
+
 	char buffer[P_SIZE];
 
 	char res;
@@ -197,26 +199,21 @@ int main () {
 									interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
 
 									if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
-										/*
-										* -------------- CREO EL MENSAJE----------------
-										*/
-										crearDatos_M101 (alumno.apellido,alumno.legajo ,"SinEvaluaciones",datos);
 
+										strcpy (listaEvaluaciones, verificarPendientes_A());
+										cout << "paso char" << endl;
+										crearDatos_M101 (alumno.apellido,alumno.legajo,listaEvaluaciones,datos);
  										// ACA IRIA LA LISTA DE EVALUACIONES
 										c = 9;
 										sc = 101;
 										ln = 16 + 16 + 32 + sizeof(datos);
 										msj = (struct mensaje*) buffer;
 										/*
-						 				*----------------- ENVIO --------------------
+						 				----------------- ENVIO --------------------
 						 				*/
 										cargarMensaje(msj,c,sc,ln,datos);
 										ordenarBytes (msj);
 										send ( sdc , buffer, P_SIZE, 0 );
-										/*
-										*Espero que envie que quiere realizar un examen
-										o bien, salir
-										*/
 
 									}else{
 										/*

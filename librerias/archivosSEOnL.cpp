@@ -78,6 +78,7 @@ int validarAlumno_A (char* user,char* pass, struct alumno* alu){
     }
     return control;
 };
+
 int verificarDatosAlumno_A (struct alumno* a){
 
     struct alumno alumno;
@@ -116,7 +117,7 @@ int cargarEvaluacion_A (struct evaluacion* e){
     fclose(archivoEvaluaciones);
 
     return 0;
-}
+};
 
 int leerEvaluacion_A (struct evaluacion* e, int i){
 
@@ -129,19 +130,36 @@ int leerEvaluacion_A (struct evaluacion* e, int i){
     fclose(archivoEvaluaciones);
 
     return 0;
-}
+};
 
 /*
  * TRABAJAMOS SOBRE resultados.dat
 */
 
 
-int cargarResultadoAlumno_A (char* resultado){
+int cargarResultadoAlumno_A (struct resultado* r){
 
     return 0;
-}
+};
 
-int leerResultadosAlumnos_A (char* resultados){
+int leerResultadosAlumnos_A (struct resultado* r, int i){
 
     return 0;
-}
+};
+
+char* verificarPendientes_A (){
+
+    char c[100];
+
+    /*
+    TENEMOS QUE HACER UN TIPO DE VALIDACIÓN
+    */
+    if (1){
+        strcpy (c, "SinEvaluaciones");
+    }else{
+        /*
+        CARGARIAMOS LA LISTA DE EVALUACIONES
+        */
+    }
+    return c;
+};

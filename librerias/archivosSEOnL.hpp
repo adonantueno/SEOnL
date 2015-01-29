@@ -55,10 +55,36 @@ int cargarEvaluacion_A (struct evaluacion* e);
 
 /* FUNCION : LEER EVALUACION -ARCHIVO-
  * ENTRADA : struct evaluacion,  int
- * SALIDA  : void - modificación del parámetro evaluacion (e)
+ * SALIDA  : int - modificación del parámetro evaluacion (e)
  * DESCRIPCION : lee la evaluacion ubicada en la posicion i del archivo.
  ADVERTENCA: si i es mayor al número de registros, devuelve el último registro.
  */
 int leerEvaluacion_A (struct evaluacion* e, int i);
+
+/* FUNCION : CARGAR RESULTADO -ARCHIVO-
+ * ENTRADA :  struct resultado
+ * SALIDA  : int
+ * DESCRIPCION : a partir de la información del resultados que recibe como parametro,
+ * lo almacena en el archivo.
+ */
+int cargarResultadoAlumno_A (struct resultado* r);
+
+/* FUNCION : LEER RESULTADO -ARCHIVO-
+ * ENTRADA : struct resultado,  int
+ * SALIDA  : int - modificación del parámetro resultado (r)
+ * DESCRIPCION : lee el resultado ubicado en la posicion i del archivo.
+ ADVERTENCA: si i es mayor al número de registros, devuelve el último registro.
+ */
+int leerResultadosAlumnos_A (struct resultado* r, int i);
+
+/* FUNCION : VERIFICAR PENDIENTES-ARCHIVO-
+ * ENTRADA :
+ * SALIDA  : char* con dos posibles resultados
+  : 1 - Evaluacion Pendiente --> codigo y titulo de la evaluacion
+  : 2 - Sin Evaluacion Pendiente --> texto "SinEvaluaciones" ?? null
+ * DESCRIPCION : lee la lista de evaluaciones,y si no encuentra al alumno en la
+ * lista de resultados lo pone como pendiente
+ */
+char* verificarPendientes_A ();
 
 #endif

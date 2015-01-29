@@ -60,7 +60,25 @@ struct alumno {
 	char password [10];
 };
 
-/* METODOS */
+/*
+* ESTRUCTURA: resultado
+* idEvaluacion: identificador de la evaluacion realizada
+* TituloEvaluacion: titulo o nombre de la avaluación
+* legajo: identificador del alumno universitario
+* apellido: apellido del alumno
+* nota: resultado de la evaluacion realizada por el alumno.
+*/
+
+struct resultado {
+	int idEvaluacion;
+	char tituloEvaluacion [20];
+	char legajoAlumno [11];
+	char apellidoAlumno [30];
+	float nota;
+};
+
+
+/* FUNCIONES */
 
 /*
  * FUNCION : CARGAR PREGUNTA
@@ -131,4 +149,12 @@ void imprimirEvaluacion (struct evaluacion e);
  */
 void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud ,char datos [300]);
 
+/*
+ * FUNCION : CREAR RESULTADO
+ * ENTRADA : idEvaluacion, tituloEvaluacion, legajoAlumno,apellidoAlumno, nota
+ * SALIDA  : estructura del tipo resultado.
+ * DESCRIPCIÓN : crea un resultado a partir de los atrutos cargados a partir de
+ * los parámatros asignados.
+*/
+struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],char legajoAlumno [11],char apellidoAlumno [30],float nota);
 #endif

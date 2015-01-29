@@ -68,3 +68,16 @@ void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint
 	msj->longitud = longitud;
 	strcpy ( msj->datos, datos );
 };
+
+struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],char legajoAlumno [11],char apellidoAlumno [30],float nota){
+
+	struct resultado r;
+
+	r.idEvaluacion = idEvaluacion;
+	strcpy ( r.tituloEvaluacion, tituloEvaluacion );
+	strcpy ( r.legajoAlumno, legajoAlumno );
+	strcpy ( r.apellidoAlumno, apellidoAlumno );
+	r.nota = nota;
+
+	return r;
+};
