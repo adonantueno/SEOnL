@@ -46,7 +46,7 @@ int main () {
 	char buffer[P_SIZE];
 
 	char res;
-	int i=0;
+	int i;
 	int sd;
 	int sdc;
 
@@ -66,10 +66,12 @@ int main () {
 	char titulo[20];
 	socklen_t lon;
 
+    int codEvaluaciones;		  // codigo de evaluacion a poner en linea
 	int valido;			   	// usada para validar usuario cliente
 	int verificaAlu; 			  // usada para verificar registro.
 	int conexion = 1; 		   //  usada para mantener la conexion.
 	int control = 1;			// usada para estar activo mientras el usuario lo desee.
+	int controlSelecion = 1;     // usada para el control de la seleccion de evaluacion en linea
 
 
 	cout << "usuario: " ; cin >> user;
@@ -119,14 +121,8 @@ int main () {
 
 				case '2':
 					/*
-					cout << "Cargando exámenes" << endl;
-
-					//sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
-
-					n = send ( sdc , buffer, P_SIZE, 0 );
-					//For exámenes tattata...
-					cout << "enviado" << endl;
-					sleep (10);
+					Le dariamos a seleccionar una evaluacion y a partir de alli
+					buscacmos en el archivo de resultados.
 					*/
 					break;
 
@@ -143,6 +139,31 @@ int main () {
 						cout << "Verifique su lista de procesos e intente mas tarde" << endl;
 						control = 0;
 					}else {
+						/*
+						*Primero le pedimos que elija la evaluacion a poner en linea
+						*/
+
+						while (controlSelecion){
+
+							cout << "Seleccione una evaluacion a poner en Linea..." << endl;
+
+						    long n = calcularRegistros(PATH_EVALUACIONES, sizeof(evaluacion));
+							i = 0;
+						    while ( i < n){
+						        leerEvaluacion_A(&evaluacion, i);
+								imprimirEvaluacion(evaluacion);
+						        i++;
+						    }
+							cout << "---" << endl;
+							cout << "Código de  evaluacion: " ; cin >> codEvaluaciones;
+							controlSelecion = 0;
+							if ( ! buscarEvaluacion_A (&evaluacion, codEvaluaciones)) {
+								cout << "codigo incorrecto, vuelva a intentarlo" << endl;
+								controlSelecion = 1;
+							}
+						}
+						//ya tengo la evaluacion que realizaran los alumnos que se conecten.
+
 						listen ( sd , 5 );
 						cout << "--- --- EN LINEA --- ---"<< endl;
 						//Está en linea hasta que el usuario quiera terminar!.
@@ -179,7 +200,7 @@ int main () {
 											ln = 16 + 16 + 32 + sizeof(datos);
 											msj = (struct mensaje*) buffer;
 										}else{
-											crearDatos("User ya registrado (opte por otro).", datos);
+											crearDatos("User ya utilazado (opte por otro).", datos);
 											c = 9;
 											sc = 200;
 											ln = 16 + 16 + 32 + sizeof(datos);
@@ -199,9 +220,7 @@ int main () {
 									interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
 
 									if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
-
 										strcpy (listaEvaluaciones, verificarPendientes_A());
-										cout << "paso char" << endl;
 										crearDatos_M101 (alumno.apellido,alumno.legajo,listaEvaluaciones,datos);
  										// ACA IRIA LA LISTA DE EVALUACIONES
 										c = 9;

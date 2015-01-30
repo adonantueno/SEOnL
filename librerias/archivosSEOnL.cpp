@@ -1,11 +1,6 @@
 #include "archivosSEOnL.hpp"
 #include "estructurasSEOnL.hpp"
 
-#define PATH_ALUMNOS  "archivos/alumnos.dat"
-#define PATH_EVALUACIONES "archivos/evaluaciones.dat"
-#define PATH_RESULTADOS "archivos/resultados.dat"
-
-
 /*
  * General para todos
 */
@@ -132,6 +127,24 @@ int leerEvaluacion_A (struct evaluacion* e, int i){
     return 0;
 };
 
+int buscarEvaluacion_A (struct evaluacion* e, int id){
+
+    struct evaluacion evaluacion;
+
+    int control = 0;
+    long i = 0;
+
+    long n = calcularRegistros(PATH_EVALUACIONES, sizeof(evaluacion));
+
+    while ( !control && i < n){
+        leerEvaluacion_A(&evaluacion, i);
+        if ( e->id == id){
+            control = 1;
+        }
+        i++;
+    }
+    return control;
+};
 /*
  * TRABAJAMOS SOBRE resultados.dat
 */

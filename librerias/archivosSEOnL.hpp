@@ -7,6 +7,24 @@
 
 using namespace std;
 
+
+#define PATH_ALUMNOS  "archivos/alumnos.dat"
+#define PATH_EVALUACIONES "archivos/evaluaciones.dat"
+#define PATH_RESULTADOS "archivos/resultados.dat"
+
+/* FUNCION : CALCULAR REGISTROS -ARCHIVO-
+ * ENTRADA : path (un define de la lista de la libreria) - size del registro
+ * SALIDA  : long
+ * DESCRIPCION : calcula la cantaidad de registros que tiene el archivo almacenado
+ * en el path correspondiente. Modos de uso:
+           - calcularRegistros(PATH_ALUMNOS, sizeof(alumno));
+           - calcularRegistros(PATH_EVALUACIONES, sizeof(evaluacion));
+           - calcularRegistros(PATH_RESULTADOS, sizeof(resultado));
+ */
+long calcularRegistros (char* path, int size);
+
+// ------------------------ ALUMNOS ------------------------------------
+
 /* FUNCION : CARGAR ALUMNO -ARCHIVO-
  * ENTRADA :  struct alumno
  * SALIDA  : int
@@ -45,6 +63,10 @@ int validarAlumno_A (char* user,char* pass, struct alumno* alu);
 */
 int verificarDatosAlumno_A (struct alumno* a);
 
+
+
+// ------------------------ EVALUACIONes ------------------------------------
+
 /* FUNCION : CARGAR EVALUACION -ARCHIVO-
  * ENTRADA :  struct evaluacion
  * SALIDA  : int
@@ -60,6 +82,18 @@ int cargarEvaluacion_A (struct evaluacion* e);
  ADVERTENCA: si i es mayor al número de registros, devuelve el último registro.
  */
 int leerEvaluacion_A (struct evaluacion* e, int i);
+
+/* FUNCION : BUSCAR EVALUACION -ARCHIVO-
+ * ENTRADA : struct evaluacion,  int
+ * SALIDA  : int - modificación del parámetro evaluacion (e)
+              0 - No encontró la evaluacion del id ingresado - evaluacion (e) vacio
+              1 - Se encontró la evaluacion del id ingresado - evaluacion (e)
+ * DESCRIPCION : busca dentro del archivo las evaluaciones y devuelve si es que
+ * la encuentra en el parámetro e
+ */
+int buscarEvaluacion_A (struct evaluacion* e, int id);
+
+ // ------------------------ RESULTADOS ------------------------------------
 
 /* FUNCION : CARGAR RESULTADO -ARCHIVO-
  * ENTRADA :  struct resultado
