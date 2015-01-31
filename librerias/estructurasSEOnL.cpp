@@ -25,6 +25,13 @@ struct alumno {
 	char user [10];
 	char password [10];
 };
+struct resultado {
+	int idEvaluacion;
+	char tituloEvaluacion [20];
+	char legajoAlumno [11];
+	char apellidoAlumno [30];
+	float nota;
+};
 */
 struct pregunta cargarPregunta (int id, char enunciado[250]){
 

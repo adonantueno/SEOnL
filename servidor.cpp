@@ -41,7 +41,7 @@ int main () {
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
 	char datos [300] = "";
-	char listaEvaluaciones [100] = "";
+	char pendientes [100] = "";
 
 	char buffer[P_SIZE];
 
@@ -220,8 +220,11 @@ int main () {
 									interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
 
 									if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
-										strcpy (listaEvaluaciones, verificarPendientes_A());
-										crearDatos_M101 (alumno.apellido,alumno.legajo,listaEvaluaciones,datos);
+										// primero cargo los datos de la evaluación
+										// luego, los borro si es que ya lo hizo.
+										strcpy (pendientes, evaluacion.titulo);
+                                        verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
+										crearDatos_M101 (alumno.apellido,alumno.legajo,pendientes,datos);
  										// ACA IRIA LA LISTA DE EVALUACIONES
 										c = 9;
 										sc = 101;
@@ -233,6 +236,8 @@ int main () {
 										cargarMensaje(msj,c,sc,ln,datos);
 										ordenarBytes (msj);
 										send ( sdc , buffer, P_SIZE, 0 );
+
+										/*COMINEZA EL LOOP DE LA EVALUACION*/
 
 									}else{
 										/*

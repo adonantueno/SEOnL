@@ -32,7 +32,7 @@ int main () {
 	int lon;							//Dimension del archivo que describe al servidor
 
 	struct alumno* alu;
-	char dat[20];
+	char pendientes[20];
 	char res;
 
 	//VARIABLES QUE FORMAN EL MENSAJE
@@ -145,11 +145,13 @@ int main () {
 					system("clear");
 					if (msj->subcodigo == 101){
 						cout << "Entrasta al SEOnL" << endl;
-						interpretarDatos_M101 (apellido, legajo,dat, msj->datos);
+						interpretarDatos_M101 (apellido, legajo, pendientes, msj->datos);
 						cout << "Hola " << legajo << " " << apellido << endl;
-						cout << dat << endl;
+						cout << "--- --- Evaluaciones para realiazar --- ---" << endl;
+						cout << pendientes << endl;
 						cout << "Desear realizar evaluacion (s/n)"<< endl;
 						cin.ignore();cin.get();
+						/*COMINEZA EL LOOP DE LA EVALUACION*/
 					}else{
 						if (msj->subcodigo == 201){
 							cout << "ocurrio un error." << endl;

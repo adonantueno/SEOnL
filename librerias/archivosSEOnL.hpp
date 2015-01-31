@@ -112,13 +112,11 @@ int cargarResultadoAlumno_A (struct resultado* r);
 int leerResultadosAlumnos_A (struct resultado* r, int i);
 
 /* FUNCION : VERIFICAR PENDIENTES-ARCHIVO-
- * ENTRADA :
- * SALIDA  : char* con dos posibles resultados
-  : 1 - Evaluacion Pendiente --> codigo y titulo de la evaluacion
-  : 2 - Sin Evaluacion Pendiente --> texto "SinEvaluaciones" ?? null
+ * ENTRADA : char* legajo, int id, char* datosEvaluacion
+ * SALIDA  : null
  * DESCRIPCION : lee la lista de evaluaciones,y si no encuentra al alumno en la
- * lista de resultados lo pone como pendiente
+ * lista de resultados, modifica el continido de datosEvalucion.
  */
-char* verificarPendientes_A ();
+void verificarPendientes_A (char* legajo, int id, char* datosEvaluacion);
 
 #endif

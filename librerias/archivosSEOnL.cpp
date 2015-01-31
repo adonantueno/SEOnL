@@ -152,27 +152,47 @@ int buscarEvaluacion_A (struct evaluacion* e, int id){
 
 int cargarResultadoAlumno_A (struct resultado* r){
 
+    FILE *archivoResultados;
+
+    archivoResultados = fopen(PATH_RESULTADOS, "a");
+    fwrite(r, sizeof(resultado), 1, archivoResultados);
+    fclose(archivoResultados);
+
     return 0;
 };
 
 int leerResultadosAlumnos_A (struct resultado* r, int i){
 
+
+    FILE *archivoResultados;
+    archivoResultados = fopen(PATH_RESULTADOS, "r");
+
+    fseek(archivoResultados, i * sizeof(resultado), SEEK_SET);
+    fread(r, sizeof(resultado), 1, archivoResultados);
+
+    fclose(archivoResultados);
+
     return 0;
 };
 
-char* verificarPendientes_A (){
+void verificarPendientes_A (char* legajo, int id, char* datosEvaluacion){
 
-    char c[100];
 
-    /*
-    TENEMOS QUE HACER UN TIPO DE VALIDACIÓN
-    */
-    if (1){
-        strcpy (c, "SinEvaluaciones");
-    }else{
-        /*
-        CARGARIAMOS LA LISTA DE EVALUACIONES
-        */
+    struct resultado resultado;
+
+    int control = 0;
+    long i = 0;
+
+    long n = calcularRegistros(PATH_RESULTADOS, sizeof(resultado));
+
+
+    while ( !control && i < n){
+        leerResultadosAlumnos_A(&resultado, i);
+
+        if (!  strcmp(resultado.legajoAlumno,legajo) || resultado.idEvaluacion == id){
+            control = -1;
+            strcpy (datosEvaluacion,"SinEvaluaciones");
+        }
+        i++;
     }
-    return c;
 };
