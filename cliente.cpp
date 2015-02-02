@@ -34,6 +34,7 @@ int main () {
 	struct alumno* alu;
 	char pendientes[20];
 	char res;
+	char resEvaluacion;
 
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
@@ -43,8 +44,7 @@ int main () {
 	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
 	char buffer[P_SIZE];		//Tamaño del Buffer
 	struct mensaje* msj;
-
-	char null;					//Variable de descarte usada para "presione una tecla para continuar"
+//char null;					//Variable de descarte usada para "presione una tecla para continuar"
 
 	/*
 	* -------------------- SETTEO EL SOCKET -------------------
@@ -84,21 +84,15 @@ int main () {
 					cout << "Apellido: "; cin >> alu->apellido;
 					cout << "usuario: ";  cin >> alu->user;
 					cout << "El sistema generará su contraseña automaticamente" << endl;
-					/*
-				 	* -------------------- CREO EL MENSAJE----------
-				 	*/
+					// -------------------- CREO EL MENSAJE----------
 					c  = 0;
 					sc = 0;
 					ln = 16 + 16 + 32 + sizeof(datos);
-					/*
-				 	* -------------------- ENVIO ------------------------------
-				 	*/
+					//-------------------- ENVIO ------------------------------
 					cargarMensaje(msj,c,sc,ln,msj ->datos);
 					ordenarBytes (msj);
 					send ( sd, buffer, P_SIZE, 0 );
-					/*
-				 	* -------------------- Espero respuesta --------------------
-				 	*/
+					//-------------------- Espero respuesta --------------------
 					leerMensaje ( sd , buffer , P_SIZE );
 					reordenarBytes (msj);
 					if (msj->codigo = 9){
@@ -123,23 +117,17 @@ int main () {
 					cout << "Ingrse sus datos para ingresar" << endl;
 					cout << "usuario: " ; cin >> user;
 					cout << "contraseña: " ; cin >> pass;
-					/*
-				 	* -------------------- CREO EL MENSAJE----------
-				 	*/
+					//------------------- CREO EL MENSAJE----------
 					crearDatos_M1(user,pass,datos);
 					c =  1;
 					sc = 0;
 					ln = 16 + 16 + 32 + sizeof(datos);
 					msj = (struct mensaje*) buffer;
-					/*
-				 	* -------------------- ENVIO ------------------------------
-				 	*/
+					// -------------------- ENVIO ------------------------------
 					cargarMensaje(msj,c,sc,ln,datos);
 					ordenarBytes (msj);
 					send ( sd, buffer, P_SIZE, 0 );
-					/*
-				 	* -------------------- Espero respuesta --------------------
-				 	*/
+					//-------------------- Espero respuesta --------------------
 					leerMensaje ( sd , buffer , P_SIZE );
 					reordenarBytes (msj);
 					system("clear");
@@ -150,8 +138,24 @@ int main () {
 						cout << "--- --- Evaluaciones para realiazar --- ---" << endl;
 						cout << pendientes << endl;
 						cout << "Desear realizar evaluacion (s/n)"<< endl;
-						cin.ignore();cin.get();
-						/*COMINEZA EL LOOP DE LA EVALUACION*/
+						cin >> resEvaluacion;
+						if (resEvaluacion == 's'){
+							/*COMINEZA EL LOOP DE LA EVALUACION*/
+							//------------------- CREO EL MENSAJE----------
+							crearDatos("null",datos);
+							c =  3;
+							sc = 0;
+							ln = 16 + 16 + 32 + sizeof(datos);
+							msj = (struct mensaje*) buffer;
+							// -------------------- ENVIO ------------------------------
+							cargarMensaje(msj,c,sc,ln,datos);
+							ordenarBytes (msj);
+							send ( sd, buffer, P_SIZE, 0 );
+							//-------------------- Espero respuesta --------------------
+							leerMensaje ( sd , buffer , P_SIZE );
+							reordenarBytes (msj);
+						}
+
 					}else{
 						if (msj->subcodigo == 201){
 							cout << "ocurrio un error." << endl;
@@ -162,17 +166,13 @@ int main () {
 					break;
 
 				case '3':
-					/*
-					* -------------------- CREO EL MENSAJE----------
-					*/
-					strcpy (datos, "null");
+					// -------------------- CREO EL MENSAJE----------
+					crearDatos("null",datos);
 					c =  8;
 					sc = 0;
 					ln = 16 + 16 + 32 + sizeof(datos);
 					msj = (struct mensaje*) buffer;
-					/*
-					* -------------------- ENVIO ------------------------------
-					*/
+					// -------------------- ENVIO ------------------------------
 					cargarMensaje(msj,c,sc,ln,datos);
 					ordenarBytes (msj);
 					send ( sd, buffer, P_SIZE, 0 );

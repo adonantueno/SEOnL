@@ -183,9 +183,7 @@ int main () {
 									verificaAlu = verificarDatosAlumno_A (alu);
 									if (verificaAlu == 0){
 										cargarAlumno_A(alu);
-										/*
-										* -------------- CREO EL MENSAJE----------------
-										*/
+										//-------------- CREO EL MENSAJE----------------
 										strcpy(alu->password, "123abc");
 										crearDatos(alu->password, datos);
 										c = 9;
@@ -200,6 +198,7 @@ int main () {
 											ln = 16 + 16 + 32 + sizeof(datos);
 											msj = (struct mensaje*) buffer;
 										}else{
+											//-------------- CREO EL MENSAJE----------------
 											crearDatos("User ya utilazado (opte por otro).", datos);
 											c = 9;
 											sc = 200;
@@ -207,9 +206,7 @@ int main () {
 											msj = (struct mensaje*) buffer;
 										}
 									}
-									/*
-						 			* ----------------- ENVIO --------------------
-						 			*/
+									//----------------- ENVIO --------------------
 									cargarMensaje(msj,c,sc,ln,datos);
 									ordenarBytes (msj);
 									send ( sdc , buffer, P_SIZE, 0 );
@@ -224,33 +221,31 @@ int main () {
 										// luego, los borro si es que ya lo hizo.
 										strcpy (pendientes, evaluacion.titulo);
                                         verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
+										//-------------- CREO EL MENSAJE----------------
 										crearDatos_M101 (alumno.apellido,alumno.legajo,pendientes,datos);
- 										// ACA IRIA LA LISTA DE EVALUACIONES
 										c = 9;
 										sc = 101;
 										ln = 16 + 16 + 32 + sizeof(datos);
 										msj = (struct mensaje*) buffer;
-										/*
-						 				----------------- ENVIO --------------------
-						 				*/
+										//----------------- ENVIO --------------------
 										cargarMensaje(msj,c,sc,ln,datos);
 										ordenarBytes (msj);
 										send ( sdc , buffer, P_SIZE, 0 );
-
-										/*COMINEZA EL LOOP DE LA EVALUACION*/
+										//-------------------- Espero respuesta --------------------
+										leerMensaje ( sdc , buffer , P_SIZE );
+										reordenarBytes (msj);
+										if (msj->codigo == 3){
+											/*COMINEZA EL LOOP DE LA EVALUACION*/
+										}
 
 									}else{
-										/*
-										* -------------- CREO EL MENSAJE----------------
-										*/
+										// -------------- CREO EL MENSAJE----------------
 										crearDatos ("Error de loggeo Usuario o contraseña incorrecto.", datos);
 										c = 9;
 										sc = 201;
 										ln = 16 + 16 + 32 + sizeof(datos);
 										msj = (struct mensaje*) buffer;
-										/*
-										* ----------------- ENVIO --------------------
-										*/
+										// ----------------- ENVIO --------------------
 										cargarMensaje(msj,c,sc,ln,datos);
 										ordenarBytes (msj);
 										send ( sdc , buffer, P_SIZE, 0 );
