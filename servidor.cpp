@@ -155,7 +155,7 @@ int main () {
 						        i++;
 						    }
 							cout << "---" << endl;
-							cout << "Código de  evaluacion: " ; cin >> codEvaluaciones;
+							cout << "Código de evaluacion: " ; cin >> codEvaluaciones;
 							controlSelecion = 0;
 							if ( ! buscarEvaluacion_A (&evaluacion, codEvaluaciones)) {
 								cout << "codigo incorrecto, vuelva a intentarlo" << endl;
