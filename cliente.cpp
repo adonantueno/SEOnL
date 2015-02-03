@@ -39,12 +39,12 @@ int main () {
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
-	char datos [300];
+	char datos [500];
 
 	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
 	char buffer[P_SIZE];		//Tamaño del Buffer
 	struct mensaje* msj;
-//char null;					//Variable de descarte usada para "presione una tecla para continuar"
+	struct pregunta* pregunta;
 
 	/*
 	* -------------------- SETTEO EL SOCKET -------------------
@@ -87,9 +87,9 @@ int main () {
 					// -------------------- CREO EL MENSAJE----------
 					c  = 0;
 					sc = 0;
-					ln = 16 + 16 + 32 + sizeof(datos);
+					ln = 16 + 16 + 32 + sizeof(msj->datos);
 					//-------------------- ENVIO ------------------------------
-					cargarMensaje(msj,c,sc,ln,msj ->datos);
+					cargarMensaje(msj,c,sc,ln,msj->datos);
 					ordenarBytes (msj);
 					send ( sd, buffer, P_SIZE, 0 );
 					//-------------------- Espero respuesta --------------------
@@ -154,6 +154,30 @@ int main () {
 							//-------------------- Espero respuesta --------------------
 							leerMensaje ( sd , buffer , P_SIZE );
 							reordenarBytes (msj);
+							char respuesta;
+							while (msj->codigo == 4){
+								pregunta = (struct pregunta*) msj->datos;
+								imprimirPregunta(*pregunta);
+								cout << "respuesta: "; cin >> respuesta;
+
+								//------------------- CREO EL MENSAJE----------
+								crearDatos(&respuesta,datos);
+								c =  5;
+								sc = 0;
+								ln = 16 + 16 + 32 + sizeof(datos);
+								msj = (struct mensaje*) buffer;
+								// -------------------- ENVIO ------------------------------
+								cargarMensaje(msj,c,sc,ln,datos);
+								ordenarBytes (msj);
+								send ( sd, buffer, P_SIZE, 0 );
+								//-------------------- Espero respuesta --------------------
+								leerMensaje ( sd , buffer , P_SIZE );
+								reordenarBytes (msj);
+							}
+							if (msj->codigo == 9 && msj->subcodigo == 103){
+								cout << "Tu nota es: " << msj->datos << endl;
+								cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+							}
 						}
 
 					}else{

@@ -40,7 +40,7 @@ int main () {
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
-	char datos [300] = "";
+	char datos [500] = "";
 	char pendientes [100] = "";
 
 	char buffer[P_SIZE];
@@ -54,6 +54,7 @@ int main () {
 	struct sockaddr_in servidor;
 
 	struct pregunta preg;
+	struct pregunta* pregunta;
 	struct evaluacion evaluacion;
 	struct mensaje* msj;
 	struct alumno* alu;
@@ -236,7 +237,51 @@ int main () {
 										reordenarBytes (msj);
 										if (msj->codigo == 3){
 											/*COMINEZA EL LOOP DE LA EVALUACION*/
-										}
+											//msj = (struct mensaje*) buffer;
+
+											int p = 0;
+											int calificacion;
+											//while (evaluacion.preguntas[p] != NULL)
+											while (p < 5){
+												strcpy (datos, "");
+												pregunta = (struct pregunta*) msj->datos;
+												pregunta->id = evaluacion.preguntas[p].id;
+												strcpy (pregunta->enunciado, evaluacion.preguntas[p].enunciado);
+												strcpy (pregunta->opciones[0], evaluacion.preguntas[p].opciones[0]);
+												strcpy (pregunta->opciones[1], evaluacion.preguntas[p].opciones[1]);
+												strcpy (pregunta->opciones[2], evaluacion.preguntas[p].opciones[2]);
+
+												//----------------- ENVIO --------------------
+												c = 4;
+												sc = 0;
+												ln = 16 + 16 + 32 + sizeof(msj->datos);
+												cargarMensaje(msj,c,sc,ln,msj->datos);
+												ordenarBytes (msj);
+												send ( sdc , buffer, P_SIZE, 0 );
+
+												//-------------------- Espero respuesta --------------------
+												leerMensaje ( sdc , buffer , P_SIZE );
+												reordenarBytes (msj);
+												//cout << msj->datos << endl;
+												if (atoi(msj->datos) == pregunta->correcta){
+													calificacion++;
+												}
+												p++;
+											}
+											cout << calificacion << endl;
+											//crearDatos(calificacion, datos);
+											crearDatos("calificacion", datos);
+											c = 9;
+											sc = 103;
+											ln = 16 + 16 + 32 + sizeof(datos);
+											cargarMensaje(msj,c,sc,ln,datos);
+											ordenarBytes (msj);
+											send ( sdc , buffer, P_SIZE, 0 );
+
+
+										}else{
+											cout << "erorr 202 amigo!" << endl;
+											}
 
 									}else{
 										// -------------- CREO EL MENSAJE----------------
