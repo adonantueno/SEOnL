@@ -52,13 +52,11 @@ void crearDatos (char* texto, char* datos){
 
 void crearDatos_M1(char* user, char* pass, char* datos){
 
-	cout << "user " << user << endl;
-	cout << "pass " << pass << endl;
 	strcpy (datos, "");
 	strncat(datos,user,strlen(user)); 	//al ejecutar el código se ve afectada la cadena y la data es modificada probare conb strlen
 	strncat(datos,"&",sizeof(datos));
 	strncat(datos,pass,strlen(pass));	//al ejecutar el código se ve afectada la cadena y la data es modificada probare conb strlen
-	
+
 	cout << datos << endl;
 
 };

@@ -61,8 +61,8 @@ int validarAlumno_A (char* user,char* pass, struct alumno* alu){
 
     while ( !control && i < n){
         leerAlumno_A(&a, i);
-		cout << a.user << endl;				//testeo lo que levanta del archivo
-		cout << a.password << endl;
+		//cout << a.user << endl;				//testeo lo que levanta del archivo
+		//cout << a.password << endl;
         if (!  strcmp(user,a.user)){
             if (!  strcmp(pass,a.password)){
                         control = 1;
