@@ -61,7 +61,8 @@ int validarAlumno_A (char* user,char* pass, struct alumno* alu){
 
     while ( !control && i < n){
         leerAlumno_A(&a, i);
-
+		cout << a.user << endl;				//testeo lo que levanta del archivo
+		cout << a.password << endl;
         if (!  strcmp(user,a.user)){
             if (!  strcmp(pass,a.password)){
                         control = 1;
@@ -189,7 +190,7 @@ void verificarPendientes_A (char* legajo, int id, char* datosEvaluacion){
     while ( !control && i < n){
         leerResultadosAlumnos_A(&resultado, i);
 
-        if (!  strcmp(resultado.legajoAlumno,legajo) || resultado.idEvaluacion == id){
+        if (!strcmp(resultado.legajoAlumno,legajo) || resultado.idEvaluacion == id){
             control = -1;
             strcpy (datosEvaluacion,"SinEvaluaciones");
         }

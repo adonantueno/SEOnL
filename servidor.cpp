@@ -215,14 +215,19 @@ int main () {
 									break;
 								case 1:
 									cout << "entro logueo" << endl;
+									cout << "tamaño campo datos " << strlen(msj->datos) << endl;
 									interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
+									
+									cout << "user " << user_cliente << endl;
+									cout << "pass " << pass_cliente << endl;
 
 									if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
 										// primero cargo los datos de la evaluación
 										// luego, los borro si es que ya lo hizo.
 										strcpy (pendientes, evaluacion.titulo);
-                                        verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
+										verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
 										//-------------- CREO EL MENSAJE----------------
+
 										crearDatos_M101 (alumno.apellido,alumno.legajo,pendientes,datos);
 										c = 9;
 										sc = 101;
@@ -239,8 +244,8 @@ int main () {
 											/*COMINEZA EL LOOP DE LA EVALUACION*/
 											//msj = (struct mensaje*) buffer;
 
-											int p = 0;
-											int calificacion;
+											int p = 0;						//contador de pregunta
+											int calificacion =0;				//almacena la calificacion
 											//while (evaluacion.preguntas[p] != NULL)
 											while (p < 5){
 												strcpy (datos, "");
@@ -250,7 +255,8 @@ int main () {
 												strcpy (pregunta->opciones[0], evaluacion.preguntas[p].opciones[0]);
 												strcpy (pregunta->opciones[1], evaluacion.preguntas[p].opciones[1]);
 												strcpy (pregunta->opciones[2], evaluacion.preguntas[p].opciones[2]);
-
+												
+												
 												//----------------- ENVIO --------------------
 												c = 4;
 												sc = 0;
@@ -262,14 +268,23 @@ int main () {
 												//-------------------- Espero respuesta --------------------
 												leerMensaje ( sdc , buffer , P_SIZE );
 												reordenarBytes (msj);
-												//cout << msj->datos << endl;
-												if (atoi(msj->datos) == pregunta->correcta){
-													calificacion++;
+												
+												cout << "respondio" << atoi(msj->datos) << endl;
+												cout << "correcta" << evaluacion.preguntas[p].correcta << endl;
+												
+												
+												if (atoi(msj->datos) == evaluacion.preguntas[p].correcta+1){		//aca creo q va evaluacion.preguntas[p].correcta en ves de   pregunta->correcta 
+																													//xq no se hace asignación del campo correcta a pregunta
+													cout << "entro" << endl;
+													
+													calificacion = calificacion+2;								//sumo de a (10/cant de preg)
 												}
 												p++;
 											}
-											cout << calificacion << endl;
+											cout << "calificacion: " << calificacion << endl;
+											
 											//crearDatos(calificacion, datos);
+											
 											crearDatos("calificacion", datos);
 											c = 9;
 											sc = 103;

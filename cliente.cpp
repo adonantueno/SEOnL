@@ -117,12 +117,21 @@ int main () {
 					cout << "Ingrse sus datos para ingresar" << endl;
 					cout << "usuario: " ; cin >> user;
 					cout << "contraseña: " ; cin >> pass;
+					
+				
 					//------------------- CREO EL MENSAJE----------
 					crearDatos_M1(user,pass,datos);
 					c =  1;
 					sc = 0;
 					ln = 16 + 16 + 32 + sizeof(datos);
 					msj = (struct mensaje*) buffer;
+					
+					/* testeo
+					cout << "Ingreso" << endl;
+					cout << "usuario: " << strlen(datos);
+					cout << "contraseña: " << pass;
+					*/
+					
 					// -------------------- ENVIO ------------------------------
 					cargarMensaje(msj,c,sc,ln,datos);
 					ordenarBytes (msj);
@@ -160,8 +169,13 @@ int main () {
 								imprimirPregunta(*pregunta);
 								cout << "respuesta: "; cin >> respuesta;
 
+
+								
 								//------------------- CREO EL MENSAJE----------
 								crearDatos(&respuesta,datos);
+								
+								cout << "respondio " << datos << endl;			//test
+								
 								c =  5;
 								sc = 0;
 								ln = 16 + 16 + 32 + sizeof(datos);
