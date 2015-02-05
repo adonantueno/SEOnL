@@ -192,7 +192,7 @@ void verificarPendientes_A (char* legajo, int id, char* datosEvaluacion){
 
         if (!strcmp(resultado.legajoAlumno,legajo) || resultado.idEvaluacion == id){
             control = -1;
-            strcpy (datosEvaluacion,"SinEvaluaciones");
+            strcpy (datosEvaluacion,"");
         }
         i++;
     }

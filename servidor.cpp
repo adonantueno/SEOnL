@@ -270,9 +270,9 @@ int main () {
 												p++;
 											}
 											cout << "calificacion: " << calificacion << endl;
-											char* cc;
-											sprintf(cc, "%d", calificacion);
-											crearDatos(cc, datos);
+											char cc;
+											sprintf(&cc, "%d", calificacion);
+											crearDatos(&cc, datos);
 											//----------------- ENVIO --------------------
 											c = 9;
 											sc = 103;

@@ -1,7 +1,6 @@
 #Variables
 
 CXX = g++
-CXXFLAGS = -std=c++11
 
 DIRECTORIO = librerias
 LIB_1= estructurasSEOnL
@@ -22,10 +21,10 @@ libs:
 	$(MAKE) -C $(DIRECTORIO) crear
 
 servidor:
-	$(CXX) $(LIBS) $(SERVER) -o servidor $(CXXFLAGS)
+	$(CXX) $(LIBS) $(SERVER) -o servidor
 
 cliente:
-	$(CXX) $(LIBS) $(CLIENT) -o cliente  $(CXXFLAGS)
+	$(CXX) $(LIBS) $(CLIENT) -o cliente 
 
 all: libs servidor cliente
 

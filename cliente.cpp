@@ -141,39 +141,21 @@ int main () {
 					reordenarBytes (msj);
 					system("clear");
 					if (msj->subcodigo == 101){
-						cout << "Entrasta al SEOnL" << endl;
+						cout << "Entraste al SEOnL" << endl;
 						interpretarDatos_M101 (apellido, legajo, pendientes, msj->datos);
 						cout << "Hola " << legajo << " " << apellido << endl;
-						cout << "--- --- Evaluaciones para realiazar --- ---" << endl;
-						cout << pendientes << endl;
-						cout << "Desear realizar evaluacion (s/n)"<< endl;
-						cin >> resEvaluacion;
-						if (resEvaluacion == 's'){
-							/*COMINEZA EL LOOP DE LA EVALUACION*/
-							//------------------- CREO EL MENSAJE----------
-							crearDatos("null",datos);
-							c =  3;
-							sc = 0;
-							ln = 16 + 16 + 32 + sizeof(datos);
-							msj = (struct mensaje*) buffer;
-							// -------------------- ENVIO ------------------------------
-							cargarMensaje(msj,c,sc,ln,datos);
-							ordenarBytes (msj);
-							send ( sd, buffer, P_SIZE, 0 );
-							//-------------------- Espero respuesta --------------------
-							leerMensaje ( sd , buffer , P_SIZE );
-							reordenarBytes (msj);
-							char respuesta;
-							while (msj->codigo == 4){
-								pregunta = (struct pregunta*) msj->datos;
-								imprimirPregunta(*pregunta);
-								cout << "respuesta: "; cin >> respuesta;
-
-
-
+						cout << "--- --- Evaluaciones para realizar --- ---" << endl;
+						if(!strcmp(pendientes,"")){
+							cout<<"Sin evaluaciones para realizar"<<endl;
+						}else{
+							cout << pendientes << endl;
+							cout << "Desear realizar evaluacion (s/n)"<< endl;
+							cin >> resEvaluacion;
+							if (resEvaluacion == 's'){
+								/*COMINEZA EL LOOP DE LA EVALUACION*/
 								//------------------- CREO EL MENSAJE----------
-								crearDatos(&respuesta,datos);
-								c =  5;
+								crearDatos("null",datos);
+								c =  3;
 								sc = 0;
 								ln = 16 + 16 + 32 + sizeof(datos);
 								msj = (struct mensaje*) buffer;
@@ -184,13 +166,32 @@ int main () {
 								//-------------------- Espero respuesta --------------------
 								leerMensaje ( sd , buffer , P_SIZE );
 								reordenarBytes (msj);
-							}
-							if (msj->codigo == 9 && msj->subcodigo == 103){
-								cout << "Tu nota es: " << msj->datos << endl;
-								cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+								char respuesta;
+								while (msj->codigo == 4){
+									pregunta = (struct pregunta*) msj->datos;
+									imprimirPregunta(*pregunta);
+									cout << "respuesta: "; cin >> respuesta;
+									//------------------- CREO EL MENSAJE----------
+									crearDatos(&respuesta,datos);
+									c =  5;
+									sc = 0;
+									ln = 16 + 16 + 32 + sizeof(datos);
+									msj = (struct mensaje*) buffer;
+									// -------------------- ENVIO ------------------------------
+									cargarMensaje(msj,c,sc,ln,datos);
+									ordenarBytes (msj);
+									send ( sd, buffer, P_SIZE, 0 );
+									//-------------------- Espero respuesta --------------------
+									leerMensaje ( sd , buffer , P_SIZE );
+									reordenarBytes (msj);
+								}
+								if (msj->codigo == 9 && msj->subcodigo == 103){
+									cout << "Tu nota es: " << msj->datos << endl;
+
+								}
 							}
 						}
-
+						cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 					}else{
 						if (msj->subcodigo == 201){
 							cout << "ocurrio un error." << endl;
