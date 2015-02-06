@@ -232,6 +232,8 @@ int main () {
 										cargarMensaje(msj,c,sc,ln,datos);
 										ordenarBytes (msj);
 										send ( sdc , buffer, P_SIZE, 0 );
+					
+								
 										//-------------------- Espero respuesta --------------------
 										leerMensaje ( sdc , buffer , P_SIZE );
 										reordenarBytes (msj);
@@ -284,7 +286,15 @@ int main () {
 											struct resultado r = crearResultado (evaluacion.id,evaluacion.titulo,alumno.legajo,alumno.apellido,calificacion);
 											cargarResultadoAlumno_A (&r);
 										}else{
-											cout << "erorr 202 amigo!" << endl;
+												if (msj->subcodigo ==104)
+												{
+													cout << "El alumno ya realizó el examen" << endl;
+												}else
+												{
+													cout << "erorr 202 amigo!" << endl;
+												}
+												
+												
 											}
 
 									}else{

@@ -146,7 +146,20 @@ int main () {
 						cout << "Hola " << legajo << " " << apellido << endl;
 						cout << "--- --- Evaluaciones para realizar --- ---" << endl;
 						if(!strcmp(pendientes,"")){
+							//preparo msj para que el servidor no se quede esperando
+							//no se si se manda aca o abajo 
+							
 							cout<<"Sin evaluaciones para realizar"<<endl;
+							crearDatos("",datos);
+							c=10; 					//evaluar cual tiene que ser el codigo
+							sc=104;
+							ln=16 + 16 + 32 + sizeof(datos);
+							msj = (struct mensaje*) buffer;
+							// -------------------- ENVIO ------------------------------
+							cargarMensaje(msj,c,sc,ln,datos);
+							ordenarBytes (msj);
+							send ( sd, buffer, P_SIZE, 0 );
+							
 						}else{
 							cout << pendientes << endl;
 							cout << "Desear realizar evaluacion (s/n)"<< endl;
@@ -192,6 +205,7 @@ int main () {
 							}
 						}
 						cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+						
 					}else{
 						if (msj->subcodigo == 201){
 							cout << "ocurrio un error." << endl;
