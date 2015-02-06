@@ -151,7 +151,7 @@ int main () {
 							
 							cout<<"Sin evaluaciones para realizar"<<endl;
 							crearDatos("",datos);
-							c=10; 					//evaluar cual tiene que ser el codigo
+							c=9; 					//evaluar cual tiene que ser el codigo
 							sc=104;
 							ln=16 + 16 + 32 + sizeof(datos);
 							msj = (struct mensaje*) buffer;
