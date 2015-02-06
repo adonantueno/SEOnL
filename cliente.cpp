@@ -99,14 +99,12 @@ int main () {
 						if (msj->subcodigo == 100){
 							cout << "su contraseña es: " << msj->datos << endl;
 							cout << "Vuelva al menu y elija la opción ingresar" << endl;
-							cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 						}
 						if (msj->subcodigo == 200){
 							cout << "Ocurrió un error en el registro" << endl;
 							cout << msj->datos << endl;
-							cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 						}
-
+					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 					}else {
 						cout << "error en la comunicación " << endl;
 					}
@@ -147,8 +145,7 @@ int main () {
 						cout << "--- --- Evaluaciones para realizar --- ---" << endl;
 						if(!strcmp(pendientes,"")){
 							//preparo msj para que el servidor no se quede esperando
-							//no se si se manda aca o abajo 
-							
+							//no se si se manda aca o abajo
 							cout<<"Sin evaluaciones para realizar"<<endl;
 							crearDatos("",datos);
 							c=9; 					//evaluar cual tiene que ser el codigo
@@ -159,7 +156,7 @@ int main () {
 							cargarMensaje(msj,c,sc,ln,datos);
 							ordenarBytes (msj);
 							send ( sd, buffer, P_SIZE, 0 );
-							
+
 						}else{
 							cout << pendientes << endl;
 							cout << "Desear realizar evaluacion (s/n)"<< endl;
@@ -200,12 +197,24 @@ int main () {
 								}
 								if (msj->codigo == 9 && msj->subcodigo == 103){
 									cout << "Tu nota es: " << msj->datos << endl;
-
+								}else{
+									//posiblemente 202
+									cout << msj->datos << endl;
 								}
+							}else{//no quire hacer evaluación
+								crearDatos("",datos);
+								c=9; 					//evaluar cual tiene que ser el codigo
+								sc=104;
+								ln=16 + 16 + 32 + sizeof(datos);
+								msj = (struct mensaje*) buffer;
+								// -------------------- ENVIO ------------------------------
+								cargarMensaje(msj,c,sc,ln,datos);
+								ordenarBytes (msj);
+								send ( sd, buffer, P_SIZE, 0 );
 							}
 						}
 						cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
-						
+
 					}else{
 						if (msj->subcodigo == 201){
 							cout << "ocurrio un error." << endl;

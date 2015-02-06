@@ -77,7 +77,7 @@ void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint
 	strcpy ( msj->datos, datos );
 };
 
-struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],char legajoAlumno [11],char apellidoAlumno [30],float nota){
+struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],char legajoAlumno [11],char apellidoAlumno [30],int nota){
 
 	struct resultado r;
 
@@ -89,3 +89,10 @@ struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],cha
 
 	return r;
 };
+
+void imprimirResultado(struct resultado resultado){
+
+	cout << resultado.tituloEvaluacion << " | " ;
+	cout << resultado.legajoAlumno  << " " << resultado.apellidoAlumno << " | ";
+	cout << resultado.nota << endl;
+}

@@ -74,7 +74,7 @@ struct resultado {
 	char tituloEvaluacion [20];
 	char legajoAlumno [11];
 	char apellidoAlumno [30];
-	float nota;
+	int nota;
 };
 
 
@@ -156,5 +156,16 @@ void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint
  * DESCRIPCIÓN : crea un resultado a partir de los atrutos cargados a partir de
  * los parámatros asignados.
 */
-struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],char legajoAlumno [11],char apellidoAlumno [30],float nota);
+struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],char legajoAlumno [11],char apellidoAlumno [30],int nota);
+
+/*
+ * FUNCION : IMPRIMIR RESULTADO
+ * ENTRADA : estructura del tipo resultado
+ * SALIDA  : impresion por pantalla
+ * DESCRIPCIÓN : imprime por un formato determinado (3) el resultado
+ * recibido como parámetro
+ * (2) formato
+ * resultado.tituloEvaluacion | resultado.legajoAlumno resultado.apellidoAlumno | resultado.nota
+ */
+void imprimirResultado(struct resultado resultado);
 #endif

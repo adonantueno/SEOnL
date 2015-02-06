@@ -28,7 +28,6 @@ int cargarAlumno_A (struct alumno* a){
 
     FILE *archivoAlumnos;
     archivoAlumnos = fopen(PATH_ALUMNOS, "a");
-
     //fseek(archivoAlumnos, sizeof(alumno), SEEK_SET);
     fwrite(a, sizeof(alumno), 1, archivoAlumnos);
 
@@ -162,7 +161,7 @@ int cargarResultadoAlumno_A (struct resultado* r){
     return 0;
 };
 
-int leerResultadosAlumnos_A (struct resultado* r, int i){
+int leerResultadoAlumnos_A (struct resultado* r, int i){
 
 
     FILE *archivoResultados;
@@ -188,7 +187,7 @@ void verificarPendientes_A (char* legajo, int id, char* datosEvaluacion){
 
 
     while ( !control && i < n){
-        leerResultadosAlumnos_A(&resultado, i);
+        leerResultadoAlumnos_A(&resultado, i);
 
         if (!strcmp(resultado.legajoAlumno,legajo) || resultado.idEvaluacion == id){
             control = -1;

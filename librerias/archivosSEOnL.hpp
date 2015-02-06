@@ -109,7 +109,7 @@ int cargarResultadoAlumno_A (struct resultado* r);
  * DESCRIPCION : lee el resultado ubicado en la posicion i del archivo.
  ADVERTENCA: si i es mayor al número de registros, devuelve el último registro.
  */
-int leerResultadosAlumnos_A (struct resultado* r, int i);
+int leerResultadoAlumnos_A (struct resultado* r, int i);
 
 /* FUNCION : VERIFICAR PENDIENTES-ARCHIVO-
  * ENTRADA : char* legajo, int id, char* datosEvaluacion

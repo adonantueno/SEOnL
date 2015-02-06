@@ -59,6 +59,7 @@ int main () {
 	struct mensaje* msj;
 	struct alumno* alu;
 	struct alumno alumno;
+	struct resultado result;
 
 	int cant;
 	char enunciado[250];
@@ -66,6 +67,8 @@ int main () {
 	int id;
 	char titulo[20];
 	socklen_t lon;
+
+	long n; 					// usado para la cantidad de registros
 
     int codEvaluaciones;		  // codigo de evaluacion a poner en linea
 	int valido;			   	// usada para validar usuario cliente
@@ -125,6 +128,13 @@ int main () {
 					Le dariamos a seleccionar una evaluacion y a partir de alli
 					buscacmos en el archivo de resultados.
 					*/
+					n = calcularRegistros(PATH_RESULTADOS, sizeof(resultado));
+					while ( i < n){
+						leerResultadoAlumnos_A (&result, i);
+						imprimirResultado(result);
+						i++;
+					}
+					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 					break;
 
 				case '3':
@@ -148,7 +158,7 @@ int main () {
 
 							cout << "Seleccione una evaluacion a poner en Linea..." << endl;
 
-						    long n = calcularRegistros(PATH_EVALUACIONES, sizeof(evaluacion));
+						    n = calcularRegistros(PATH_EVALUACIONES, sizeof(evaluacion));
 							i = 0;
 						    while ( i < n){
 						        leerEvaluacion_A(&evaluacion, i);
@@ -169,6 +179,7 @@ int main () {
 						cout << "--- --- EN LINEA --- ---"<< endl;
 						//Está en linea hasta que el usuario quiera terminar!.
 						while(conexion){
+							strcmp ("",buffer);
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
 							while (leerMensaje ( sdc , buffer , P_SIZE ) > 0){
@@ -183,9 +194,9 @@ int main () {
 
 									verificaAlu = verificarDatosAlumno_A (alu);
 									if (verificaAlu == 0){
+										strcpy(alu->password, "123abc");
 										cargarAlumno_A(alu);
 										//-------------- CREO EL MENSAJE----------------
-										strcpy(alu->password, "123abc");
 										crearDatos(alu->password, datos);
 										c = 9;
 										sc = 100;
@@ -232,8 +243,8 @@ int main () {
 										cargarMensaje(msj,c,sc,ln,datos);
 										ordenarBytes (msj);
 										send ( sdc , buffer, P_SIZE, 0 );
-					
-								
+
+
 										//-------------------- Espero respuesta --------------------
 										leerMensaje ( sdc , buffer , P_SIZE );
 										reordenarBytes (msj);
@@ -265,8 +276,7 @@ int main () {
 												//-------------------- Espero respuesta --------------------
 												leerMensaje ( sdc , buffer , P_SIZE );
 												reordenarBytes (msj);
-
-												if (atoi(msj->datos) == evaluacion.preguntas[p].correcta+1){		//aca creo q va evaluacion.preguntas[p].correcta en ves de   pregunta->correcta
+												if (atoi(msj->datos) == evaluacion.preguntas[p].correcta){		//aca creo q va evaluacion.preguntas[p].correcta en ves de   pregunta->correcta
 													calificacion = calificacion+2;								//sumo de a (10/cant de preg)
 												}
 												p++;
@@ -283,18 +293,25 @@ int main () {
 											ordenarBytes (msj);
 											send ( sdc , buffer, P_SIZE, 0 );
 											//----------------- almaceno en archivo --------------------
-											struct resultado r = crearResultado (evaluacion.id,evaluacion.titulo,alumno.legajo,alumno.apellido,calificacion);
-											cargarResultadoAlumno_A (&r);
+											result = crearResultado (evaluacion.id,evaluacion.titulo,alumno.legajo,alumno.apellido,calificacion);
+											cargarResultadoAlumno_A (&result);
 										}else{
 												if (msj->subcodigo ==104)
 												{
 													cout << "El alumno ya realizó el examen" << endl;
 												}else
 												{
-													cout << "erorr 202 amigo!" << endl;
+													crearDatos("No selecciono evaluación a realizar", datos);
+													//----------------- ENVIO --------------------
+													c = 9;
+													sc = 202;
+													ln = 16 + 16 + 32 + sizeof(datos);
+													cargarMensaje(msj,c,sc,ln,datos);
+													ordenarBytes (msj);
+													send ( sdc , buffer, P_SIZE, 0 );
 												}
-												
-												
+
+
 											}
 
 									}else{
