@@ -129,6 +129,7 @@ int main () {
 					buscacmos en el archivo de resultados.
 					*/
 					n = calcularRegistros(PATH_RESULTADOS, sizeof(resultado));
+					i=0;
 					while ( i < n){
 						leerResultadoAlumnos_A (&result, i);
 						imprimirResultado(result);
