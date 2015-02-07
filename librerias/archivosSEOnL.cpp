@@ -189,7 +189,7 @@ void verificarPendientes_A (char* legajo, int id, char* datosEvaluacion){
     while ( !control && i < n){
         leerResultadoAlumnos_A(&resultado, i);
 
-        if (!strcmp(resultado.legajoAlumno,legajo) || resultado.idEvaluacion == id){
+        if (!strcmp(resultado.legajoAlumno,legajo) && resultado.idEvaluacion == id){
             control = -1;
             strcpy (datosEvaluacion,"");
         }

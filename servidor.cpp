@@ -298,10 +298,10 @@ int main () {
 										}else{
 												if (msj->subcodigo ==104)
 												{
-													cout << "El alumno ya realizó el examen" << endl;
+													cout << "El alumno ya realizó el examen o no quiere hacerlo" << endl;
 												}else
 												{
-													crearDatos("No selecciono evaluación a realizar", datos);
+													crearDatos("Error en codigo de examen!", datos);
 													//----------------- ENVIO --------------------
 													c = 9;
 													sc = 202;
