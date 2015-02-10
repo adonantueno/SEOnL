@@ -62,9 +62,10 @@ int main () {
 	struct resultado result;
 
 	int cant;
+	int correc; 				//agregada
 	char enunciado[250];
 	char opcion[50];
-	int id;
+	int id = 1;					//FALTA CORREGIR
 	char titulo[20];
 	socklen_t lon;
 
@@ -95,10 +96,50 @@ int main () {
 			switch (res){
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
-					/*
+					
+					//PARTE QUE ADMITE ESPACIOS ;)
 					cout << "Iniciando Examen" << endl;
-					cout << "Indique titulo del Examen: "; cin >> titulo;
-					examen = cargarEvaluacion(id, titulo);
+					cout << "Indique titulo del Examen: "; //cin >> titulo;
+					scanf (" %[^\n]",&titulo);
+					fflush( stdin );
+					cout << titulo << endl;
+					evaluacion = cargarEvaluacion(id, titulo);
+					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
+					cout << "Iniciando carga de preguntas" << endl;
+					for (int i = 0; i < cant ; i++)
+					{
+						cout << "ingrese enunciado : ";// cin >> enunciado;
+						scanf (" %[^\n]",&enunciado);
+						fflush( stdin );
+						preg = cargarPregunta(i+1,enunciado);
+						cout << "Iniciando carga de opciones" << endl;
+						for (int j = 0; j < 3 ; j++)
+						{
+							cout << "ingrese opcion numero: " << j+1 << " "; //cin >>opcion;
+							scanf (" %[^\n]",&opcion);
+							fflush( stdin );
+							cargarOpcionPregunta(preg ,j,opcion);
+							cout << preg.opciones[j+1] << endl;
+						}
+					cout << "ingrese opcion correcta"; cin >> correc;
+					cargarOpcionCorrectaPregunta(preg, correc);
+					cargarPreguntaEvaluacion(evaluacion,i,preg);
+					imprimirPregunta(preg);
+					}
+					cargarEvaluacion_A(&evaluacion);
+					
+					/* Parte vieja
+					cout << "Iniciando Examen" << endl;
+					cout << "Indique titulo del Examen: "; 				// cin >> titulo;
+					 
+					
+					fscanf (stdin, "%s", titulo);	
+					//getline(cin,&titulo);
+					
+										
+					cout << titulo << endl;
+					//gets(titulo);				//esta linea reemplaza la de arriba
+					evaluacion = cargarEvaluacion(id, titulo);
 					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
 					cout << "Iniciando carga de preguntas" << endl;
 					for (cant; cant > 0 ; cant--)
@@ -111,16 +152,22 @@ int main () {
 								cout << "ingrese opcion: " << j; cin >>opcion;
 								cargarOpcionPregunta(preg ,j,opcion);
 						}
-						cargarPreguntaEvaluacion(examen,cant,preg);
+						cout << "ingrese opcion correcta"; cin >> correc;
+						cargarOpcionCorrectaPregunta(preg, correc);
+						
+						cargarPreguntaEvaluacion(evaluacion,cant,preg);
 					}
-					*/
+					
+					
 					leerEvaluacion_A(&evaluacion, 0);
 
 					imprimirEvaluacion(evaluacion);
 					for (int k= 0; k < 5; k++){
 						imprimirPregunta(evaluacion.preguntas[k]);
-					}
+					}*/
+					
 					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
+					
 					break;
 
 				case '2':

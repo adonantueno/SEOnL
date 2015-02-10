@@ -19,6 +19,7 @@ struct evaluacion {
 		char titulo [20];
 		struct pregunta preguntas[20];
 };
+*
 struct alumno {
 	char legajo [11];
 	char apellido [30];
@@ -44,6 +45,12 @@ struct pregunta cargarPregunta (int id, char enunciado[250]){
 
 void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]){
 	strcpy (p.opciones[pos], opcion);
+};
+
+//AGREGADO
+
+void cargarOpcionCorrectaPregunta (struct pregunta& p, int c){
+	p.correcta = c;
 };
 
 void imprimirPregunta (struct pregunta p){

@@ -168,4 +168,12 @@ struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],cha
  * resultado.tituloEvaluacion | resultado.legajoAlumno resultado.apellidoAlumno | resultado.nota
  */
 void imprimirResultado(struct resultado resultado);
+
+/*
+ * FUNCION : CARGAR OPCION CORRECTA PREGUNTA  EVALUACION
+ * ENTRADA : la pregunta y la opcion (int) correcta
+ * SALIDA  : void
+ * DESCRIPCIÓN : a la pregunta le asigna una rta correcta.
+ */
+ void cargarOpcionCorrectaPregunta(struct pregunta& preg, int c);
 #endif
