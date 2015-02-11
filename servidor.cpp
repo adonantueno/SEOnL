@@ -65,7 +65,7 @@ int main () {
 	int correc; 				//agregada
 	char enunciado[250];
 	char opcion[50];
-	int id = 1;					//FALTA CORREGIR
+	int id = 2;					//FALTA CORREGIR, porque la idea es que no lo tenga que ingresar el tipo por teclado
 	char titulo[20];
 	socklen_t lon;
 
@@ -99,23 +99,22 @@ int main () {
 					
 					//PARTE QUE ADMITE ESPACIOS ;)
 					cout << "Iniciando Examen" << endl;
-					cout << "Indique titulo del Examen: "; //cin >> titulo;
+					cout << "Indique titulo del Examen: "; 
 					scanf (" %[^\n]",&titulo);
 					fflush( stdin );
-					cout << titulo << endl;
 					evaluacion = cargarEvaluacion(id, titulo);
 					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
 					cout << "Iniciando carga de preguntas" << endl;
 					for (int i = 0; i < cant ; i++)
 					{
-						cout << "ingrese enunciado : ";// cin >> enunciado;
+						cout << "ingrese enunciado : ";
 						scanf (" %[^\n]",&enunciado);
 						fflush( stdin );
 						preg = cargarPregunta(i+1,enunciado);
 						cout << "Iniciando carga de opciones" << endl;
 						for (int j = 0; j < 3 ; j++)
 						{
-							cout << "ingrese opcion numero: " << j+1 << " "; //cin >>opcion;
+							cout << "ingrese opcion numero: " << j+1 << " "; 
 							scanf (" %[^\n]",&opcion);
 							fflush( stdin );
 							cargarOpcionPregunta(preg ,j,opcion);
@@ -259,7 +258,7 @@ int main () {
 											msj = (struct mensaje*) buffer;
 										}else{
 											//-------------- CREO EL MENSAJE----------------
-											crearDatos("User ya utilazado (opte por otro).", datos);
+											crearDatos("User ya utilizado (opte por otro).", datos);
 											c = 9;
 											sc = 200;
 											ln = 16 + 16 + 32 + sizeof(datos);
@@ -278,6 +277,7 @@ int main () {
 									if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
 										// primero cargo los datos de la evaluación
 										// luego, los borro si es que ya lo hizo.
+										//SE PODRÍA HACER DENTRO DE VERIFICAR PENDIENTES
 										strcpy (pendientes, evaluacion.titulo);
 										verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
 										//-------------- CREO EL MENSAJE----------------
@@ -303,7 +303,10 @@ int main () {
 											int p = 0;						//contador de pregunta
 											int calificacion = 0;				//almacena la calificacion
 											//while (evaluacion.preguntas[p] != NULL)
-											while (p < 5){
+										//	int cont = 0;
+											while ( !evaluacion.preguntas[p].id == 0){
+											
+											//while (p < 5){
 												strcpy (datos, "");
 												pregunta = (struct pregunta*) msj->datos;
 												pregunta->id = evaluacion.preguntas[p].id;

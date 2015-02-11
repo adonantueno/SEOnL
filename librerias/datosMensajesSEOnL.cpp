@@ -85,7 +85,7 @@ void interpretarDatos_M1 (char* user, char* pass, char* datos){
 		j++;
 	}
 };
-/*MENSAJE 101*/
+/*MENSAJE 101 --> IMPLEMENTE STRLEN POR UNICIDAD CON LA CREACION DE LOS DEMAS MENSAJES*/
 void crearDatos_M101(char* apellido, char* legajo, char* listaEvaluaciones, char* datos){
 
 	strcpy (datos, "");

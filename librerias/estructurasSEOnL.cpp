@@ -35,6 +35,8 @@ struct resultado {
 	float nota;
 };*/
 
+// PRUEBA int cantidadPreguntas (struct pregunta p [20])
+
 struct pregunta cargarPregunta (int id, char enunciado[250]){
 
 	struct pregunta p;

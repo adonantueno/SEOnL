@@ -30,53 +30,33 @@ int main (){
     struct evaluacion e2;
 
     FILE * archivoEvaluaciones;
-    /*archivoAlumnos = fopen("alumnos.dat", "a");
-
-    strcpy (a1.legajo, "05-22811-4");
-    strcpy (a1.apellido, "PASTORINO");
-    strcpy (a1.user, "pas");
-    strcpy (a1.password, "abc123");
-    fwrite(&a1, sizeof(alumno), 1, archivoAlumnos);
-
-    //fseek(archivoAlumnos, sizeof(alumno), SEEK_SET);
-    //fwrite(&a1, sizeof(alumno), 1, archivoAlumnos);
-    fclose(archivoAlumnos);*/
-
 	long nRegistros;
-
-
-
     archivoEvaluaciones = fopen("evaluaciones.dat", "r");
-
-
-    fseek(archivoEvaluaciones, 0, SEEK_END); // Colocar el cursor al final del fichero
+    fseek(archivoEvaluaciones, 0, SEEK_END); 						// Colocar el cursor al final del fichero
     nRegistros = ftell(archivoEvaluaciones)/sizeof(evaluacion);
-
-	cout << "tiene " << nRegistros << " registros " << endl;
-
+	cout << "tiene " << nRegistros << " registro/s " << endl;
     for (int i=0 ; i< nRegistros ; i++ ) {
-
         fseek(archivoEvaluaciones, i * sizeof(evaluacion), SEEK_SET);
         fread(&e2, sizeof(evaluacion), 1, archivoEvaluaciones);
         cout << e2.id << " " << e2.titulo << endl;
-        while ( !e2.preguntas[i].id == 0)
+        int cont = 0;
+        while ( !e2.preguntas[cont].id == 0)
 		{		
-			cout << "id: " << e2.preguntas[i].id << endl;
-			cout << "enunciado: " << e2.preguntas[i].enunciado << endl;
+			cout << "id: " << e2.preguntas[cont].id << endl;
+			cout << "enunciado: " << e2.preguntas[cont].enunciado << endl;
 			for (int j = 0; j < 3; j++)
 			{
-				cout << "	opcion: "<< j+1 << " " << e2.preguntas[i].opciones[j] << endl;
+				cout << "	opcion: "<< j+1 << " " << e2.preguntas[cont].opciones[j] << endl;
 			}
-			cout << "	correcta: " << e2.preguntas[i].correcta << endl;
-			i++;
+			cout << "	correcta: " << e2.preguntas[cont].correcta << endl;
+			cont++;
 		}        
     }
     fclose(archivoEvaluaciones);
-
-
 }
 
-/*
+/*	HAY QUE VER PORQUE DEFINO EL LUGAR DONDE ESTAN LAS CABECERAS PERO QUIZA PUEDAN QUEDAR DIRECTAMENTE AQUI...
+ * 
 int cargarEvaluacion_A (struct evaluacion* e){
 
     FILE *archivoEvaluaciones;
