@@ -40,7 +40,7 @@ int main () {
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
-	char datos [500] = "";
+	char datos [1000] = "";
 	char pendientes [100] = "";
 
 	char buffer[P_SIZE];
@@ -66,7 +66,7 @@ int main () {
 	char enunciado[250];
 	char opcion[50];
 	int id = 2;					//FALTA CORREGIR, porque la idea es que no lo tenga que ingresar el tipo por teclado
-	char titulo[20];
+	char titulo[50];
 	socklen_t lon;
 
 	long n; 					// usado para la cantidad de registros
@@ -96,10 +96,10 @@ int main () {
 			switch (res){
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
-					
+
 					//PARTE QUE ADMITE ESPACIOS ;)
 					cout << "Iniciando Examen" << endl;
-					cout << "Indique titulo del Examen: "; 
+					cout << "Indique titulo del Examen: ";
 					scanf (" %[^\n]",&titulo);
 					fflush( stdin );
 					evaluacion = cargarEvaluacion(id, titulo);
@@ -114,7 +114,7 @@ int main () {
 						cout << "Iniciando carga de opciones" << endl;
 						for (int j = 0; j < 3 ; j++)
 						{
-							cout << "ingrese opcion numero: " << j+1 << " "; 
+							cout << "ingrese opcion numero: " << j+1 << " ";
 							scanf (" %[^\n]",&opcion);
 							fflush( stdin );
 							cargarOpcionPregunta(preg ,j,opcion);
@@ -126,47 +126,10 @@ int main () {
 					imprimirPregunta(preg);
 					}
 					cargarEvaluacion_A(&evaluacion);
-					
-					/* Parte vieja
-					cout << "Iniciando Examen" << endl;
-					cout << "Indique titulo del Examen: "; 				// cin >> titulo;
-					 
-					
-					fscanf (stdin, "%s", titulo);	
-					//getline(cin,&titulo);
-					
-										
-					cout << titulo << endl;
-					//gets(titulo);				//esta linea reemplaza la de arriba
-					evaluacion = cargarEvaluacion(id, titulo);
-					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
-					cout << "Iniciando carga de preguntas" << endl;
-					for (cant; cant > 0 ; cant--)
-					{
-						cout << "ingrese enunciado : "; cin >> enunciado;
-						preg = cargarPregunta(cant,enunciado);
-						cout << "Iniciando carga de opciones" << endl;
-						for (int j = 0; j < 3 ; j++)
-						{
-								cout << "ingrese opcion: " << j; cin >>opcion;
-								cargarOpcionPregunta(preg ,j,opcion);
-						}
-						cout << "ingrese opcion correcta"; cin >> correc;
-						cargarOpcionCorrectaPregunta(preg, correc);
-						
-						cargarPreguntaEvaluacion(evaluacion,cant,preg);
-					}
-					
-					
-					leerEvaluacion_A(&evaluacion, 0);
 
-					imprimirEvaluacion(evaluacion);
-					for (int k= 0; k < 5; k++){
-						imprimirPregunta(evaluacion.preguntas[k]);
-					}*/
-					
+
 					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
-					
+
 					break;
 
 				case '2':
@@ -185,6 +148,7 @@ int main () {
 					break;
 
 				case '3':
+					//signal ( SIGCHLD , terminar_proceso );
 					servidor.sin_family = AF_INET;
 					servidor.sin_port = htons(4444);
 					servidor.sin_addr.s_addr = INADDR_ANY;
@@ -223,12 +187,15 @@ int main () {
 						//ya tengo la evaluacion que realizaran los alumnos que se conecten.
 
 						listen ( sd , 5 );
+
 						cout << "--- --- EN LINEA --- ---"<< endl;
 						//Está en linea hasta que el usuario quiera terminar!.
 						while(conexion){
 							strcmp ("",buffer);
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
+							////posible lugar donde se tiene que poner el fork
+							//if( pid ==0)
 							while (leerMensaje ( sdc , buffer , P_SIZE ) > 0){
 
 							msj = (struct mensaje*) buffer;
@@ -305,7 +272,7 @@ int main () {
 											//while (evaluacion.preguntas[p] != NULL)
 										//	int cont = 0;
 											while ( !evaluacion.preguntas[p].id == 0){
-											
+
 											//while (p < 5){
 												strcpy (datos, "");
 												pregunta = (struct pregunta*) msj->datos;
