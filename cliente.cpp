@@ -123,13 +123,6 @@ int main () {
 					sc = 0;
 					ln = 16 + 16 + 32 + sizeof(datos);
 					msj = (struct mensaje*) buffer;
-
-					/* testeo
-					cout << "Ingreso" << endl;
-					cout << "usuario: " << strlen(datos);
-					cout << "contraseña: " << pass;
-					*/
-
 					// -------------------- ENVIO ------------------------------
 					cargarMensaje(msj,c,sc,ln,datos);
 					ordenarBytes (msj);

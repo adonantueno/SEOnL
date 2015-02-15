@@ -6,6 +6,10 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 
+
+#include <sys/types.h>
+#include <sys/wait.h>
+
 #include "librerias/estructurasSEOnL.hpp"
 #include "librerias/datosMensajesSEOnL.hpp"
 #include "librerias/archivosSEOnL.hpp"
@@ -31,6 +35,12 @@ bool userValido (string user, string pass){
 		validacion = 1;
 	}
 	return validacion;
+};
+void terminar_proceso () {
+	int pid, res;
+
+	pid = waitpid ( -1 , &res , WNOHANG );
+	printf ("El proceso %d termino con codig de error %d\n",pid,res);
 };
 
 int main () {
@@ -77,7 +87,7 @@ int main () {
 	int conexion = 1; 		   //  usada para mantener la conexion.
 	int control = 1;			// usada para estar activo mientras el usuario lo desee.
 	int controlSelecion = 1;     // usada para el control de la seleccion de evaluacion en linea
-
+	int pid;
 
 	cout << "usuario: " ; cin >> user;
 	cout << "contraseña: " ; cin >> pass;
@@ -149,6 +159,8 @@ int main () {
 
 				case '3':
 					//signal ( SIGCHLD , terminar_proceso );
+					signal ( SIGCHLD , SIG_IGN );
+
 					servidor.sin_family = AF_INET;
 					servidor.sin_port = htons(4444);
 					servidor.sin_addr.s_addr = INADDR_ANY;
@@ -194,169 +206,160 @@ int main () {
 							strcmp ("",buffer);
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
+
+							pid = fork();
 							////posible lugar donde se tiene que poner el fork
 							//if( pid ==0)
-							while (leerMensaje ( sdc , buffer , P_SIZE ) > 0){
+							if (pid == 0){
 
-							msj = (struct mensaje*) buffer;
-							reordenarBytes (msj);
+	    						close(sd);
+								while (leerMensaje ( sdc , buffer , P_SIZE ) > 0){
 
-							switch (msj->codigo){
-								case 0:
-									cout << "entro Registro" << endl;
-									alu = (struct alumno*) msj->datos;
+									msj = (struct mensaje*) buffer;
+									reordenarBytes (msj);
 
-									verificaAlu = verificarDatosAlumno_A (alu);
-									if (verificaAlu == 0){
-										strcpy(alu->password, "123abc");
-										cargarAlumno_A(alu);
-										//-------------- CREO EL MENSAJE----------------
-										crearDatos(alu->password, datos);
-										c = 9;
-										sc = 100;
-										ln = 16 + 16 + 32 + sizeof(datos);
-										msj = (struct mensaje*) buffer;
-									}else{
-										if (verificaAlu > 0 ){
-											crearDatos("Alumno ya registrado.", datos);
-											c = 9;
-											sc = 200;
-											ln = 16 + 16 + 32 + sizeof(datos);
-											msj = (struct mensaje*) buffer;
-										}else{
-											//-------------- CREO EL MENSAJE----------------
-											crearDatos("User ya utilizado (opte por otro).", datos);
-											c = 9;
-											sc = 200;
-											ln = 16 + 16 + 32 + sizeof(datos);
-											msj = (struct mensaje*) buffer;
-										}
-									}
-									//----------------- ENVIO --------------------
-									cargarMensaje(msj,c,sc,ln,datos);
-									ordenarBytes (msj);
-									send ( sdc , buffer, P_SIZE, 0 );
+									switch (msj->codigo){
+										case 0:
+											cout << "entro Registro" << endl;
+											alu = (struct alumno*) msj->datos;
 
-									break;
-								case 1:
-									cout << "entro logueo" << endl;
-									interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
-									if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
-										// primero cargo los datos de la evaluación
-										// luego, los borro si es que ya lo hizo.
-										//SE PODRÍA HACER DENTRO DE VERIFICAR PENDIENTES
-										strcpy (pendientes, evaluacion.titulo);
-										verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
-										//-------------- CREO EL MENSAJE----------------
-
-										crearDatos_M101 (alumno.apellido,alumno.legajo,pendientes,datos);
-										c = 9;
-										sc = 101;
-										ln = 16 + 16 + 32 + sizeof(datos);
-										msj = (struct mensaje*) buffer;
-										//----------------- ENVIO --------------------
-										cargarMensaje(msj,c,sc,ln,datos);
-										ordenarBytes (msj);
-										send ( sdc , buffer, P_SIZE, 0 );
-
-
-										//-------------------- Espero respuesta --------------------
-										leerMensaje ( sdc , buffer , P_SIZE );
-										reordenarBytes (msj);
-										if (msj->codigo == 3){
-											/*COMINEZA EL LOOP DE LA EVALUACION*/
-											//msj = (struct mensaje*) buffer;
-
-											int p = 0;						//contador de pregunta
-											int calificacion = 0;				//almacena la calificacion
-											//while (evaluacion.preguntas[p] != NULL)
-										//	int cont = 0;
-											while ( !evaluacion.preguntas[p].id == 0){
-
-											//while (p < 5){
-												strcpy (datos, "");
-												pregunta = (struct pregunta*) msj->datos;
-												pregunta->id = evaluacion.preguntas[p].id;
-												strcpy (pregunta->enunciado, evaluacion.preguntas[p].enunciado);
-												strcpy (pregunta->opciones[0], evaluacion.preguntas[p].opciones[0]);
-												strcpy (pregunta->opciones[1], evaluacion.preguntas[p].opciones[1]);
-												strcpy (pregunta->opciones[2], evaluacion.preguntas[p].opciones[2]);
-
-
-												//----------------- ENVIO --------------------
-												c = 4;
-												sc = 0;
-												ln = 16 + 16 + 32 + sizeof(msj->datos);
-												cargarMensaje(msj,c,sc,ln,msj->datos);
-												ordenarBytes (msj);
-												send ( sdc , buffer, P_SIZE, 0 );
-
-												//-------------------- Espero respuesta --------------------
-												leerMensaje ( sdc , buffer , P_SIZE );
-												reordenarBytes (msj);
-												if (atoi(msj->datos) == evaluacion.preguntas[p].correcta){		//aca creo q va evaluacion.preguntas[p].correcta en ves de   pregunta->correcta
-													calificacion = calificacion+2;								//sumo de a (10/cant de preg)
+											verificaAlu = verificarDatosAlumno_A (alu);
+											if (verificaAlu == 0){
+												strcpy(alu->password, "123abc");
+												cargarAlumno_A(alu);
+												//-------------- CREO EL MENSAJE----------------
+												crearDatos(alu->password, datos);
+												sc = 100;
+											}else{
+												if (verificaAlu > 0 ){
+													crearDatos("Alumno ya registrado.", datos);
+												}else{
+													//-------------- CREO EL MENSAJE----------------
+													crearDatos("User ya utilizado (opte por otro).", datos);
 												}
-												p++;
+												sc = 200;
 											}
-											cout << "calificacion: " << calificacion << endl;
-											char cc;
-											sprintf(&cc, "%d", calificacion);
-											crearDatos(&cc, datos);
-											//----------------- ENVIO --------------------
-											c = 9;
-											sc = 103;
+											c=9;
+											//sc propio del if
 											ln = 16 + 16 + 32 + sizeof(datos);
+											msj = (struct mensaje*) buffer;
+											//----------------- ENVIO --------------------
 											cargarMensaje(msj,c,sc,ln,datos);
 											ordenarBytes (msj);
 											send ( sdc , buffer, P_SIZE, 0 );
-											//----------------- almaceno en archivo --------------------
-											result = crearResultado (evaluacion.id,evaluacion.titulo,alumno.legajo,alumno.apellido,calificacion);
-											cargarResultadoAlumno_A (&result);
-										}else{
-												if (msj->subcodigo ==104)
-												{
-													cout << "El alumno ya realizó el examen o no quiere hacerlo" << endl;
-												}else
-												{
-													crearDatos("Error en codigo de examen!", datos);
+
+											break;
+										case 1:
+											cout << "entro logueo" << endl;
+											interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
+											if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
+												// primero cargo los datos de la evaluación
+												// luego, los borro si es que ya lo hizo.
+												//SE PODRÍA HACER DENTRO DE VERIFICAR PENDIENTES
+												strcpy (pendientes, evaluacion.titulo);
+												verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
+												//-------------- CREO EL MENSAJE----------------
+												crearDatos_M101 (alumno.apellido,alumno.legajo,pendientes,datos);
+												c = 9;
+												sc = 101;
+												ln = 16 + 16 + 32 + sizeof(datos);
+												msj = (struct mensaje*) buffer;
+												//----------------- ENVIO --------------------
+												cargarMensaje(msj,c,sc,ln,datos);
+												ordenarBytes (msj);
+												send ( sdc , buffer, P_SIZE, 0 );
+												//-------------------- Espero respuesta --------------------
+												leerMensaje ( sdc , buffer , P_SIZE );
+												reordenarBytes (msj);
+												if (msj->codigo == 3){
+													/*COMINEZA EL LOOP DE LA EVALUACION*/
+													//msj = (struct mensaje*) buffer;
+													int p = 0;						//contador de pregunta
+													int calificacion = 0;				//almacena la calificacion
+													//while (evaluacion.preguntas[p] != NULL)
+													//	int cont = 0;
+													while ( !evaluacion.preguntas[p].id == 0){
+														strcpy (datos, "");
+														pregunta = (struct pregunta*) msj->datos;
+														pregunta->id = evaluacion.preguntas[p].id;
+														strcpy (pregunta->enunciado, evaluacion.preguntas[p].enunciado);
+														strcpy (pregunta->opciones[0], evaluacion.preguntas[p].opciones[0]);
+														strcpy (pregunta->opciones[1], evaluacion.preguntas[p].opciones[1]);
+														strcpy (pregunta->opciones[2], evaluacion.preguntas[p].opciones[2]);
+														//----------------- ENVIO --------------------
+														c = 4;
+														sc = 0;
+														ln = 16 + 16 + 32 + sizeof(msj->datos);
+														cargarMensaje(msj,c,sc,ln,msj->datos);
+														ordenarBytes (msj);
+														send ( sdc , buffer, P_SIZE, 0 );
+
+														//-------------------- Espero respuesta --------------------
+														leerMensaje ( sdc , buffer , P_SIZE );
+														reordenarBytes (msj);
+														if (atoi(msj->datos) == evaluacion.preguntas[p].correcta){		//aca creo q va evaluacion.preguntas[p].correcta en ves de   pregunta->correcta
+															calificacion = calificacion+2;								//sumo de a (10/cant de preg)
+														}
+														p++;
+													}
+													cout << "calificacion: " << calificacion << endl;
+													char cc;
+													sprintf(&cc, "%d", calificacion);
+													crearDatos(&cc, datos);
 													//----------------- ENVIO --------------------
 													c = 9;
-													sc = 202;
+													sc = 103;
 													ln = 16 + 16 + 32 + sizeof(datos);
 													cargarMensaje(msj,c,sc,ln,datos);
 													ordenarBytes (msj);
 													send ( sdc , buffer, P_SIZE, 0 );
+													//----------------- almaceno en archivo --------------------
+													result = crearResultado (evaluacion.id,evaluacion.titulo,alumno.legajo,alumno.apellido,calificacion);
+													cargarResultadoAlumno_A (&result);
+												}else{
+													if (msj->subcodigo ==104){
+														cout << "El alumno ya realizó el examen o no quiere hacerlo" << endl;
+													}else{
+														crearDatos("Error en codigo de examen!", datos);
+														//----------------- ENVIO --------------------
+														c = 9;
+														sc = 202;
+														ln = 16 + 16 + 32 + sizeof(datos);
+														cargarMensaje(msj,c,sc,ln,datos);
+														ordenarBytes (msj);
+														send ( sdc , buffer, P_SIZE, 0 );
+													}
 												}
-
-
+											}else{
+												// -------------- CREO EL MENSAJE----------------
+												crearDatos ("Error de loggeo Usuario o contraseña incorrecto.", datos);
+												c = 9;
+												sc = 201;
+												ln = 16 + 16 + 32 + sizeof(datos);
+												msj = (struct mensaje*) buffer;
+												// ----------------- ENVIO --------------------
+												cargarMensaje(msj,c,sc,ln,datos);
+												ordenarBytes (msj);
+												send ( sdc , buffer, P_SIZE, 0 );
 											}
+											break;
 
-									}else{
-										// -------------- CREO EL MENSAJE----------------
-										crearDatos ("Error de loggeo Usuario o contraseña incorrecto.", datos);
-										c = 9;
-										sc = 201;
-										ln = 16 + 16 + 32 + sizeof(datos);
-										msj = (struct mensaje*) buffer;
-										// ----------------- ENVIO --------------------
-										cargarMensaje(msj,c,sc,ln,datos);
-										ordenarBytes (msj);
-										send ( sdc , buffer, P_SIZE, 0 );
-									}
-									break;
-
-								case 8:
-									cout << "entro cierre sesión " << endl;
-									conexion = 0;
-									break;
-
-								default:
-									//ACK EROR 203
-									cout << "error de codigo" << endl;
-							} // swicht codigo
-						}
-						close (sdc);
+										case 8:
+											cout << "entro cierre sesión " << endl;
+											conexion = 0;
+											break;
+										default:
+											//ACK EROR 203
+											cout << "error de codigo" << endl;
+									} // swicht codigo
+									//close(sdc);
+	    							//exit(0);
+								}//while lectura
+							}else{
+								close(sdc);
+								printf ("Se creo el proceso %d\n", pid);
+							}
+						//close (sdc);
 						} //while conexion
 					} //else conectado
 					break;
