@@ -141,6 +141,15 @@ void cargarPreguntaEvaluacion (struct evaluacion& e, int pos, struct pregunta pr
 void imprimirEvaluacion (struct evaluacion e);
 
 /*
+ * FUNCION : IMPRIMIR EVALUACION COMPLETA
+ * ENTRADA : estructura del tipo evaluacion
+ * SALIDA  : impresion por pantalla
+ * DESCRIPCIÓN : imprime la evaluacion completa, el titulo, las preguntas y las
+ * opciones completas
+ */
+void imprimirEvaluacionCompleta (struct evaluacion e);
+
+/*
  * FUNCION : CARGAR MENSAJE
  * ENTRADA : codigo, subcodigo, longitud y campo de datos del mensaje
  * SALIDA  : puntero tipo mensaje

@@ -36,11 +36,11 @@ bool userValido (string user, string pass){
 	}
 	return validacion;
 };
-void terminar_proceso () {
-	int pid, res;
+void terminar_proceso (int pid) {
+	int res;
 
 	pid = waitpid ( -1 , &res , WNOHANG );
-	printf ("El proceso %d termino con codig de error %d\n",pid,res);
+	cout << "salio cliente, termino subproceso: " << pid << " con codigo de error: "<< res << endl;
 };
 
 int main () {
@@ -66,6 +66,7 @@ int main () {
 	struct pregunta preg;
 	struct pregunta* pregunta;
 	struct evaluacion evaluacion;
+	struct evaluacion* eva;
 	struct mensaje* msj;
 	struct alumno* alu;
 	struct alumno alumno;
@@ -115,8 +116,7 @@ int main () {
 					evaluacion = cargarEvaluacion(id, titulo);
 					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
 					cout << "Iniciando carga de preguntas" << endl;
-					for (int i = 0; i < cant ; i++)
-					{
+					for ( i = 0; i < cant ; i++){
 						cout << "ingrese enunciado : ";
 						scanf (" %[^\n]",&enunciado);
 						fflush( stdin );
@@ -158,9 +158,7 @@ int main () {
 					break;
 
 				case '3':
-					//signal ( SIGCHLD , terminar_proceso );
-					signal ( SIGCHLD , SIG_IGN );
-
+					signal ( SIGCHLD , terminar_proceso );
 					servidor.sin_family = AF_INET;
 					servidor.sin_port = htons(4444);
 					servidor.sin_addr.s_addr = INADDR_ANY;
@@ -203,7 +201,7 @@ int main () {
 						cout << "--- --- EN LINEA --- ---"<< endl;
 						//Está en linea hasta que el usuario quiera terminar!.
 						while(conexion){
-							strcmp ("",buffer);
+							strcpy (buffer,"");
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
 
@@ -279,7 +277,7 @@ int main () {
 													//while (evaluacion.preguntas[p] != NULL)
 													//	int cont = 0;
 													while ( !evaluacion.preguntas[p].id == 0){
-														strcpy (datos, "");
+														strcpy (msj->datos, "");
 														pregunta = (struct pregunta*) msj->datos;
 														pregunta->id = evaluacion.preguntas[p].id;
 														strcpy (pregunta->enunciado, evaluacion.preguntas[p].enunciado);
@@ -316,6 +314,28 @@ int main () {
 													//----------------- almaceno en archivo --------------------
 													result = crearResultado (evaluacion.id,evaluacion.titulo,alumno.legajo,alumno.apellido,calificacion);
 													cargarResultadoAlumno_A (&result);
+
+													//espero respuesta
+													//-------------------- Espero respuesta --------------------
+													leerMensaje ( sdc , buffer , P_SIZE );
+													reordenarBytes (msj);
+													if (msj->codigo == 6 ){
+														cout << "quiere ver examen" << endl;
+														if (!strcmp(msj->datos,"s")){
+														cout << msj->datos<< endl;
+															//strcpy (datos, "ok!");
+															//datos = (char ) evaluacion;
+															eva = (struct evaluacion*) msj->datos;
+															*(eva) = evaluacion;
+															//----------------- ENVIO --------------------
+															c = 7;
+															sc = 0;
+															ln = 16 + 16 + 32 + sizeof(msj->datos);
+															cargarMensaje(msj,c,sc,ln,msj->datos);
+															ordenarBytes (msj);
+															send ( sdc , buffer, P_SIZE, 0 );
+														}
+													}
 												}else{
 													if (msj->subcodigo ==104){
 														cout << "El alumno ya realizó el examen o no quiere hacerlo" << endl;
@@ -347,6 +367,8 @@ int main () {
 										case 8:
 											cout << "entro cierre sesión " << endl;
 											conexion = 0;
+											close(sdc);
+											exit(0);
 											break;
 										default:
 											//ACK EROR 203
@@ -357,9 +379,8 @@ int main () {
 								}//while lectura
 							}else{
 								close(sdc);
-								printf ("Se creo el proceso %d\n", pid);
+								cout << "entro cliente, creo subproceso: " << pid << endl;
 							}
-						//close (sdc);
 						} //while conexion
 					} //else conectado
 					break;

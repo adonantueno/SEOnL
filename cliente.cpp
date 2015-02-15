@@ -35,6 +35,7 @@ int main () {
 	char pendientes[20];
 	char res;
 	char resEvaluacion;
+	char resVer;
 
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
@@ -45,6 +46,7 @@ int main () {
 	char buffer[P_SIZE];		//Tamaño del Buffer
 	struct mensaje* msj;
 	struct pregunta* pregunta;
+	struct evaluacion* evaluacion;
 
 	/*
 	* -------------------- SETTEO EL SOCKET -------------------
@@ -190,6 +192,26 @@ int main () {
 								}
 								if (msj->codigo == 9 && msj->subcodigo == 103){
 									cout << "Tu nota es: " << msj->datos << endl;
+									cout << "¿Desea ver la evaluacion compelta? (s/n)" << endl;
+									cin >> resVer;
+									//------------------- CREO EL MENSAJE----------
+									crearDatos("s",datos);
+									c =  6;
+									sc = 0;
+									ln = 16 + 16 + 32 + sizeof(datos);
+									// -------------------- ENVIO ------------------------------
+									cargarMensaje(msj,c,sc,ln,datos);
+									ordenarBytes (msj);
+									send ( sd, buffer, P_SIZE, 0 );
+									if(resVer == 's'){
+										//solo si quiere ver espero la respuesta
+										//-------------------- Espero respuesta --------------------
+										leerMensaje ( sd , buffer , P_SIZE );
+										reordenarBytes (msj);
+										evaluacion = (struct evaluacion*) msj->datos;
+										imprimirEvaluacionCompleta (*evaluacion);
+										//cout << msj->datos << endl;
+									}
 								}else{
 									//posiblemente 202
 									cout << msj->datos << endl;

@@ -63,7 +63,7 @@ void imprimirPregunta (struct pregunta p){
 	}
 };
 
-struct evaluacion cargarEvaluacion (int id, char titulo[20]){
+struct evaluacion cargarEvaluacion (int id, char titulo[50]){
 
 	struct evaluacion e;
 	e.id = id;
@@ -79,11 +79,14 @@ void imprimirEvaluacion (struct evaluacion e){
 	cout << e.id << ") "<< e.titulo << endl;
 };
 
-void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud ,char datos [300]){
-	msj->codigo = codigo;
-	msj->subcodigo = subcodigo;
-	msj->longitud = longitud;
-	strcpy ( msj->datos, datos );
+void imprimirEvaluacionCompleta (struct evaluacion e){
+	int p =0;
+	imprimirEvaluacion(e);
+	while ( !e.preguntas[p].id == 0){
+		imprimirPregunta(e.preguntas[p]);
+		cout << "correcta: " << e.preguntas[p].correcta << endl;
+		p++;
+	}
 };
 
 struct resultado crearResultado (int idEvaluacion,char tituloEvaluacion [20],char legajoAlumno [11],char apellidoAlumno [30],int nota){
@@ -104,4 +107,11 @@ void imprimirResultado(struct resultado resultado){
 	cout << resultado.tituloEvaluacion << " | " ;
 	cout << resultado.legajoAlumno  << " " << resultado.apellidoAlumno << " | ";
 	cout << resultado.nota << endl;
-}
+};
+
+void cargarMensaje (struct mensaje* msj, uint16_t codigo,uint16_t subcodigo,uint32_t longitud ,char datos [300]){
+	msj->codigo = codigo;
+	msj->subcodigo = subcodigo;
+	msj->longitud = longitud;
+	strcpy ( msj->datos, datos );
+};
