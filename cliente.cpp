@@ -213,8 +213,11 @@ int main () {
 										//cout << msj->datos << endl;
 									}
 								}else{
-									//posiblemente 202
-									cout << msj->datos << endl;
+									if (msj->subcodigo == 202){
+										cout <<"--- --- ocurrio un error --- ---"
+										cout << msj->datos << endl;
+										cout << "intente realizar la evaluacion nuevamente " << endl;
+									}
 								}
 							}else{//no quire hacer evaluación
 								crearDatos("",datos);

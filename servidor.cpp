@@ -205,10 +205,7 @@ int main () {
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
 							pid = fork();
-							////posible lugar donde se tiene que poner el fork
-							//if( pid ==0)
 							if (pid == 0){
-
 	    						close(sd);
 								while (leerMensaje ( sdc , buffer , P_SIZE ) > 0){
 
@@ -270,10 +267,8 @@ int main () {
 												reordenarBytes (msj);
 												if (msj->codigo == 3){
 													/*COMINEZA EL LOOP DE LA EVALUACION*/
-													//msj = (struct mensaje*) buffer;
 													int p = 0;						//contador de pregunta
 													int calificacion = 0;				//almacena la calificacion
-													//while (evaluacion.preguntas[p] != NULL)
 													//	int cont = 0;
 													while ( !evaluacion.preguntas[p].id == 0){
 														strcpy (msj->datos, "");
@@ -319,11 +314,8 @@ int main () {
 													leerMensaje ( sdc , buffer , P_SIZE );
 													reordenarBytes (msj);
 													if (msj->codigo == 6 ){
-														cout << "quiere ver examen" << endl;
+														cout << "ver examen" << endl;
 														if (!strcmp(msj->datos,"s")){
-														cout << msj->datos<< endl;
-															//strcpy (datos, "ok!");
-															//datos = (char ) evaluacion;
 															eva = (struct evaluacion*) msj->datos;
 															*(eva) = evaluacion;
 															//----------------- ENVIO --------------------
@@ -370,7 +362,7 @@ int main () {
 											exit(0);
 											break;
 										default:
-											//ACK EROR 203
+											//ACK EROR 204 --> no se que poner!
 											cout << "error de codigo" << endl;
 									} // swicht codigo
 								}//while lectura
