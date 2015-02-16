@@ -40,7 +40,7 @@ void terminar_proceso (int pid) {
 	int res;
 
 	pid = waitpid ( -1 , &res , WNOHANG );
-	cout << "salio cliente, termino subproceso: " << pid << " con codigo de error: "<< res << endl;
+	//cout << "salio cliente, termino subproceso: " << pid << " con codigo de error: "<< res << endl;
 };
 
 int main () {
@@ -199,6 +199,7 @@ int main () {
 						listen ( sd , 5 );
 
 						cout << "--- --- EN LINEA --- ---"<< endl;
+						cout << "presione clt+c para salir!" << endl;
 						//Está en linea hasta que el usuario quiera terminar!.
 						while(conexion){
 							strcpy (buffer,"");
@@ -214,7 +215,7 @@ int main () {
 
 									switch (msj->codigo){
 										case 0:
-											cout << "entro Registro" << endl;
+											//cout << "entro Registro" << endl;
 											alu = (struct alumno*) msj->datos;
 
 											verificaAlu = verificarDatosAlumno_A (alu);
@@ -244,7 +245,7 @@ int main () {
 
 											break;
 										case 1:
-											cout << "entro logueo" << endl;
+											//cout << "entro logueo" << endl;
 											interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
 											if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
 												// primero cargo los datos de la evaluación
@@ -290,13 +291,13 @@ int main () {
 														leerMensaje ( sdc , buffer , P_SIZE );
 														reordenarBytes (msj);
 														if (atoi(msj->datos) == evaluacion.preguntas[p].correcta){		//aca creo q va evaluacion.preguntas[p].correcta en ves de   pregunta->correcta
-															calificacion = calificacion+2;								//sumo de a (10/cant de preg)
+															calificacion = calificacion+10;								//sumo de a (10/cant de preg)
 														}
 														p++;
 													}
-													cout << "calificacion: " << calificacion << endl;
+													//cout << "calificacion: " << calificacion/p << endl;
 													char cc;
-													sprintf(&cc, "%d", calificacion);
+													sprintf(&cc, "%d", calificacion/p);
 													crearDatos(&cc, datos);
 													//----------------- ENVIO --------------------
 													c = 9;
@@ -308,13 +309,11 @@ int main () {
 													//----------------- almaceno en archivo --------------------
 													result = crearResultado (evaluacion.id,evaluacion.titulo,alumno.legajo,alumno.apellido,calificacion);
 													cargarResultadoAlumno_A (&result);
-
-													//espero respuesta
 													//-------------------- Espero respuesta --------------------
 													leerMensaje ( sdc , buffer , P_SIZE );
 													reordenarBytes (msj);
 													if (msj->codigo == 6 ){
-														cout << "ver examen" << endl;
+														//cout << "ver examen" << endl;
 														if (!strcmp(msj->datos,"s")){
 															eva = (struct evaluacion*) msj->datos;
 															*(eva) = evaluacion;
@@ -329,7 +328,7 @@ int main () {
 													}
 												}else{
 													if (msj->subcodigo ==104){
-														cout << "El alumno ya realizó el examen o no quiere hacerlo" << endl;
+														//cout << "El alumno ya realizó el examen o no quiere hacerlo" << endl;
 													}else{
 														crearDatos("Error en codigo de examen!", datos);
 														//----------------- ENVIO --------------------
@@ -356,19 +355,29 @@ int main () {
 											break;
 
 										case 8:
-											cout << "entro cierre sesión " << endl;
+											//cout << "entro cierre sesión " << endl;
 											conexion = 0;
 											close(sdc);
 											exit(0);
 											break;
 										default:
-											//ACK EROR 204 --> no se que poner!
-											cout << "error de codigo" << endl;
+											//ACK EROR 204
+											// -------------- CREO EL MENSAJE----------------
+											crearDatos ("Error de comunicación.", datos);
+											c = 9;
+											sc = 204;
+											ln = 16 + 16 + 32 + sizeof(datos);
+											msj = (struct mensaje*) buffer;
+											// ----------------- ENVIO --------------------
+											cargarMensaje(msj,c,sc,ln,datos);
+											ordenarBytes (msj);
+											send ( sdc , buffer, P_SIZE, 0 );
+											break;
 									} // swicht codigo
 								}//while lectura
 							}else{
 								close(sdc);
-								cout << "entro cliente, creo subproceso: " << pid << endl;
+								//cout << "entro cliente, creo subproceso: " << pid << endl;
 							}
 						} //while conexion
 					} //else conectado

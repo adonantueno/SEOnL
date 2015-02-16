@@ -108,7 +108,11 @@ int main () {
 						}
 					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 					}else {
-						cout << "error en la comunicación " << endl;
+						if ( msj->subcodigo == 204 ){
+							cout << "ocurrio un error." << endl;
+							cout << msj->datos << endl;
+							cin.ignore();cin.get();
+						}
 					}
 
 					break;
@@ -214,7 +218,7 @@ int main () {
 									}
 								}else{
 									if (msj->subcodigo == 202){
-										cout <<"--- --- ocurrio un error --- ---"
+										cout <<"--- --- ocurrio un error --- ---" << endl;
 										cout << msj->datos << endl;
 										cout << "intente realizar la evaluacion nuevamente " << endl;
 									}
@@ -234,7 +238,8 @@ int main () {
 						cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 
 					}else{
-						if (msj->subcodigo == 201){
+
+						if (msj->subcodigo == 201 || msj->subcodigo == 204 ){
 							cout << "ocurrio un error." << endl;
 							cout << msj->datos << endl;
 							cin.ignore();cin.get();
