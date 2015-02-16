@@ -18,7 +18,7 @@ struct mensaje {
 		uint16_t codigo;
 		uint16_t subcodigo;
 		uint32_t longitud;
-		char datos [1000]; //numero maximo de datos a enviar
+		char datos [10000]; //numero maximo de datos a enviar
 };
 /*
  * ESTRUCTURA: pregunta

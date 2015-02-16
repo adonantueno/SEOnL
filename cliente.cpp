@@ -40,7 +40,7 @@ int main () {
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
-	char datos [1000];
+	char datos [10000];
 
 	struct sockaddr_in servidor;	//Describe al servidor (protocolo que maneja, ip, y puerto)
 	char buffer[P_SIZE];		//Tamaño del Buffer

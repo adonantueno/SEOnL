@@ -50,7 +50,7 @@ int main () {
 	//VARIABLES QUE FORMAN EL MENSAJE
 	uint16_t c, sc;					//Variables del codigo y subcodigo del mensaje
 	uint32_t ln;					  //Variable de logitud del mensaje
-	char datos [1000] = "";
+	char datos [10000] = "";
 	char pendientes [100] = "";
 
 	char buffer[P_SIZE];
@@ -109,19 +109,19 @@ int main () {
 				case '1':
 
 					//PARTE QUE ADMITE ESPACIOS ;)
-					cout << "Iniciando Examen" << endl;
+					cout << "--- --- Iniciando Examen --- --- " << endl;
 					cout << "Indique titulo del Examen: ";
 					scanf (" %[^\n]",&titulo);
 					fflush( stdin );
 					evaluacion = cargarEvaluacion(id, titulo);
 					cout << "Indique Cantidad de preguntas del Examen: "; cin >> cant;
-					cout << "Iniciando carga de preguntas" << endl;
+					cout << "--- --- Iniciando carga de preguntas --- --- " << endl;
 					for ( i = 0; i < cant ; i++){
 						cout << "ingrese enunciado : ";
 						scanf (" %[^\n]",&enunciado);
 						fflush( stdin );
 						preg = cargarPregunta(i+1,enunciado);
-						cout << "Iniciando carga de opciones" << endl;
+						cout << "--- --- Iniciando carga de opciones --- --- " << endl;
 						for (int j = 0; j < 3 ; j++)
 						{
 							cout << "ingrese opcion numero: " << j+1 << " ";
@@ -204,7 +204,6 @@ int main () {
 							strcpy (buffer,"");
 							lon = sizeof(cliente);
 							sdc = accept ( sd, (struct sockaddr *) &cliente, &lon );
-
 							pid = fork();
 							////posible lugar donde se tiene que poner el fork
 							//if( pid ==0)
@@ -374,8 +373,6 @@ int main () {
 											//ACK EROR 203
 											cout << "error de codigo" << endl;
 									} // swicht codigo
-									//close(sdc);
-	    							//exit(0);
 								}//while lectura
 							}else{
 								close(sdc);
