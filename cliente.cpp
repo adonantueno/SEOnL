@@ -23,7 +23,7 @@ using namespace std;
 #define P_SIZE sizeof(struct mensaje)
 
 
-int main () {
+int main (int argc, char *argv[]) {
 
 	char user[10], pass[10];
 	char apellido[30], legajo[11];
@@ -87,7 +87,7 @@ int main () {
 					cout << "usuario: ";  cin >> alu->user;
 					cout << "El sistema generará su contraseña automaticamente" << endl;
 					// -------------------- CREO EL MENSAJE----------
-					c  = 0;
+					c  = 1;//0
 					sc = 0;
 					ln = 16 + 16 + 32 + sizeof(msj->datos);
 					//-------------------- ENVIO ------------------------------
@@ -125,7 +125,7 @@ int main () {
 
 					//------------------- CREO EL MENSAJE----------
 					crearDatos_M1(user,pass,datos);
-					c =  1;
+					c =  2;//1
 					sc = 0;
 					ln = 16 + 16 + 32 + sizeof(datos);
 					msj = (struct mensaje*) buffer;
@@ -226,7 +226,7 @@ int main () {
 							}else{//no quire hacer evaluación
 								crearDatos("",datos);
 								c=9; 					//evaluar cual tiene que ser el codigo
-								sc=104;
+								sc=102;
 								ln=16 + 16 + 32 + sizeof(datos);
 								msj = (struct mensaje*) buffer;
 								// -------------------- ENVIO ------------------------------

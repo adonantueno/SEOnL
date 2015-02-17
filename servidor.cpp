@@ -43,7 +43,7 @@ void terminar_proceso (int pid) {
 	//cout << "salio cliente, termino subproceso: " << pid << " con codigo de error: "<< res << endl;
 };
 
-int main () {
+int main (int argc, char *argv[]) {
 	string user,pass;
 	char user_cliente[10], pass_cliente[10];
 
@@ -214,7 +214,7 @@ int main () {
 									reordenarBytes (msj);
 
 									switch (msj->codigo){
-										case 0:
+										case 1:
 											//cout << "entro Registro" << endl;
 											alu = (struct alumno*) msj->datos;
 
@@ -244,7 +244,7 @@ int main () {
 											send ( sdc , buffer, P_SIZE, 0 );
 
 											break;
-										case 1:
+										case 2:
 											//cout << "entro logueo" << endl;
 											interpretarDatos_M1(user_cliente, pass_cliente,msj->datos);
 											if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
@@ -327,7 +327,7 @@ int main () {
 														}
 													}
 												}else{
-													if (msj->subcodigo ==104){
+													if (msj->subcodigo ==102){
 														//cout << "El alumno ya realizó el examen o no quiere hacerlo" << endl;
 													}else{
 														crearDatos("Error en codigo de examen!", datos);
