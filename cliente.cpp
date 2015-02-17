@@ -108,7 +108,7 @@ int main (int argc, char *argv[]) {
 						}
 					cout << "Presione una tecla para continuar..."; cin.ignore();cin.get();
 					}else {
-						if ( msj->subcodigo == 204 ){
+						if ( msj->subcodigo == 203 ){
 							cout << "ocurrio un error." << endl;
 							cout << msj->datos << endl;
 							cin.ignore();cin.get();
@@ -239,7 +239,7 @@ int main (int argc, char *argv[]) {
 
 					}else{
 
-						if (msj->subcodigo == 201 || msj->subcodigo == 204 ){
+						if (msj->subcodigo == 201 || msj->subcodigo == 203 ){
 							cout << "ocurrio un error." << endl;
 							cout << msj->datos << endl;
 							cin.ignore();cin.get();

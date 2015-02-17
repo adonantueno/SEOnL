@@ -361,11 +361,11 @@ int main (int argc, char *argv[]) {
 											exit(0);
 											break;
 										default:
-											//ACK EROR 204
+											//ACK EROR 203
 											// -------------- CREO EL MENSAJE----------------
 											crearDatos ("Error de comunicación.", datos);
 											c = 9;
-											sc = 204;
+											sc = 203;
 											ln = 16 + 16 + 32 + sizeof(datos);
 											msj = (struct mensaje*) buffer;
 											// ----------------- ENVIO --------------------
