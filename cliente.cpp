@@ -25,6 +25,11 @@ using namespace std;
 
 int main (int argc, char *argv[]) {
 
+	if (argc < 2) {
+		printf("Debe ejecutar %s (IP servidor)\n",argv[0]); 
+		printf("Si no conoce la dirección IP envie un correo a su profesor solicitandolo");
+		exit (-1);
+	}
 	char user[10], pass[10];
 	char apellido[30], legajo[11];
 
@@ -47,6 +52,7 @@ int main (int argc, char *argv[]) {
 	struct mensaje* msj;
 	struct pregunta* pregunta;
 	struct evaluacion* evaluacion;
+	struct hostent *host;
 
 	/*
 	* -------------------- SETTEO EL SOCKET -------------------
@@ -54,7 +60,10 @@ int main (int argc, char *argv[]) {
 	sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	servidor.sin_family = AF_INET;
 	servidor.sin_port = htons(4444);
-	servidor.sin_addr.s_addr = inet_addr("127.0.0.1");
+	
+	if (host = gethostbyname ( argv [1] )) {
+		memcpy ( &servidor.sin_addr , host->h_addr , host->h_length );
+	}
 	lon = sizeof(servidor);
 	//Se hace un casteo a sockaddr de la estructura servidor que es sockadrr_in &puntero y se establece la conexión
 	/*
