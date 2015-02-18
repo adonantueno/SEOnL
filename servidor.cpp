@@ -108,7 +108,6 @@ int main (int argc, char *argv[]) {
 			//trabajo de a dos casos (mayusculas o minusculas ingresadas)
 				case '1':
 
-					//PARTE QUE ADMITE ESPACIOS ;)
 					cout << "--- --- Iniciando Examen --- --- " << endl;
 					cout << "Indique titulo del Examen: ";
 					scanf (" %[^\n]",&titulo);
@@ -143,10 +142,7 @@ int main (int argc, char *argv[]) {
 					break;
 
 				case '2':
-					/*
-					Le dariamos a seleccionar una evaluacion y a partir de alli
-					buscacmos en el archivo de resultados.
-					*/
+					//Resultados de todos los alumnos en todos las evaluaciones
 					n = calcularRegistros(PATH_RESULTADOS, sizeof(resultado));
 					i=0;
 					while ( i < n){
@@ -171,10 +167,7 @@ int main (int argc, char *argv[]) {
 						cout << "Verifique su lista de procesos e intente mas tarde" << endl;
 						control = 0;
 					}else {
-						/*
-						*Primero le pedimos que elija la evaluacion a poner en linea
-						*/
-
+						//Primero le pedimos que elija la evaluacion a poner en linea
 						while (controlSelecion){
 
 							cout << "Seleccione una evaluacion a poner en Linea..." << endl;
@@ -199,7 +192,7 @@ int main (int argc, char *argv[]) {
 						listen ( sd , 5 );
 
 						cout << "--- --- EN LINEA --- ---"<< endl;
-						cout << "presione clt+c para salir!" << endl;
+						cout << "presione ctrl+c para salir!" << endl;
 						//Está en linea hasta que el usuario quiera terminar!.
 						while(conexion){
 							strcpy (buffer,"");
@@ -235,7 +228,7 @@ int main (int argc, char *argv[]) {
 												sc = 200;
 											}
 											c=9;
-											//sc propio del if
+											//sc (subcodigo) propio del if
 											ln = 16 + 16 + 32 + sizeof(datos);
 											msj = (struct mensaje*) buffer;
 											//----------------- ENVIO --------------------
@@ -250,7 +243,6 @@ int main (int argc, char *argv[]) {
 											if( validarAlumno_A (user_cliente,pass_cliente, &alumno )) {
 												// primero cargo los datos de la evaluación
 												// luego, los borro si es que ya lo hizo.
-												//SE PODRÍA HACER DENTRO DE VERIFICAR PENDIENTES
 												strcpy (pendientes, evaluacion.titulo);
 												verificarPendientes_A(alumno.legajo,evaluacion.id, pendientes);
 												//-------------- CREO EL MENSAJE----------------
@@ -267,10 +259,9 @@ int main (int argc, char *argv[]) {
 												leerMensaje ( sdc , buffer , P_SIZE );
 												reordenarBytes (msj);
 												if (msj->codigo == 3){
-													/*COMINEZA EL LOOP DE LA EVALUACION*/
+													//COMINEZA EL LOOP DE LA EVALUACION*
 													int p = 0;						//contador de pregunta
 													int calificacion = 0;				//almacena la calificacion
-													//	int cont = 0;
 													while ( !evaluacion.preguntas[p].id == 0){
 														strcpy (msj->datos, "");
 														pregunta = (struct pregunta*) msj->datos;
@@ -295,7 +286,6 @@ int main (int argc, char *argv[]) {
 														}
 														p++;
 													}
-													//cout << "calificacion: " << calificacion/p << endl;
 													char cc;
 													sprintf(&cc, "%d", calificacion/p);
 													crearDatos(&cc, datos);
@@ -313,7 +303,6 @@ int main (int argc, char *argv[]) {
 													leerMensaje ( sdc , buffer , P_SIZE );
 													reordenarBytes (msj);
 													if (msj->codigo == 6 ){
-														//cout << "ver examen" << endl;
 														if (!strcmp(msj->datos,"s")){
 															eva = (struct evaluacion*) msj->datos;
 															*(eva) = evaluacion;

@@ -26,7 +26,7 @@ using namespace std;
 int main (int argc, char *argv[]) {
 
 	if (argc < 2) {
-		printf("Debe ejecutar %s (IP servidor)\n",argv[0]); 
+		printf("Debe ejecutar %s (IP servidor)\n",argv[0]);
 		printf("Si no conoce la dirección IP envie un correo a su profesor solicitandolo");
 		exit (-1);
 	}
@@ -60,7 +60,7 @@ int main (int argc, char *argv[]) {
 	sd = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	servidor.sin_family = AF_INET;
 	servidor.sin_port = htons(4444);
-	
+
 	if (host = gethostbyname ( argv [1] )) {
 		memcpy ( &servidor.sin_addr , host->h_addr , host->h_length );
 	}
@@ -223,7 +223,6 @@ int main (int argc, char *argv[]) {
 										reordenarBytes (msj);
 										evaluacion = (struct evaluacion*) msj->datos;
 										imprimirEvaluacionCompleta (*evaluacion);
-										//cout << msj->datos << endl;
 									}
 								}else{
 									if (msj->subcodigo == 202){
@@ -234,7 +233,7 @@ int main (int argc, char *argv[]) {
 								}
 							}else{//no quire hacer evaluación
 								crearDatos("",datos);
-								c=9; 					//evaluar cual tiene que ser el codigo
+								c=9;
 								sc=102;
 								ln=16 + 16 + 32 + sizeof(datos);
 								msj = (struct mensaje*) buffer;
