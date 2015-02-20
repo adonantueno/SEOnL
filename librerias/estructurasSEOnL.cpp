@@ -35,8 +35,6 @@ struct resultado {
 	float nota;
 };*/
 
-// PRUEBA int cantidadPreguntas (struct pregunta p [20])
-
 struct pregunta cargarPregunta (int id, char enunciado[250]){
 
 	struct pregunta p;
@@ -49,7 +47,7 @@ void cargarOpcionPregunta (struct pregunta& p, int pos, char opcion[50]){
 	strcpy (p.opciones[pos], opcion);
 };
 
-//AGREGADO
+
 
 void cargarOpcionCorrectaPregunta (struct pregunta& p, int c){
 	p.correcta = c;

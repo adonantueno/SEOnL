@@ -89,21 +89,11 @@ void interpretarDatos_M1 (char* user, char* pass, char* datos){
 void crearDatos_M101(char* apellido, char* legajo, char* listaEvaluaciones, char* datos){
 
 	strcpy (datos, "");
-	//strncat(datos,apellido,sizeof(datos)+sizeof(apellido));
-		strncat(datos,apellido,strlen(datos)+strlen(apellido));
-	
-	//strncat(datos,"&",sizeof(datos)+sizeof("&"));
-		strncat(datos,"&",strlen(datos)+strlen("&"));
-		
-	//strncat(datos,legajo,sizeof(datos)+sizeof(legajo));
-		strncat(datos,legajo,strlen(datos)+strlen(legajo));
-		
-	//strncat(datos,"&",sizeof(datos)+sizeof("&"));
-		strncat(datos,"&",strlen(datos)+strlen("&"));	
-	
-	//strncat(datos,listaEvaluaciones,sizeof(datos)+sizeof(listaEvaluaciones));
-		strncat(datos,listaEvaluaciones,strlen(datos)+strlen(listaEvaluaciones));
-	
+	strncat(datos,apellido,strlen(datos)+strlen(apellido));
+	strncat(datos,"&",strlen(datos)+strlen("&"));
+	strncat(datos,legajo,strlen(datos)+strlen(legajo));
+	strncat(datos,"&",strlen(datos)+strlen("&"));
+	strncat(datos,listaEvaluaciones,strlen(datos)+strlen(listaEvaluaciones));
 };
 
 void interpretarDatos_M101 (char* apellido, char* legajo, char* listaEvaluaciones, char* datos){

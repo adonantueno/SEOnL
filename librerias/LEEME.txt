@@ -1,5 +1,5 @@
 ------ ------ ------ --- USO DE LIBRERIAS --- ------  ------ ------
------- ------ INFORMACIÓN GENERAL 
+------ ------ INFORMACIÓN GENERAL
 
 * Importar en un codigo
 #include "librerias/libreria.hpp"
@@ -17,7 +17,7 @@ ese motivo se debe incluir la directiva -std=c++11
 
 hay que volver a crear el archivo.o (objeto) de el código fuente
 
-g++ -c libreria.cpp -std=c++11
+g++ -c libreria.cpp
 
 
 ------ ------ LIBRERIA ESTRUCTURAS SEOnL
@@ -32,3 +32,9 @@ contiene las funciones para poder crear los campos de datos de cada uno
 de los mensajes, con el siguiente estandar:
   void crearDatosMensajeX ();
   void interpretarDatosMensajeX ();
+
+
+------ ------ LIBRERIA ARCHIVOS SEOnL
+
+    Contiene las funciones necesarias para la gestión de las estructuras de
+almacenamiento. Se utilizan solamente en la aplicación servidor.

@@ -14,7 +14,6 @@ long calcularRegistros (char* path, int size){
 
     fseek(archivo, 0, SEEK_END); // Colocar el cursor al final del fichero
 
-    // nRegistros = ftell(archivo)/sizeof(alumno);
     nRegistros = ftell(archivo)/size;
 
     return nRegistros;
@@ -60,8 +59,6 @@ int validarAlumno_A (char* user,char* pass, struct alumno* alu){
 
     while ( !control && i < n){
         leerAlumno_A(&a, i);
-		//cout << a.user << endl;				//testeo lo que levanta del archivo
-		//cout << a.password << endl;
         if (!  strcmp(user,a.user)){
             if (!  strcmp(pass,a.password)){
                         control = 1;

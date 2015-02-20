@@ -20,6 +20,7 @@ struct mensaje {
 		uint32_t longitud;
 		char datos [10000]; //numero maximo de datos a enviar
 };
+
 /*
  * ESTRUCTURA: pregunta
  * id: identificador único de la pregunta
@@ -68,7 +69,6 @@ struct alumno {
 * apellido: apellido del alumno
 * nota: resultado de la evaluacion realizada por el alumno.
 */
-
 struct resultado {
 	int idEvaluacion;
 	char tituloEvaluacion [20];
