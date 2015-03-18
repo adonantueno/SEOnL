@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/types.h>
+//#include <sys/types.h>
 
 #include <arpa/inet.h>
-#include <netdb.h>
+//#include <netdb.h>
 
 
-#include <sys/types.h>
+//#include <sys/types.h>
 #include <sys/wait.h>
 
 #include "librerias/estructurasSEOnL.hpp"
@@ -350,7 +350,7 @@ int main (int argc, char *argv[]) {
 											exit(0);
 											break;
 										default:
-											//ACK EROR 203
+											//ACK ERROR 203
 											// -------------- CREO EL MENSAJE----------------
 											crearDatos ("Error de comunicación.", datos);
 											c = 9;

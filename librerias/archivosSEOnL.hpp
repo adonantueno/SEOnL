@@ -1,7 +1,7 @@
 #ifndef  ARCHIVOS_H
 #define  ARCHIVOS_H
 
-#include <iomanip>
+//#include <iomanip>
 #include <fstream>
 #include <string.h>
 
